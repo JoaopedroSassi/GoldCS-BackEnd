@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace src.Models.DTO.Client
 {
-    public class ClientDetailsDTO
+	public class ClientDetailsDTO
     {
         public int ClientID { get; set; }
 		public string Cpf { get; set; }
@@ -22,6 +17,10 @@ namespace src.Models.DTO.Client
 			Email = email;
 			CellPhone = cellPhone;
 			LandlinePhone = landlinePhone;
+		}
+
+		public ClientDetailsDTO()
+		{
 		}
     }
 }

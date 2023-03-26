@@ -16,5 +16,9 @@ namespace src.Entities.DTO.Client
 			CellPhone = cellPhone;
 			LandlinePhone = landlinePhone;
 		}
+
+		public ClientInsertDTO()
+		{
+		}
     }
 }

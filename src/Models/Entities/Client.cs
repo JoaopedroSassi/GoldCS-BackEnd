@@ -18,5 +18,9 @@ namespace src.Entities.Models
 			CellPhone = cellPhone;
 			LandlinePhone = landlinePhone;
 		}
+
+		public Client()
+		{
+		}
 	}
 }
