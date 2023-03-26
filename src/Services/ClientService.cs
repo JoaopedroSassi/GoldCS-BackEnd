@@ -1,18 +1,42 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
 using src.Entities.DTO.Client;
 using src.Entities.Models;
+using src.Models.DTO.Client;
+using src.Repositories.Interfaces;
 using src.Services.Interfaces;
 
 namespace src.Services
 {
 	public class ClientService : IClientService
 	{
-		public ClientInsertDTO InsertClient(Client model)
+		private readonly IClientRepository _repository;
+		private readonly IMapper _mapper;
+
+		public ClientService(IClientRepository repository, IMapper mapper)
 		{
-			return new ClientInsertDTO(model.Cpf, model.Name, model.Email, model.CellPhone, model.LandlinePhone);
+			_repository = repository;
+			_mapper = mapper;
+		}
+
+		public async Task<IEnumerable<ClientDetailsDTO>> GetAllClientAsync()
+		{
+			return _mapper.Map<IEnumerable<ClientDetailsDTO>>(await _repository.GetClientsAsync());
+		}
+
+		public async Task<ClientDetailsDTO> GetClientByIdAsync(int id)
+		{
+			return _mapper.Map<ClientDetailsDTO>(await _repository.GetClientByIdAsync(id));
+		}
+
+		public async Task<bool> InsertClientAsync(ClientInsertDTO model)
+		{
+			Client client = _mapper.Map<Client>(model);
+
+			_repository.Insert(client);	
+			if (!(await _repository.SaveChangesAsync()))
+				return false;
+
+			return true;
 		}
 	}
 }

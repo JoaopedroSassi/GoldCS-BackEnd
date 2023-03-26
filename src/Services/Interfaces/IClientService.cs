@@ -1,10 +1,12 @@
 using src.Entities.DTO.Client;
-using src.Entities.Models;
+using src.Models.DTO.Client;
 
 namespace src.Services.Interfaces
 {
 	public interface IClientService
     {
-        ClientInsertDTO InsertClient(Client model);
+        Task<bool> InsertClientAsync(ClientInsertDTO model);
+		Task<IEnumerable<ClientDetailsDTO>> GetAllClientAsync();
+		Task<ClientDetailsDTO> GetClientByIdAsync(int id);
     }
 }
