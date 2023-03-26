@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using src.Entities.Models;
 
 namespace src.Repositories.Interfaces
 {
-    public interface IClientRepository
+	public interface IClientRepository : IBaseRepository
     {
-        
+        Task<Client> GetClientByIdAsync(int id);
+		Task<IEnumerable<Client>> GetClientsAsync();
     }
 }
