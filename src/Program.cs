@@ -18,7 +18,12 @@ builder.Services.AddDbContext<GoldCSDBContext>(x =>
 
 //Dependency injections
 builder.Services.AddScoped<IBaseRepository, BaseRepository>();
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<IClientService, ClientService>();
+
+
+
+builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 
