@@ -18,7 +18,7 @@
 				"/Views": "${workspaceFolder}/Views"
 			},
 			"launchSettingsProfile": "https",
-			"launchSettingsFilePath": "${workspaceFolder}/Properties/launchSettings.json"
+			"launchSettingsFilePath": "${workspaceFolder}/src/Properties/launchSettings.json"
 		},
 		{
 			"name": ".NET Core Attach",
