@@ -5,7 +5,7 @@ namespace src.Data
 {
 	public class GoldCSDBContext : DbContext
 	{
-		public DbSet<Client>? Clients { get; set; }
+		public DbSet<Client> Clients { get; set; }
 
 		public GoldCSDBContext(DbContextOptions<GoldCSDBContext> options)
 			: base(options)
