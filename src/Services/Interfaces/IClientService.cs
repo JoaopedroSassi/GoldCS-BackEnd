@@ -6,7 +6,7 @@ namespace src.Services.Interfaces
 	public interface IClientService
     {
         Task<bool> InsertClientAsync(ClientInsertDTO model);
-		Task<IEnumerable<ClientDetailsDTO>> GetAllClientAsync();
+		Task<IEnumerable<ClientDetailsDTO>> GetAllClientsAsync();
 		Task<ClientDetailsDTO> GetClientByIdAsync(int id);
     }
 }

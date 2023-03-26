@@ -18,7 +18,7 @@ namespace src.Services
 			_mapper = mapper;
 		}
 
-		public async Task<IEnumerable<ClientDetailsDTO>> GetAllClientAsync()
+		public async Task<IEnumerable<ClientDetailsDTO>> GetAllClientsAsync()
 		{
 			return _mapper.Map<IEnumerable<ClientDetailsDTO>>(await _repository.GetClientsAsync());
 		}
