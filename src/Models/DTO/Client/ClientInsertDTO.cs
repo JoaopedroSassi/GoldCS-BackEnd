@@ -1,0 +1,20 @@
+namespace src.Entities.DTO.Client
+{
+	public class ClientInsertDTO
+    {
+        public string Cpf { get; set; }
+		public string Name { get; set; }
+		public string Email { get; set; }
+		public string CellPhone { get; set; }
+		public string LandlinePhone { get; set; }
+
+		public ClientInsertDTO(string cpf, string name, string email, string cellPhone, string landlinePhone)
+		{
+			Cpf = cpf;
+			Name = name;
+			Email = email;
+			CellPhone = cellPhone;
+			LandlinePhone = landlinePhone;
+		}
+    }
+}
