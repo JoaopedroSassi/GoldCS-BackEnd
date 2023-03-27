@@ -1,6 +1,9 @@
+using System.Data;
+using System.Net;
 using AutoMapper;
 using src.Entities.DTO.Client;
 using src.Entities.Models;
+using src.Exceptions;
 using src.Models.DTO.Client;
 using src.Repositories.Interfaces;
 using src.Services.Interfaces;
@@ -34,7 +37,7 @@ namespace src.Services
 
 			_repository.Insert(client);	
 			if (!(await _repository.SaveChangesAsync()))
-				return false;
+				throw new BaseException("Erro ao salvar no banco de dados!", HttpStatusCode.BadRequest, typeof(DBConcurrencyException).FullName);
 
 			return true;
 		}
