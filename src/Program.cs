@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using src.Data;
+using src.Middlewares;
 using src.Repositories;
 using src.Repositories.Interfaces;
 using src.Services;
@@ -32,6 +33,8 @@ if (app.Environment.IsDevelopment())
 	app.UseSwagger();
 	app.UseSwaggerUI();
 }
+
+app.UseMiddleware(typeof(GlobalErrorHandlingMiddleware));
 
 app.UseHttpsRedirection();
 
