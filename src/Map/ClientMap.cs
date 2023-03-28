@@ -17,7 +17,7 @@ namespace src.Map
             builder.Property(x => x.Name).HasColumnType("varchar(150)").IsRequired();
 			builder.Property(x => x.Email).HasColumnType("varchar(150)").IsRequired();
 			builder.Property(x => x.CellPhone).HasColumnType("varchar(15)").IsRequired();
-			builder.Property(x => x.LandlinePhone).HasColumnType("varchar(15)");
+			builder.Property(x => x.LandlinePhone).HasColumnType("varchar(15)").IsRequired(false);
         }
 	}
 }
