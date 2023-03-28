@@ -1,6 +1,7 @@
 using System.Data;
 using System.Net;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using src.Entities.DTO.Client;
 using src.Entities.Models;
 using src.Exceptions;
@@ -28,7 +29,11 @@ namespace src.Services
 
 		public async Task<ClientDetailsDTO> GetClientByIdAsync(int id)
 		{
-			return _mapper.Map<ClientDetailsDTO>(await _repository.GetClientByIdAsync(id));
+			var client = _mapper.Map<ClientDetailsDTO>(await _repository.GetClientByIdAsync(id));
+			if (client is null)
+				throw new BaseException("Cliente não encontrado", HttpStatusCode.NotFound, typeof(NotFoundObjectResult).FullName);
+
+			return client;
 		}
 
 		public async Task<bool> InsertClientAsync(ClientInsertDTO model)

@@ -24,11 +24,7 @@ namespace src.Controllers
 			if (id <= 0)
 				throw new BaseException("Id menor ou igual a 0", HttpStatusCode.BadRequest, typeof(System.Exception).FullName);
 			
-			var client = await _service.GetClientByIdAsync(id);
-			if (client is null)
-				throw new BaseException("Cliente não encontrado", HttpStatusCode.NotFound, typeof(NotFoundObjectResult).FullName);
-
-			return Ok(client);
+			return Ok(await _service.GetClientByIdAsync(id));
 		}
 
 		[HttpGet]
