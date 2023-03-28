@@ -1,3 +1,4 @@
+using System.Data;
 using System.Text.Json;
 using System.Web;
 using src.Exceptions;
@@ -28,8 +29,8 @@ namespace src.Middlewares
 		private static Task HandleExceptionAsync(HttpContext context, BaseException ex)
 		{
 			context.Response.ContentType = "application/json";
-			context.Response.StatusCode = (int)ex.StatusCode;
-			return context.Response.WriteAsync(JsonSerializer.Serialize(new BaseExceptionReturn(ex.Message, ex.StatusCode, ex.ExceptionType, ex.StackTrace)));
+			context.Response.StatusCode = (int) ex.StatusCode;
+			return context.Response.WriteAsync(JsonSerializer.Serialize(new BaseExceptionReturn(ex.Message, ex.StatusCode, ex.ExceptionType, ex.InnerExceptionMessage)));
 		}
 	}
 }

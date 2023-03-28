@@ -7,14 +7,14 @@ namespace src.Exceptions
 		public string Message { get; set; }
 		public HttpStatusCode StatusCode { get; set; }
 		public string ExceptionType { get; set; }
-		public string StackTrace { get; set; }
+		public string InnerExceptionMessage { get; set; } = String.Empty;
 
-		public BaseExceptionReturn(string message, HttpStatusCode statusCode, string exceptionType, string stackTrace)
+		public BaseExceptionReturn(string message, HttpStatusCode statusCode, string exceptionType, string innerExceptionMessage)
 		{
 			Message = message;
 			StatusCode = statusCode;
 			ExceptionType = exceptionType;
-			StackTrace = stackTrace;
+			InnerExceptionMessage = innerExceptionMessage;
 		}
 	}
 }
