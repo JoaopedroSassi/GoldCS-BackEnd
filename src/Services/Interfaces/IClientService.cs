@@ -5,7 +5,8 @@ namespace src.Services.Interfaces
 {
 	public interface IClientService
     {
-        Task<bool> InsertClientAsync(ClientInsertDTO model);
+        Task InsertClientAsync(ClientInsertDTO model);
+		Task DeleteClientAsync(int id);
 		Task<IEnumerable<ClientDetailsDTO>> GetAllClientsAsync();
 		Task<ClientDetailsDTO> GetClientByIdAsync(int id);
     }
