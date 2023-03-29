@@ -16,17 +16,46 @@ namespace src.Repositories
 
 		public void Insert<T>(T entity) where T : class
 		{
-			_context.Add(entity);
+			try
+			{
+				_context.Add(entity);
+			}
+			catch (System.Exception ex)
+			{
+				string innerExceptionMessage = String.Empty;
+				if (!(ex.InnerException is null))
+					innerExceptionMessage = ex.InnerException.Message;
+
+				throw new BaseException($"Erro DB - {ex.Message}", HttpStatusCode.BadRequest, typeof(BadHttpRequestException).FullName, ValidateInnerExceptionMessage(ex.InnerException));
+			}
 		}
 
 		public void Delete<T>(T entity) where T : class
 		{
-			_context.Remove(entity);
+			try
+			{
+				_context.Remove(entity);
+			}
+			catch (System.Exception ex)
+			{
+				string innerExceptionMessage = String.Empty;
+				if (!(ex.InnerException is null))
+					innerExceptionMessage = ex.InnerException.Message;
+
+				throw new BaseException($"Erro DB - {ex.Message}", HttpStatusCode.BadRequest, typeof(BadHttpRequestException).FullName, ValidateInnerExceptionMessage(ex.InnerException));
+			}
 		}
 
 		public void Update<T>(T entity) where T : class
 		{
-			_context.Update(entity);
+			try
+			{
+				_context.Update(entity);
+			}
+			catch (System.Exception ex)
+			{
+				throw new BaseException($"Erro DB - {ex.Message}", HttpStatusCode.BadRequest, typeof(BadHttpRequestException).FullName, ValidateInnerExceptionMessage(ex.InnerException));
+			}
 		}
 
 		public async Task<bool> SaveChangesAsync()
@@ -37,8 +66,16 @@ namespace src.Repositories
 			}
 			catch (System.Exception ex)
 			{
-				throw new BaseException($"Erro ao salvar no banco - {ex.Message}", HttpStatusCode.BadRequest, typeof(BadHttpRequestException).FullName, ex.InnerException.Message);
+				throw new BaseException($"Erro DB - {ex.Message}", HttpStatusCode.BadRequest, typeof(BadHttpRequestException).FullName, ValidateInnerExceptionMessage(ex.InnerException));
 			}
+		}
+
+		private static string ValidateInnerExceptionMessage(Exception innerException)
+		{
+			if (!(innerException is null))
+				return innerException.Message;
+			
+			return String.Empty;
 		}
 	}
 }
