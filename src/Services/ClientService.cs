@@ -36,15 +36,22 @@ namespace src.Services
 			return client;
 		}
 
-		public async Task<bool> InsertClientAsync(ClientInsertDTO model)
+		public async Task InsertClientAsync(ClientInsertDTO model)
 		{
-			Client client = _mapper.Map<Client>(model);
-
-			_repository.Insert(client);	
+			_repository.Insert(_mapper.Map<Client>(model));	
 			if (!(await _repository.SaveChangesAsync()))
-				throw new BaseException("Erro ao salvar no banco de dados!", HttpStatusCode.BadRequest, typeof(DBConcurrencyException).FullName);
+				throw new BaseException("Erro ao adicionar o cliente no banco de dados", HttpStatusCode.BadRequest, typeof(DBConcurrencyException).FullName);
+		}
 
-			return true;
+		public async Task DeleteClientAsync(int id)
+		{
+			var client = await _repository.GetClientByIdAsync(id);
+			if (client is null)
+				throw new BaseException("Cliente não encontrado", HttpStatusCode.NotFound, typeof(NotFoundObjectResult).FullName);
+
+			_repository.Delete(client);
+			if (!(await _repository.SaveChangesAsync()))
+				throw new BaseException("Erro ao deletar o cliente no banco de dados", HttpStatusCode.BadRequest, typeof(DBConcurrencyException).FullName);
 		}
 	}
 }
