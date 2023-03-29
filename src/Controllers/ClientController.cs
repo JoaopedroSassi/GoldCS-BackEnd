@@ -40,12 +40,21 @@ namespace src.Controllers
 		[HttpPost]
 		public async Task<ActionResult<string>> InsertClientAsync([FromBody] ClientInsertDTO model)
 		{
-			bool insert = await _service.InsertClientAsync(model);
+			if (!(ModelState.IsValid))
+				throw new BaseException("Formato inválido", HttpStatusCode.BadRequest, typeof(Exception).FullName);
+
+			await _service.InsertClientAsync(model);
+			return Ok("Cliente inserido");
+		}
+
+		[HttpDelete("{id:int}")]
+		public async Task<ActionResult<string>> DeleteClientAsync(int id) 
+		{
+			if (id <= 0)
+				throw new BaseException("Id menor ou igual a 0", HttpStatusCode.BadRequest, typeof(System.Exception).FullName);
 			
-			if (!insert)
-				throw new BaseException("Erro ao inserir", HttpStatusCode.BadRequest, typeof(BadHttpRequestException).FullName);
-			
-			return Ok("Cliente inserido com sucesso");
+			await _service.DeleteClientAsync(id);
+			return Ok("Cliente deletado com sucesso");
 		}
     }
 }
