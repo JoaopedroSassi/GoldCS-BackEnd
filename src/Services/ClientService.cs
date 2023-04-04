@@ -21,7 +21,15 @@ namespace src.Services
 
 		public async Task<IEnumerable<ClientDetailsDTO>> GetAllClientsAsync()
 		{
-			return _mapper.Map<IEnumerable<ClientDetailsDTO>>(await _repository.GetClientsAsync());
+			var clients = _mapper.Map<IEnumerable<ClientDetailsDTO>>(await _repository.GetClientsAsync());
+			if (!clients.Any())
+			{
+				var ex = new Exception("Sem clientes cadastrados");
+				ex.Data.Add("StatusCode", HttpStatusCode.NotFound);
+				throw ex;
+			}
+			
+			return clients;
 		}
 
 		public async Task<ClientDetailsDTO> GetClientByIdAsync(int id)

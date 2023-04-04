@@ -1,7 +1,6 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using src.Entities.DTO.Client;
-using src.Exceptions;
 using src.Models.DTO.Client;
 using src.Services.Interfaces;
 
@@ -18,6 +17,12 @@ namespace src.Controllers
 			_service = service;
 		}
 
+		[HttpGet]
+		public async Task<ActionResult<IEnumerable<ClientDetailsDTO>>> GetAllClientAsync()
+		{
+			return Ok(await _service.GetAllClientsAsync());
+		}
+
 		[HttpGet("{id:int}")]
 		public async Task<ActionResult<ClientDetailsDTO>> GetClientByIdAsync(int id)
 		{
@@ -29,20 +34,6 @@ namespace src.Controllers
 			}
 			
 			return Ok(await _service.GetClientByIdAsync(id));
-		}
-
-		[HttpGet]
-		public async Task<ActionResult<IEnumerable<ClientDetailsDTO>>> GetAllClientAsync()
-		{
-			var clients = await _service.GetAllClientsAsync();
-			if (!clients.Any())
-			{
-				var ex = new Exception("Sem clientes cadastrados");
-				ex.Data.Add("StatusCode", HttpStatusCode.NotFound);
-				throw ex;
-			}
-
-			return Ok(clients);
 		}
 
 		[HttpPost]
