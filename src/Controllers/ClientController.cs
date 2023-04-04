@@ -22,7 +22,11 @@ namespace src.Controllers
 		public async Task<ActionResult<ClientDetailsDTO>> GetClientByIdAsync(int id)
 		{
 			if (id <= 0)
-				throw new BaseException("Id menor ou igual a 0", HttpStatusCode.BadRequest, typeof(System.Exception).FullName);
+			{
+				var ex = new Exception("ID menor ou igual a 0");
+				ex.Data.Add("StatusCode", HttpStatusCode.NotFound);
+				throw ex;
+			}
 			
 			return Ok(await _service.GetClientByIdAsync(id));
 		}
@@ -32,7 +36,11 @@ namespace src.Controllers
 		{
 			var clients = await _service.GetAllClientsAsync();
 			if (!clients.Any())
-				throw new BaseException("Sem clientes cadastrados", HttpStatusCode.NotFound, typeof(NotFoundObjectResult).FullName);
+			{
+				var ex = new Exception("Sem clientes cadastrados");
+				ex.Data.Add("StatusCode", HttpStatusCode.NotFound);
+				throw ex;
+			}
 
 			return Ok(clients);
 		}
@@ -41,7 +49,11 @@ namespace src.Controllers
 		public async Task<ActionResult<string>> InsertClientAsync([FromBody] ClientInsertDTO model)
 		{
 			if (!(ModelState.IsValid))
-				throw new BaseException("Formato inválido", HttpStatusCode.BadRequest, typeof(Exception).FullName);
+			{
+				var ex = new Exception("Formato inválido");
+				ex.Data.Add("StatusCode", HttpStatusCode.NotFound);
+				throw ex;
+			}
 
 			await _service.InsertClientAsync(model);
 			return Ok("Cliente inserido");
@@ -51,7 +63,11 @@ namespace src.Controllers
 		public async Task<ActionResult<string>> DeleteClientAsync(int id) 
 		{
 			if (id <= 0)
-				throw new BaseException("Id menor ou igual a 0", HttpStatusCode.BadRequest, typeof(System.Exception).FullName);
+			{
+				var ex = new Exception("ID menor ou igual a 0");
+				ex.Data.Add("StatusCode", HttpStatusCode.NotFound);
+				throw ex;
+			}
 			
 			await _service.DeleteClientAsync(id);
 			return Ok("Cliente deletado com sucesso");

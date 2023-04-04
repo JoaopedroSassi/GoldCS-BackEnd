@@ -1,10 +1,7 @@
-using System.Data;
 using System.Net;
 using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 using src.Entities.DTO.Client;
 using src.Entities.Models;
-using src.Exceptions;
 using src.Models.DTO.Client;
 using src.Repositories.Interfaces;
 using src.Services.Interfaces;
@@ -31,7 +28,11 @@ namespace src.Services
 		{
 			var client = _mapper.Map<ClientDetailsDTO>(await _repository.GetClientByIdAsync(id));
 			if (client is null)
-				throw new BaseException("Cliente não encontrado", HttpStatusCode.NotFound, typeof(NotFoundObjectResult).FullName);
+			{
+				var ex = new Exception("Cliente não encontrado");
+				ex.Data.Add("StatusCode", HttpStatusCode.NotFound);
+				throw ex;
+			}
 
 			return client;
 		}
@@ -40,18 +41,30 @@ namespace src.Services
 		{
 			_repository.Insert(_mapper.Map<Client>(model));	
 			if (!(await _repository.SaveChangesAsync()))
-				throw new BaseException("Erro ao adicionar o cliente no banco de dados", HttpStatusCode.BadRequest, typeof(DBConcurrencyException).FullName);
+			{
+				var ex = new Exception("Erro ao adicionar o cliente no banco de dados");
+				ex.Data.Add("StatusCode", HttpStatusCode.BadRequest);
+				throw ex;
+			}
 		}
 
 		public async Task DeleteClientAsync(int id)
 		{
 			var client = await _repository.GetClientByIdAsync(id);
 			if (client is null)
-				throw new BaseException("Cliente não encontrado", HttpStatusCode.NotFound, typeof(NotFoundObjectResult).FullName);
+			{
+				var ex = new Exception("Cliente não encontrado");
+				ex.Data.Add("StatusCode", HttpStatusCode.NotFound);
+				throw ex;
+			}
 
 			_repository.Delete(client);
 			if (!(await _repository.SaveChangesAsync()))
-				throw new BaseException("Erro ao deletar o cliente no banco de dados", HttpStatusCode.BadRequest, typeof(DBConcurrencyException).FullName);
+			{
+				var ex = new Exception("Erro ao deletar o cliente no banco de dados");
+				ex.Data.Add("StatusCode", HttpStatusCode.BadRequest);
+				throw ex;
+			}
 		}
 	}
 }

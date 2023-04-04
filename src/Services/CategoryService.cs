@@ -41,7 +41,11 @@ namespace src.Services
 		{
 			_repository.Insert(_mapper.Map<Category>(model));	
 			if (!(await _repository.SaveChangesAsync()))
-				throw new BaseException("Erro ao adicionar a categoria no banco de dados", HttpStatusCode.BadRequest, typeof(DBConcurrencyException).FullName);
+			{
+				var ex = new Exception("Erro ao adicionar a categoria no banco de dados");
+				ex.Data.Add("StatusCode", HttpStatusCode.BadRequest);
+				throw ex;
+			}
 		}
 
 		public Task UpdateCategoryAsync(CategoryUpdateDTO model)
@@ -53,11 +57,19 @@ namespace src.Services
 		{
 			var category = await _repository.GetCategoryByIdAsync(id);
 			if (category is null)
-				throw new BaseException("Categoria não encontrado", HttpStatusCode.NotFound, typeof(NotFoundObjectResult).FullName);
+			{
+				var ex = new Exception("Categoria não encontrado");
+				ex.Data.Add("StatusCode", HttpStatusCode.NotFound);
+				throw ex;
+			}
 
 			_repository.Delete(category);
 			if (!(await _repository.SaveChangesAsync()))
-				throw new BaseException("Erro ao deletar a categoria no banco de dados", HttpStatusCode.BadRequest, typeof(DBConcurrencyException).FullName);
+			{
+				var ex = new Exception("Erro ao deletar a categoria no banco de dados");
+				ex.Data.Add("StatusCode", HttpStatusCode.BadRequest);
+				throw ex;
+			}
 		}
 	}
 }
