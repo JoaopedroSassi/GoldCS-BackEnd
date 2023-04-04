@@ -10,12 +10,11 @@ namespace src.Map
         {
             builder.ToTable("tb_products");
 
-			builder.HasKey(x => x.CategoryID);
-            builder.Property(x => x.CategoryID).ValueGeneratedOnAdd();
+			builder.HasKey(x => x.ProductID);
+            builder.Property(x => x.ProductID).ValueGeneratedOnAdd();
 
             builder.Property(x => x.Name).HasColumnType("varchar(150)").IsRequired();
 
-			builder.Property(x => x.ProductID).IsRequired();
 			builder.HasOne(x => x.Category).WithMany(x => x.Products).HasForeignKey(x => x.CategoryID);
         }
 	}
