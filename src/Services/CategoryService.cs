@@ -1,8 +1,5 @@
-using System.Data;
 using System.Net;
 using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using src.Exceptions;
 using src.Models.DTO.Category;
 using src.Models.DTO.Product;
 using src.Models.Entities;
@@ -24,12 +21,28 @@ namespace src.Services
 
 		public async Task<IEnumerable<CategoryDetailsDTO>> GetAllCategoriesAsync()
 		{
-			return _mapper.Map<IEnumerable<CategoryDetailsDTO>>(await _repository.GetCategoriesAsync());
+			var categories = _mapper.Map<IEnumerable<CategoryDetailsDTO>>(await _repository.GetCategoriesAsync());
+			if (!categories.Any())
+			{
+				var ex = new Exception("Sem categorias cadastradas");
+				ex.Data.Add("StatusCode", HttpStatusCode.NotFound);
+				throw ex;
+			}
+			
+			return categories;
 		}
 
 		public async Task<CategoryDetailsDTO> GetCategoryByIdAsync(int id)
 		{
-			return _mapper.Map<CategoryDetailsDTO>(await _repository.GetCategoryByIdAsync(id));
+			var category = _mapper.Map<CategoryDetailsDTO>(await _repository.GetCategoryByIdAsync(id));
+			if (category is null)
+			{
+				var ex = new Exception("Categoria não encontrada");
+				ex.Data.Add("StatusCode", HttpStatusCode.NotFound);
+				throw ex;
+			}
+
+			return category;
 		}
 
 		public async Task<IEnumerable<ProductDetailsDTO>> GetProductsByCategoryAsync(int categoryId)
@@ -48,9 +61,15 @@ namespace src.Services
 			}
 		}
 
-		public Task UpdateCategoryAsync(CategoryUpdateDTO model)
+		public async Task UpdateCategoryAsync(CategoryUpdateDTO model)
 		{
-			throw new NotImplementedException();
+			_repository.Update(_mapper.Map<Category>(model));
+			if (!(await _repository.SaveChangesAsync()))
+			{
+				var ex = new Exception("Erro ao atualizar a categoria no banco de dados");
+				ex.Data.Add("StatusCode", HttpStatusCode.BadRequest);
+				throw ex;
+			}
 		}
 
 		public async Task DeleteCategoryAsync(int id)
