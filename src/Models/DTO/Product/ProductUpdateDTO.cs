@@ -1,17 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace src.Models.DTO.Product
 {
-    public class ProductUpdateDTO
+	public class ProductUpdateDTO
     {
         public string Name { get; set; }
+		public int CategoryID { get; set; }
 
-		public ProductUpdateDTO(string name)
+		public ProductUpdateDTO(string name, int categoryID)
 		{
 			Name = name;
+			CategoryID = categoryID;
 		}
 
 		public ProductUpdateDTO()
