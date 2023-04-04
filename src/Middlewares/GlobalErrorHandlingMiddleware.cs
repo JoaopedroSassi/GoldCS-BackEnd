@@ -1,4 +1,5 @@
 using System.Data;
+using System.Net;
 using System.Text.Json;
 using System.Web;
 using src.Exceptions;
@@ -20,17 +21,18 @@ namespace src.Middlewares
 			{
 				await _next(context);
 			}
-			catch (System.Exception ex)
+			catch (Exception ex)
 			{
-				await HandleExceptionAsync(context, (BaseException) ex);
+				await HandleExceptionAsync(context, ex);
 			}
 		}
 
-		private static Task HandleExceptionAsync(HttpContext context, BaseException ex)
+		private static Task HandleExceptionAsync(HttpContext context, Exception ex)
 		{
+			var statusCode = ex.Data["StatusCode"] != null ? ex.Data["StatusCode"] : HttpStatusCode.BadRequest;
 			context.Response.ContentType = "application/json";
-			context.Response.StatusCode = (int) ex.StatusCode;
-			return context.Response.WriteAsync(JsonSerializer.Serialize(new BaseExceptionReturn(ex.Message, ex.StatusCode, ex.ExceptionType, ex.InnerExceptionMessage)));
+			context.Response.StatusCode = (int) statusCode;
+			return context.Response.WriteAsync(JsonSerializer.Serialize(new BaseException(ex.Message, (HttpStatusCode)statusCode)));
 		}
 	}
 }
