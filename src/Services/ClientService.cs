@@ -2,6 +2,7 @@ using System.Net;
 using AutoMapper;
 using src.Entities.DTO.Client;
 using src.Entities.Models;
+using src.Extensions;
 using src.Models.DTO.Client;
 using src.Repositories.Interfaces;
 using src.Services.Interfaces;
@@ -23,11 +24,7 @@ namespace src.Services
 		{
 			var clients = _mapper.Map<IEnumerable<ClientDetailsDTO>>(await _repository.GetClientsAsync());
 			if (!clients.Any())
-			{
-				var ex = new Exception("Sem clientes cadastrados");
-				ex.Data.Add("StatusCode", HttpStatusCode.NotFound);
-				throw ex;
-			}
+				ExceptionExtensions.ThrowBaseException("Sem clientes cadastrados", HttpStatusCode.NotFound);
 			
 			return clients;
 		}
@@ -36,11 +33,7 @@ namespace src.Services
 		{
 			var client = _mapper.Map<ClientDetailsDTO>(await _repository.GetClientByIdAsync(id));
 			if (client is null)
-			{
-				var ex = new Exception("Cliente não encontrado");
-				ex.Data.Add("StatusCode", HttpStatusCode.NotFound);
-				throw ex;
-			}
+				ExceptionExtensions.ThrowBaseException("Cliente não encontrado", HttpStatusCode.NotFound);
 
 			return client;
 		}
@@ -49,30 +42,18 @@ namespace src.Services
 		{
 			_repository.Insert(_mapper.Map<Client>(model));	
 			if (!(await _repository.SaveChangesAsync()))
-			{
-				var ex = new Exception("Erro ao adicionar o cliente no banco de dados");
-				ex.Data.Add("StatusCode", HttpStatusCode.BadRequest);
-				throw ex;
-			}
+				ExceptionExtensions.ThrowBaseException("Erro ao adicionar o cliente no banco de dados", HttpStatusCode.BadRequest);
 		}
 
 		public async Task DeleteClientAsync(int id)
 		{
 			var client = await _repository.GetClientByIdAsync(id);
 			if (client is null)
-			{
-				var ex = new Exception("Cliente não encontrado");
-				ex.Data.Add("StatusCode", HttpStatusCode.NotFound);
-				throw ex;
-			}
+				ExceptionExtensions.ThrowBaseException("Cliente não encontrado", HttpStatusCode.NotFound);
 
 			_repository.Delete(client);
 			if (!(await _repository.SaveChangesAsync()))
-			{
-				var ex = new Exception("Erro ao deletar o cliente no banco de dados");
-				ex.Data.Add("StatusCode", HttpStatusCode.BadRequest);
-				throw ex;
-			}
+				ExceptionExtensions.ThrowBaseException("Erro ao deletar o cliente no banco de dados", HttpStatusCode.BadRequest);
 		}
 	}
 }

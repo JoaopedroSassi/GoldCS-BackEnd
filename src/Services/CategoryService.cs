@@ -1,5 +1,6 @@
 using System.Net;
 using AutoMapper;
+using src.Extensions;
 using src.Models.DTO.Category;
 using src.Models.DTO.Product;
 using src.Models.Entities;
@@ -23,12 +24,8 @@ namespace src.Services
 		{
 			var categories = _mapper.Map<IEnumerable<CategoryDetailsDTO>>(await _repository.GetCategoriesAsync());
 			if (!categories.Any())
-			{
-				var ex = new Exception("Sem categorias cadastradas");
-				ex.Data.Add("StatusCode", HttpStatusCode.NotFound);
-				throw ex;
-			}
-			
+				ExceptionExtensions.ThrowBaseException("Sem categorias cadastradas", HttpStatusCode.NotFound);
+
 			return categories;
 		}
 
@@ -36,11 +33,7 @@ namespace src.Services
 		{
 			var category = _mapper.Map<CategoryDetailsDTO>(await _repository.GetCategoryByIdAsync(id));
 			if (category is null)
-			{
-				var ex = new Exception("Categoria não encontrada");
-				ex.Data.Add("StatusCode", HttpStatusCode.NotFound);
-				throw ex;
-			}
+				ExceptionExtensions.ThrowBaseException("Categoria não encontrada", HttpStatusCode.NotFound);
 
 			return category;
 		}
@@ -52,43 +45,27 @@ namespace src.Services
 
 		public async Task InsertCategoryAsync(CategoryInsertDTO model)
 		{
-			_repository.Insert(_mapper.Map<Category>(model));	
+			_repository.Insert(_mapper.Map<Category>(model));
 			if (!(await _repository.SaveChangesAsync()))
-			{
-				var ex = new Exception("Erro ao adicionar a categoria no banco de dados");
-				ex.Data.Add("StatusCode", HttpStatusCode.BadRequest);
-				throw ex;
-			}
+				ExceptionExtensions.ThrowBaseException("Erro ao adicionar a categoria no banco de dados", HttpStatusCode.BadRequest);
 		}
 
 		public async Task UpdateCategoryAsync(CategoryUpdateDTO model)
 		{
 			_repository.Update(_mapper.Map<Category>(model));
 			if (!(await _repository.SaveChangesAsync()))
-			{
-				var ex = new Exception("Erro ao atualizar a categoria no banco de dados");
-				ex.Data.Add("StatusCode", HttpStatusCode.BadRequest);
-				throw ex;
-			}
+				ExceptionExtensions.ThrowBaseException("Erro ao atualizar a categoria no banco de dados", HttpStatusCode.BadRequest);
 		}
 
 		public async Task DeleteCategoryAsync(int id)
 		{
 			var category = await _repository.GetCategoryByIdAsync(id);
 			if (category is null)
-			{
-				var ex = new Exception("Categoria não encontrado");
-				ex.Data.Add("StatusCode", HttpStatusCode.NotFound);
-				throw ex;
-			}
+				ExceptionExtensions.ThrowBaseException("Categoria não encontrada", HttpStatusCode.NotFound);
 
 			_repository.Delete(category);
 			if (!(await _repository.SaveChangesAsync()))
-			{
-				var ex = new Exception("Erro ao deletar a categoria no banco de dados");
-				ex.Data.Add("StatusCode", HttpStatusCode.BadRequest);
-				throw ex;
-			}
+				ExceptionExtensions.ThrowBaseException("Erro ao deletar a categoria no banco de dados", HttpStatusCode.BadRequest);
 		}
 	}
 }

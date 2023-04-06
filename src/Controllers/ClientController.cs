@@ -1,6 +1,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using src.Entities.DTO.Client;
+using src.Extensions;
 using src.Models.DTO.Client;
 using src.Services.Interfaces;
 
@@ -27,11 +28,7 @@ namespace src.Controllers
 		public async Task<ActionResult<ClientDetailsDTO>> GetClientByIdAsync(int id)
 		{
 			if (id <= 0)
-			{
-				var ex = new Exception("ID menor ou igual a 0");
-				ex.Data.Add("StatusCode", HttpStatusCode.NotFound);
-				throw ex;
-			}
+				ExceptionExtensions.ThrowBaseException("Id menor ou igual a 0", HttpStatusCode.NotFound);
 			
 			return Ok(await _service.GetClientByIdAsync(id));
 		}
@@ -40,11 +37,7 @@ namespace src.Controllers
 		public async Task<ActionResult<string>> InsertClientAsync([FromBody] ClientInsertDTO model)
 		{
 			if (!(ModelState.IsValid))
-			{
-				var ex = new Exception("Formato inválido");
-				ex.Data.Add("StatusCode", HttpStatusCode.NotFound);
-				throw ex;
-			}
+				ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
 
 			await _service.InsertClientAsync(model);
 			return Ok("Cliente inserido");
@@ -54,12 +47,8 @@ namespace src.Controllers
 		public async Task<ActionResult<string>> DeleteClientAsync(int id) 
 		{
 			if (id <= 0)
-			{
-				var ex = new Exception("ID menor ou igual a 0");
-				ex.Data.Add("StatusCode", HttpStatusCode.NotFound);
-				throw ex;
-			}
-			
+				ExceptionExtensions.ThrowBaseException("Id menor ou igual a 0", HttpStatusCode.NotFound);
+
 			await _service.DeleteClientAsync(id);
 			return Ok("Cliente deletado com sucesso");
 		}
