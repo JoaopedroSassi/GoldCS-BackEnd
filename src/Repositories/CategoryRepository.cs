@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using src.Data;
 using src.Models.Entities;
+using src.Pagination;
 using src.Repositories.Interfaces;
 
 namespace src.Repositories
@@ -14,9 +15,9 @@ namespace src.Repositories
             _context = context;
         }
 		
-		public async Task<IEnumerable<Category>> GetCategoriesAsync()
+		public async Task<List<Category>> GetCategoriesAsync(CategoriesParameters categoriesParameters)
 		{
-			return await _context.Categories.AsNoTracking().ToListAsync(); 
+			return await _context.Categories.AsNoTracking().Skip((categoriesParameters.PageNumber - 1) * categoriesParameters.PageSize).Take(categoriesParameters.PageSize).ToListAsync();	
 		}
 
 		public async Task<Category> GetCategoryByIdAsync(int id)

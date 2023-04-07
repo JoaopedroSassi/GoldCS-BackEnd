@@ -1,16 +1,18 @@
 using System.Net;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using src.Extensions;
 using src.Models.DTO.Category;
+using src.Pagination;
 using src.Services.Interfaces;
 
 namespace src.Controllers
 {
 	[ApiController]
-    [Route("api/[controller]")]
-    public class CategoryController : ControllerBase
-    {
-        private readonly ICategoryService _service;
+	[Route("api/[controller]")]
+	public class CategoryController : ControllerBase
+	{
+		private readonly ICategoryService _service;
 
 		public CategoryController(ICategoryService service)
 		{
@@ -18,9 +20,22 @@ namespace src.Controllers
 		}
 
 		[HttpGet]
-		public async Task<ActionResult<CategoryDetailsDTO>> GetCategoriasAsync()
+		public async Task<ActionResult<IEnumerable<CategoryDetailsDTO>>> GetCategoriasAsync([FromQuery] CategoriesParameters categoriesParameters)
 		{
-			return Ok(await _service.GetAllCategoriesAsync());
+			var categories = await _service.GetAllCategoriesAsync(categoriesParameters);
+
+			var metaData = new
+			{
+				categories.TotalCount,
+				categories.PageSize,
+				categories.CurrentPage,
+				categories.TotalPages,
+				categories.hasNext,
+				categories.hasPrevious
+			};
+
+			Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(metaData));
+			return Ok(categories);
 		}
 
 		[HttpGet("{id:int}")]
@@ -28,7 +43,7 @@ namespace src.Controllers
 		{
 			if (id <= 0)
 				ExceptionExtensions.ThrowBaseException("ID menor ou igual a 0", HttpStatusCode.NotFound);
-			
+
 			return Ok(await _service.GetCategoryByIdAsync(id));
 		}
 
@@ -50,13 +65,13 @@ namespace src.Controllers
 
 			if (!(ModelState.IsValid))
 				ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
-		
+
 			await _service.UpdateCategoryAsync(model);
 			return Ok("Categoria atualizada com sucesso");
 		}
 
 		[HttpDelete("{id:int}")]
-		public async Task<ActionResult<string>> DeleteCategoryAsync(int id) 
+		public async Task<ActionResult<string>> DeleteCategoryAsync(int id)
 		{
 			if (id <= 0)
 				ExceptionExtensions.ThrowBaseException("ID menor ou igual a 0", HttpStatusCode.NotFound);

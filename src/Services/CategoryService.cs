@@ -4,6 +4,7 @@ using src.Extensions;
 using src.Models.DTO.Category;
 using src.Models.DTO.Product;
 using src.Models.Entities;
+using src.Pagination;
 using src.Repositories.Interfaces;
 using src.Services.Interfaces;
 
@@ -20,13 +21,13 @@ namespace src.Services
 			_mapper = mapper;
 		}
 
-		public async Task<IEnumerable<CategoryDetailsDTO>> GetAllCategoriesAsync()
+		public async Task<PagedList<CategoryDetailsDTO>> GetAllCategoriesAsync(CategoriesParameters categoriesParameters)
 		{
-			var categories = _mapper.Map<IEnumerable<CategoryDetailsDTO>>(await _repository.GetCategoriesAsync());
+			var categories = _mapper.Map<List<CategoryDetailsDTO>>(await _repository.GetCategoriesAsync(categoriesParameters));
 			if (!categories.Any())
 				ExceptionExtensions.ThrowBaseException("Sem categorias cadastradas", HttpStatusCode.NotFound);
 
-			return categories;
+			return PagedList<CategoryDetailsDTO>.ToPagedList(categories, categoriesParameters.PageNumber, categoriesParameters.PageSize);
 		}
 
 		public async Task<CategoryDetailsDTO> GetCategoryByIdAsync(int id)
