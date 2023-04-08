@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using src.Data;
 
@@ -10,9 +11,10 @@ using src.Data;
 namespace GoldCSAPI.Migrations
 {
     [DbContext(typeof(GoldCSDBContext))]
-    partial class GoldCSDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230408230933__nome_")]
+    partial class _nome_
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,8 +88,7 @@ namespace GoldCSAPI.Migrations
                         .HasColumnType("varchar(150)");
 
                     b.Property<string>("Version")
-                        .IsRequired()
-                        .HasColumnType("varchar(150)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProductID");
 
