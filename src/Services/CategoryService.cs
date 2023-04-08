@@ -21,13 +21,13 @@ namespace src.Services
 			_mapper = mapper;
 		}
 
-		public async Task<PagedList<CategoryDetailsDTO>> GetAllCategoriesAsync(CategoriesParameters categoriesParameters)
+		public async Task<PagedList<CategoryDetailsDTO>> GetAllCategoriesAsync(QueryPaginationParameters paginationParameters)
 		{
-			var categories = _mapper.Map<List<CategoryDetailsDTO>>(await _repository.GetCategoriesAsync(categoriesParameters));
+			var categories = _mapper.Map<List<CategoryDetailsDTO>>(await _repository.GetCategoriesAsync(paginationParameters));
 			if (!categories.Any())
 				ExceptionExtensions.ThrowBaseException("Sem categorias cadastradas", HttpStatusCode.NotFound);
 
-			return new PagedList<CategoryDetailsDTO>(categories, _repository.Count<Category>(), categoriesParameters.PageNumber, categoriesParameters.PageSize);
+			return new PagedList<CategoryDetailsDTO>(categories, _repository.Count<Category>(), paginationParameters.PageNumber, paginationParameters.PageSize);
 		}
 
 		public async Task<CategoryDetailsDTO> GetCategoryByIdAsync(int id)

@@ -1,6 +1,6 @@
 namespace src.Pagination
 {
-	public class CategoriesParameters
+	public class QueryPaginationParameters
 	{
 		const int MaxPageSize = 50;
 		public int PageNumber { get; set; } = 1;

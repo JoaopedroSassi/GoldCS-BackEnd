@@ -9,7 +9,7 @@ namespace src.Services.Interfaces
         Task InsertCategoryAsync(CategoryInsertDTO model);
 		Task DeleteCategoryAsync(int id);
 		Task UpdateCategoryAsync(CategoryUpdateDTO model);
-		Task<PagedList<CategoryDetailsDTO>> GetAllCategoriesAsync(CategoriesParameters categoriesParameters);
+		Task<PagedList<CategoryDetailsDTO>> GetAllCategoriesAsync(QueryPaginationParameters paginationParameters);
 		Task<CategoryDetailsDTO> GetCategoryByIdAsync(int id);
 		Task<IEnumerable<ProductDetailsDTO>> GetProductsByCategoryAsync(int categoryId);
     }

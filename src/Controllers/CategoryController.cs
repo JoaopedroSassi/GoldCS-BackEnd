@@ -20,9 +20,9 @@ namespace src.Controllers
 		}
 
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<CategoryDetailsDTO>>> GetCategoriasAsync([FromQuery] CategoriesParameters categoriesParameters)
+		public async Task<ActionResult<IEnumerable<CategoryDetailsDTO>>> GetCategoriasAsync([FromQuery] QueryPaginationParameters paginationParameters)
 		{
-			var categories = await _service.GetAllCategoriesAsync(categoriesParameters);
+			var categories = await _service.GetAllCategoriesAsync(paginationParameters);
 			
 			Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(new PaginationReturn(categories.TotalCount, categories.PageSize, categories.CurrentPage, categories.TotalPages, categories.hasNext, categories.hasPrevious)));
 

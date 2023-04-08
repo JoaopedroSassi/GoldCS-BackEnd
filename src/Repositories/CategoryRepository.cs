@@ -15,9 +15,9 @@ namespace src.Repositories
             _context = context;
         }
 		
-		public async Task<List<Category>> GetCategoriesAsync(CategoriesParameters categoriesParameters)
+		public async Task<List<Category>> GetCategoriesAsync(QueryPaginationParameters paginationParameters)
 		{
-			return await _context.Categories.AsNoTracking().Skip((categoriesParameters.PageNumber - 1) * categoriesParameters.PageSize).Take(categoriesParameters.PageSize).ToListAsync();	
+			return await _context.Categories.AsNoTracking().Skip((paginationParameters.PageNumber - 1) * paginationParameters.PageSize).Take(paginationParameters.PageSize).ToListAsync();	
 		}
 
 		public async Task<Category> GetCategoryByIdAsync(int id)
