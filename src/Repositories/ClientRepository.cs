@@ -17,7 +17,7 @@ namespace src.Repositories
 
 		public async Task<Client> GetClientByIdAsync(int id)
 		{
-			return await _context.Clients.Where(x => x.ClientID == id).FirstOrDefaultAsync();
+			return await _context.Clients.AsNoTracking().Where(x => x.ClientID == id).FirstOrDefaultAsync();
 		}
 
 		public async Task<List<Client>> GetClientsAsync(QueryPaginationParameters paginationParameters)
