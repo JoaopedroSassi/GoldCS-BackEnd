@@ -20,7 +20,7 @@ namespace src.Controllers
 		}
 
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<CategoryDetailsDTO>>> GetCategoriasAsync([FromQuery] QueryPaginationParameters paginationParameters)
+		public async Task<ActionResult<IEnumerable<CategoryDetailsDTO>>> GetCategoriesAsync([FromQuery] QueryPaginationParameters paginationParameters)
 		{
 			var categories = await _service.GetAllCategoriesAsync(paginationParameters);
 			

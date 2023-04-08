@@ -1,8 +1,10 @@
 using System.Net;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using src.Entities.DTO.Client;
 using src.Extensions;
 using src.Models.DTO.Client;
+using src.Pagination;
 using src.Services.Interfaces;
 
 namespace src.Controllers
@@ -19,9 +21,13 @@ namespace src.Controllers
 		}
 
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<ClientDetailsDTO>>> GetAllClientAsync()
+		public async Task<ActionResult<IEnumerable<ClientDetailsDTO>>> GetAllClientAsync([FromQuery] QueryPaginationParameters paginationParameters)
 		{
-			return Ok(await _service.GetAllClientsAsync());
+			var clients = await _service.GetAllClientsAsync(paginationParameters);
+
+			Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(new PaginationReturn(clients.TotalCount, clients.PageSize, clients.CurrentPage, clients.TotalPages, clients.hasNext, clients.hasPrevious)));
+
+			return Ok(clients);
 		}
 
 		[HttpGet("{id:int}")]

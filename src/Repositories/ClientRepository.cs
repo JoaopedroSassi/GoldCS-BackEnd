@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using src.Data;
 using src.Entities.Models;
+using src.Pagination;
 using src.Repositories.Interfaces;
 
 namespace src.Repositories
@@ -19,9 +20,9 @@ namespace src.Repositories
 			return await _context.Clients.Where(x => x.ClientID == id).FirstOrDefaultAsync();
 		}
 
-		public async Task<IEnumerable<Client>> GetClientsAsync()
+		public async Task<List<Client>> GetClientsAsync(QueryPaginationParameters paginationParameters)
 		{
-			return await _context.Clients.ToListAsync();
+			return await _context.Clients.AsNoTracking().Skip((paginationParameters.PageNumber - 1) * paginationParameters.PageSize).Take(paginationParameters.PageSize).ToListAsync();
 		}
 	}
 }

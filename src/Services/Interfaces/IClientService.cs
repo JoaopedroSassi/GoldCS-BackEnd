@@ -1,5 +1,6 @@
 using src.Entities.DTO.Client;
 using src.Models.DTO.Client;
+using src.Pagination;
 
 namespace src.Services.Interfaces
 {
@@ -7,7 +8,7 @@ namespace src.Services.Interfaces
     {
         Task InsertClientAsync(ClientInsertDTO model);
 		Task DeleteClientAsync(int id);
-		Task<IEnumerable<ClientDetailsDTO>> GetAllClientsAsync();
+		Task<PagedList<ClientDetailsDTO>> GetAllClientsAsync(QueryPaginationParameters paginationParameters);
 		Task<ClientDetailsDTO> GetClientByIdAsync(int id);
     }
 }

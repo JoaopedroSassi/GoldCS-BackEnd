@@ -4,6 +4,7 @@ using src.Entities.DTO.Client;
 using src.Entities.Models;
 using src.Extensions;
 using src.Models.DTO.Client;
+using src.Pagination;
 using src.Repositories.Interfaces;
 using src.Services.Interfaces;
 
@@ -20,13 +21,13 @@ namespace src.Services
 			_mapper = mapper;
 		}
 
-		public async Task<IEnumerable<ClientDetailsDTO>> GetAllClientsAsync()
+		public async Task<PagedList<ClientDetailsDTO>> GetAllClientsAsync(QueryPaginationParameters paginationParameters)
 		{
-			var clients = _mapper.Map<IEnumerable<ClientDetailsDTO>>(await _repository.GetClientsAsync());
+			var clients = _mapper.Map<List<ClientDetailsDTO>>(await _repository.GetClientsAsync(paginationParameters));
 			if (!clients.Any())
 				ExceptionExtensions.ThrowBaseException("Sem clientes cadastrados", HttpStatusCode.NotFound);
 			
-			return clients;
+			return new PagedList<ClientDetailsDTO>(clients, _repository.Count<Client>(), paginationParameters.PageNumber, paginationParameters.PageSize);
 		}
 
 		public async Task<ClientDetailsDTO> GetClientByIdAsync(int id)

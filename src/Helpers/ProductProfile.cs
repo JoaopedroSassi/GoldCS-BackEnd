@@ -8,7 +8,7 @@ namespace src.Helpers
     {
         public ProductProfile()
 		{
-			CreateMap<Product, ProductDetailsDTO>();
+			CreateMap<Product, ProductDetailsDTO>().ForMember(x => x.Category, y => y.MapFrom(y => y.Category.Name));
 			CreateMap<ProductDetailsDTO, Product>();
 
 			CreateMap<Product, ProductInsertDTO>();
