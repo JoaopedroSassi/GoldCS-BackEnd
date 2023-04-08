@@ -28,9 +28,10 @@ namespace src.Middlewares
 		private static Task HandleExceptionAsync(HttpContext context, Exception ex)
 		{
 			var statusCode = ex.Data["StatusCode"] != null ? ex.Data["StatusCode"] : HttpStatusCode.BadRequest;
+			var innerExceptionMessage = ex.InnerException != null ? ex.InnerException.Message : "";
 			context.Response.ContentType = "application/json";
 			context.Response.StatusCode = (int) statusCode;
-			return context.Response.WriteAsync(JsonSerializer.Serialize(new BaseException(ex.Message, (HttpStatusCode)statusCode)));
+			return context.Response.WriteAsync(JsonSerializer.Serialize(new BaseException(ex.Message, (HttpStatusCode)statusCode, innerExceptionMessage)));
 		}
 	}
 }
