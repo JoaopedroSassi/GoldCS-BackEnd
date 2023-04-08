@@ -19,12 +19,9 @@ namespace src.Pagination
 			AddRange(items);	
 		}
 
-		public static PagedList<T> ToPagedList(List<T> source, int pageNumber, int pageSize)
+		public static PagedList<T> ToPagedList(List<T> source, int pageNumber, int pageSize, int count)
 		{
-			int count = source.Count();
-			var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-
-			return new PagedList<T>(items, count, pageNumber, pageSize);
+			return new PagedList<T>(source, count, pageNumber, pageSize);
 		}
 	}
 }

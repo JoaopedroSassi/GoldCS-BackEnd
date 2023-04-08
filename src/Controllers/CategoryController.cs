@@ -23,18 +23,9 @@ namespace src.Controllers
 		public async Task<ActionResult<IEnumerable<CategoryDetailsDTO>>> GetCategoriasAsync([FromQuery] CategoriesParameters categoriesParameters)
 		{
 			var categories = await _service.GetAllCategoriesAsync(categoriesParameters);
+			
+			Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(new PaginationReturn(categories.TotalCount, categories.PageSize, categories.CurrentPage, categories.TotalPages, categories.hasNext, categories.hasPrevious)));
 
-			var metaData = new
-			{
-				categories.TotalCount,
-				categories.PageSize,
-				categories.CurrentPage,
-				categories.TotalPages,
-				categories.hasNext,
-				categories.hasPrevious
-			};
-
-			Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(metaData));
 			return Ok(categories);
 		}
 

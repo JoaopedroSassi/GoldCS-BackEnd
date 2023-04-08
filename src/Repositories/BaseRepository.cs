@@ -27,6 +27,11 @@ namespace src.Repositories
 			_context.Update(entity);
 		}
 
+		public int Count<T>() where T : class
+		{
+			return _context.Set<T>().Count();
+		}
+
 		public async Task<bool> SaveChangesAsync()
 		{
 			return await _context.SaveChangesAsync() > 0;

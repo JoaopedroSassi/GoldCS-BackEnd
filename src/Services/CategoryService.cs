@@ -27,7 +27,7 @@ namespace src.Services
 			if (!categories.Any())
 				ExceptionExtensions.ThrowBaseException("Sem categorias cadastradas", HttpStatusCode.NotFound);
 
-			return PagedList<CategoryDetailsDTO>.ToPagedList(categories, categoriesParameters.PageNumber, categoriesParameters.PageSize);
+			return new PagedList<CategoryDetailsDTO>(categories, _repository.Count<Category>(), categoriesParameters.PageNumber, categoriesParameters.PageSize);
 		}
 
 		public async Task<CategoryDetailsDTO> GetCategoryByIdAsync(int id)

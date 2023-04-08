@@ -1,7 +1,5 @@
-using System.Data;
 using System.Net;
 using System.Text.Json;
-using System.Web;
 using src.Exceptions;
 
 namespace src.Middlewares
