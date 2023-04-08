@@ -4,13 +4,15 @@ namespace src.Models.Entities
     {
 		public int ProductID { get; set; }
 		public string Name { get; set; }
+		public string Version { get; set; }
 		public Category Category { get; set; }
 		public int CategoryID { get; set; }
 
-		public Product(int productID, string name, Category category, int categoryID)
+		public Product(int productID, string name, string version, Category category, int categoryID)
 		{
 			ProductID = productID;
 			Name = name;
+			Version = version;
 			Category = category;
 			CategoryID = categoryID;
 		}
