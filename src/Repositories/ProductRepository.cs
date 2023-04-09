@@ -17,7 +17,7 @@ namespace src.Repositories
 
 		public async Task<Product> GetProductByIdAsync(int id)
 		{
-			return await _context.Products.AsNoTracking().Include(x => x.Category).FirstOrDefaultAsync(x => x.CategoryID == id); 
+			return await _context.Products.AsNoTracking().Include(x => x.Category).FirstOrDefaultAsync(x => x.ProductID == id); 
 		}
 
 		public async Task<List<Product>> GetproductsAsync(QueryPaginationParameters paginationParameters)
