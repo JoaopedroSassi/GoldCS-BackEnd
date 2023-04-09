@@ -11,6 +11,6 @@ namespace src.Services.Interfaces
 		Task UpdateCategoryAsync(CategoryUpdateDTO model);
 		Task<PagedList<CategoryDetailsDTO>> GetAllCategoriesAsync(QueryPaginationParameters paginationParameters);
 		Task<CategoryDetailsDTO> GetCategoryByIdAsync(int id);
-		Task<IEnumerable<ProductDetailsDTO>> GetProductsByCategoryAsync(int categoryId);
+		Task<IEnumerable<ProductByCategoryDTO>> GetProductsByCategoryAsync(int categoryId);
     }
 }

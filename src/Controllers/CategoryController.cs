@@ -3,6 +3,7 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using src.Extensions;
 using src.Models.DTO.Category;
+using src.Models.DTO.Product;
 using src.Pagination;
 using src.Services.Interfaces;
 
@@ -36,6 +37,12 @@ namespace src.Controllers
 				ExceptionExtensions.ThrowBaseException("ID menor ou igual a 0", HttpStatusCode.NotFound);
 
 			return Ok(await _service.GetCategoryByIdAsync(id));
+		}
+
+		[HttpGet("productsByCategory/{categoryId:int}")]
+		public async Task<ActionResult<IEnumerable<ProductByCategoryDTO>>> GetProductsByCategoryAsync(int categoryId)
+		{
+			return Ok(await _service.GetProductsByCategoryAsync(categoryId));
 		}
 
 		[HttpPost]

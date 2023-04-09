@@ -7,6 +7,7 @@ namespace src.Repositories.Interfaces
     {
         Task<Category> GetCategoryByIdAsync(int id);
 		Task<List<Category>> GetCategoriesAsync(QueryPaginationParameters paginationParameters);
-		Task<IEnumerable<Product>> GetProductsByCategoryAsync(int categoryId);
+		Task<List<Product>> GetProductsByCategoryAsync(int categoryId);
+		Task<int> GetCountProductsByCategoryAsync(int categoryId);
     }
 }

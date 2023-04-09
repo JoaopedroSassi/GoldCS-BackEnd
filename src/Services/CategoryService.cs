@@ -39,9 +39,13 @@ namespace src.Services
 			return category;
 		}
 
-		public async Task<IEnumerable<ProductDetailsDTO>> GetProductsByCategoryAsync(int categoryId)
+		public async Task<IEnumerable<ProductByCategoryDTO>> GetProductsByCategoryAsync(int categoryId)
 		{
-			return _mapper.Map<IEnumerable<ProductDetailsDTO>>(await _repository.GetProductsByCategoryAsync(categoryId));
+			var productsByCat = _mapper.Map<List<ProductByCategoryDTO>>(await _repository.GetProductsByCategoryAsync(categoryId));
+			if (!productsByCat.Any())
+				ExceptionExtensions.ThrowBaseException("Sem produtos para essa categoria", HttpStatusCode.NotFound);
+
+			return productsByCat;
 		}
 
 		public async Task InsertCategoryAsync(CategoryInsertDTO model)

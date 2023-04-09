@@ -25,9 +25,14 @@ namespace src.Repositories
 			return await _context.Categories.AsNoTracking().FirstOrDefaultAsync(x => x.CategoryID == id); 
 		}
 
-		public async Task<IEnumerable<Product>> GetProductsByCategoryAsync(int categoryId)
+		public async Task<List<Product>> GetProductsByCategoryAsync(int categoryId)
 		{
-			return (IEnumerable<Product>) await _context.Categories.Select(x => x.Products).ToListAsync();
+			return await _context.Products.Where(x => x.CategoryID == categoryId).ToListAsync();
+		}
+		
+		public async Task<int> GetCountProductsByCategoryAsync(int categoryId)
+		{
+			return await _context.Categories.AsNoTracking().Where(x => x.CategoryID == categoryId).CountAsync();
 		}
 	}
 }
