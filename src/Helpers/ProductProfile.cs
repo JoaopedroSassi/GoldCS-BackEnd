@@ -17,6 +17,8 @@ namespace src.Helpers
 
 			CreateMap<Product, ProductUpdateDTO>();
 			CreateMap<ProductUpdateDTO, Product>();
+
+			CreateMap<Product, ProductByCategoryDTO>();
 		}
     }
 }
