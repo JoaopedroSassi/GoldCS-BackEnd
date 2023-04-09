@@ -22,8 +22,7 @@ namespace src.Services
 
 		public async Task<PagedList<ProductDetailsDTO>> GetAllProductsAsync(QueryPaginationParameters paginationParameters)
 		{
-			var t = await _repository.GetproductsAsync(paginationParameters);
-			var products = _mapper.Map<List<ProductDetailsDTO>>(t);
+			var products = _mapper.Map<List<ProductDetailsDTO>>(await _repository.GetproductsAsync(paginationParameters));
 			if (!products.Any())
 				ExceptionExtensions.ThrowBaseException("Sem produtos cadastrados", HttpStatusCode.NotFound);
 
