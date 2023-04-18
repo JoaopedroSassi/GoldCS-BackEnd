@@ -14,7 +14,7 @@ namespace src.Validators
 
 			RuleFor(x => x.Version)
 				.NotEmpty()
-					.WithMessage("Necessário preencher o campo 'Nome'")
+					.WithMessage("Necessário preencher o campo 'Version'")
 			;
 		}
 	}
