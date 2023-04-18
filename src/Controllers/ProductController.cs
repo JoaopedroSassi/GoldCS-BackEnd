@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using src.Extensions;
 using src.Models.DTO.Product;
@@ -12,7 +8,7 @@ using src.Services.Interfaces;
 
 namespace src.Controllers
 {
-    [ApiController]
+	[ApiController]
     [Route("api/[controller]")]
     public class ProductController : ControllerBase
     {
