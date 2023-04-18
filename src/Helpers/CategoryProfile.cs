@@ -15,7 +15,8 @@ namespace src.Helpers
 			CreateMap<CategoryInsertDTO, Category>();
 
 			CreateMap<Category, CategoryUpdateDTO>();
-			CreateMap<CategoryUpdateDTO, Category>();
+			CreateMap<CategoryUpdateDTO, Category>()
+				.ForAllMembers(x => x.Condition((src, dest, srcMember) => srcMember != null));
 		}
 	}
 }

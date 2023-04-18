@@ -16,7 +16,8 @@ namespace src.Helpers
 			CreateMap<ProductInsertDTO, Product>();
 
 			CreateMap<Product, ProductUpdateDTO>();
-			CreateMap<ProductUpdateDTO, Product>();
+			CreateMap<ProductUpdateDTO, Product>()
+				.ForAllMembers(x => x.Condition((src, dest, srcMember) => srcMember != null));;
 
 			CreateMap<Product, ProductByCategoryDTO>();
 		}
