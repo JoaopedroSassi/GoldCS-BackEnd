@@ -23,5 +23,10 @@ namespace src.Extensions
         {
             return Regex.Match(email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$").Success;
         }
+		
+		public static bool IsUFValid(this string uf)
+		{
+			return Regex.Match(uf, @"\W\b(A[CLPM]|BA|CE|DF|GO|ES|M[ATSG]|P[ABREI]|R[JNSOR]|S[PCE]|TO)\W").Success;
+		}
     }
 }
