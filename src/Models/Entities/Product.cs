@@ -7,6 +7,7 @@ namespace src.Models.Entities
 		public string Version { get; set; }
 		public Category Category { get; set; }
 		public int CategoryID { get; set; }
+		public List<Amount> Amounts { get; set; }
 
 		public Product(int productID, string name, string version, Category category, int categoryID)
 		{
