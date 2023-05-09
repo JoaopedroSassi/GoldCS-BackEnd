@@ -68,6 +68,10 @@ namespace src.Services
 			if (category is null)
 				ExceptionExtensions.ThrowBaseException("Categoria não encontrada", HttpStatusCode.NotFound);
 
+			var totalProducts = await _repository.GetCountProductsByCategoryAsync(id);
+			if (totalProducts > 0)
+				ExceptionExtensions.ThrowBaseException("Não é possível deletar uma categoria com produtos associados", HttpStatusCode.Conflict);
+
 			_repository.Delete(category);
 			if (!(await _repository.SaveChangesAsync()))
 				ExceptionExtensions.ThrowBaseException("Erro ao deletar a categoria no banco de dados", HttpStatusCode.BadRequest);
