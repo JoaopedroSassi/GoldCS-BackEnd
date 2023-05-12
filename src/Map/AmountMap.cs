@@ -14,10 +14,10 @@ namespace src.Map
             builder.Property(x => x.AmountID).ValueGeneratedOnAdd();
 
             builder.Property(x => x.Quantity).HasColumnType("int").IsRequired();
-			builder.Property(x => x.Price).HasColumnType("decimal").IsRequired();
+			builder.Property(x => x.Price).HasPrecision(5, 2).IsRequired();
 			builder.Property(x => x.AmountDate).HasColumnType("datetime").IsRequired();
 
-			builder.HasOne(x => x.Product).WithMany(x => x.Amounts).HasForeignKey(x => x.ProductID).OnDelete(DeleteBehavior.SetNull);
+			builder.HasOne(x => x.Product).WithMany(x => x.Amounts).HasForeignKey(x => x.ProductID);
 		}
 	}
 }

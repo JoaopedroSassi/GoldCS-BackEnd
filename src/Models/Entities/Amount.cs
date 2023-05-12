@@ -21,6 +21,7 @@ namespace src.Models.Entities
 
 		public Amount()
 		{
+			AmountDate = DateTime.Now;
 		}
 	}
 }
