@@ -36,7 +36,7 @@ namespace GoldCSAPI.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AmountDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<double>(type: "double", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal", nullable: false),
                     ProductID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
