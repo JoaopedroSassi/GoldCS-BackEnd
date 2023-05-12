@@ -33,6 +33,9 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<IAddressService, AddressService>();
 
+builder.Services.AddScoped<IAmountRepository, AmountRepository>();
+builder.Services.AddScoped<IAmountService, AmountService>();
+
 
 builder.Services.AddAutoMapper(typeof(Program));
 
