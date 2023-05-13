@@ -12,10 +12,10 @@ namespace GoldCSAPI.Migrations
             migrationBuilder.AlterColumn<DateTime>(
                 name: "AmountDate",
                 table: "tb_amount",
-                type: "datetime",
+                type: "date",
                 nullable: false,
                 oldClrType: typeof(DateTime),
-                oldType: "datetime2");
+                oldType: "date");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -23,10 +23,10 @@ namespace GoldCSAPI.Migrations
             migrationBuilder.AlterColumn<DateTime>(
                 name: "AmountDate",
                 table: "tb_amount",
-                type: "datetime2",
+                type: "date",
                 nullable: false,
                 oldClrType: typeof(DateTime),
-                oldType: "datetime");
+                oldType: "date");
         }
     }
 }

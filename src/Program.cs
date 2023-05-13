@@ -14,7 +14,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<GoldCSDBContext>(x =>
 {
-	x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLServer"),
+	//x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLServer"),
+	x.UseNpgsql(builder.Configuration.GetConnectionString("DefaultPostgreSQL"),
 	assembly => assembly.MigrationsAssembly(typeof(GoldCSDBContext).Assembly.FullName));
 });
 

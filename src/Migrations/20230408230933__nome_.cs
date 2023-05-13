@@ -11,7 +11,7 @@ namespace GoldCSAPI.Migrations
             migrationBuilder.AddColumn<string>(
                 name: "Version",
                 table: "tb_products",
-                type: "nvarchar(max)",
+                type: "varchar(200)",
                 nullable: true);
         }
 
