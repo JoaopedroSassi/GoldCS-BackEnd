@@ -100,6 +100,9 @@ builder.Services.AddScoped<IAmountService, AmountService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+
 
 builder.Services.AddAutoMapper(typeof(Program));
 
