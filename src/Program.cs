@@ -69,12 +69,13 @@ builder.Services.AddAuthentication(x =>
 		};
 	});
 
+var connectionString = builder.Environment.IsProduction() ? builder.Configuration.GetConnectionString("Railway") : builder.Configuration.GetConnectionString("DefaultPostgreSQL");
 
 //Database
 builder.Services.AddDbContext<GoldCSDBContext>(x =>
 {
 	//x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLServer"),
-	x.UseNpgsql(ConnectionExtension.GetConnectionString(builder.Configuration.GetConnectionString("DefaultPostgreSQL")),
+	x.UseNpgsql(ConnectionExtension.GetConnectionString(connectionString),
 	assembly => assembly.MigrationsAssembly(typeof(GoldCSDBContext).Assembly.FullName));
 });
 
