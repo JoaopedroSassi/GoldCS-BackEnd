@@ -1,4 +1,5 @@
 using src.Entities.Models;
+using src.Models.DTO.OrderProductDTOS;
 using src.Models.Entities;
 
 namespace src.Models.DTO.OrderDTOS
@@ -15,7 +16,7 @@ namespace src.Models.DTO.OrderDTOS
 		public string UserName { get; set; }
 		public Address Address { get; set; }
 		public Client Client { get; set; }
-		public List<OrderProduct> OrderProducts { get; set; } = new();
+		public List<OrderProductDetailsDTO> OrderProducts { get; set; } = new();
 
 		public OrderDetailsDTO(int orderID, DateTime orderDate, string paymentMethod, decimal total, DateTime deliveryForecast, int userID, string userEmail, string userName, Address address, Client client)
 		{
@@ -33,6 +34,22 @@ namespace src.Models.DTO.OrderDTOS
 
 		public OrderDetailsDTO()
 		{
+		}
+
+		public OrderDetailsDTO(Order model)
+		{
+			OrderID = model.OrderID;
+			OrderDate = model.OrderDate;
+			PaymentMethod = model.PaymentMethod;
+			Total = model.Total;
+			DeliveryForecast = model.DeliveryForecast;
+			UserID = model.User.UserID;
+			UserEmail = model.User.Email;
+			UserName = model.User.Name;
+			Address = model.Address;
+			Client = model.Client;
+			for (int i = 0; i < model.OrderProducts.Count; i++)
+				OrderProducts.Add(new OrderProductDetailsDTO(model.OrderProducts[i]));
 		}
 	}
 }
