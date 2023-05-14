@@ -7,7 +7,7 @@ namespace src.Models.Entities
 	{
 		public int OrderID { get; set; }
 		public DateTime OrderDate { get; set; }
-		public string PaymetMethod { get; set; }
+		public string PaymentMethod { get; set; }
 		public decimal Total { get; set; }
 		public DateTime DeliveryForecast { get; set; }
 		public User User { get; set; }
@@ -22,7 +22,7 @@ namespace src.Models.Entities
 		{
 			OrderID = orderID;
 			OrderDate = DateTime.Now;
-			PaymetMethod = paymetMethod;
+			PaymentMethod = paymetMethod;
 			Total = total;
 			DeliveryForecast = deliveryForecast;
 			User = user;
@@ -41,7 +41,7 @@ namespace src.Models.Entities
 		public Order(OrderInsertDTO model)
 		{
 			OrderDate = DateTime.Now;
-			PaymetMethod = model.PaymentMethod;
+			PaymentMethod = model.PaymentMethod;
 			Total = model.Total;
 			DeliveryForecast = model.DeliveryForecast;
 			UserID = model.UserID;
