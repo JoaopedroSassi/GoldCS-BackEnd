@@ -13,7 +13,7 @@ namespace src.Map
 			builder.HasKey(x => new { x.ProductID, x.OrderID });
 
 			builder.Property(x => x.Quantity).IsRequired();
-			builder.Property(x => x.FinalPrice).HasPrecision(5, 2).IsRequired();
+			builder.Property(x => x.FinalPrice).HasColumnType("money").IsRequired();
 
 			builder.HasOne(x => x.Order).WithMany(x => x.OrderProducts).HasForeignKey(x => x.OrderID);
 			builder.HasOne(x => x.Product).WithMany(x => x.OrderProducts).HasForeignKey(x => x.ProductID);
