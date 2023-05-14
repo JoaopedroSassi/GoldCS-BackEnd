@@ -42,7 +42,7 @@ namespace src.Models.Entities
 		{
 			OrderDate = DateTime.Now;
 			PaymentMethod = model.PaymentMethod;
-			Total = model.Total;
+			Total = model.OrderProducts.Sum(x => x.FinalPrice * x.Quantity);
 			DeliveryForecast = model.DeliveryForecast;
 			UserID = model.UserID;
 			Client = new Client(model.Client.Cpf, model.Client.Name, model.Client.Email, model.Client.CellPhone, model.Client.LandlinePhone);
