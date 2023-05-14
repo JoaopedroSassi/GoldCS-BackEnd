@@ -8,9 +8,9 @@ using src.Services.Interfaces;
 namespace src.Controllers
 {
 	[ApiController]
-    [Route("api/[controller]")]
-    public class AuthenticateController : ControllerBase
-    {
+	[Route("api/[controller]")]
+	public class AuthenticateController : ControllerBase
+	{
 		private readonly IUserService _userService;
 
 		public AuthenticateController(IUserService userService)
@@ -25,7 +25,8 @@ namespace src.Controllers
 			if (!ModelState.IsValid)
 				ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
 
-			return await _userService.Login(model); 
+			var token = await _userService.Login(model);
+			return Ok(new { token });
 		}
 
 		[Authorize]
@@ -34,6 +35,9 @@ namespace src.Controllers
 		{
 			if (!ModelState.IsValid)
 				ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
+
+			if (model.Role.ToLower() == "admin" && !(User.IsInRole("admin")))
+				ExceptionExtensions.ThrowBaseException("Somente admins podem registrar outros admins", HttpStatusCode.BadRequest);
 
 			await _userService.RegisterUser(model);
 			return Ok("Usuário inserido com sucesso");
@@ -49,5 +53,5 @@ namespace src.Controllers
 			await _userService.DeleteUser(id);
 			return Ok("Usuário deletado");
 		}
-    }
+	}
 }
