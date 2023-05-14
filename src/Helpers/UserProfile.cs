@@ -8,8 +8,9 @@ namespace src.Helpers
 	{
 		public UserProfile()
 		{
-			CreateMap<User, UserRegisterDTO>();
 			CreateMap<UserRegisterDTO, User>();
+
+			CreateMap<User, UserGenerateTokenDTO>();
 		}
 	}
 }

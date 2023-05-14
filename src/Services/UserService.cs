@@ -1,9 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Net;
 using AutoMapper;
+using src.Extensions;
 using src.Models.DTO.User;
+using src.Models.Entities;
 using src.Repositories.Interfaces;
 using src.Services.Interfaces;
 
@@ -22,14 +21,44 @@ namespace src.Services
 			_tokenService = tokenService;
 		}
 
-		public Task RegisterUser(UserRegisterDTO model)
+		public async Task<string> Login(UserLoginDTO model)
 		{
-			throw new NotImplementedException();
+			var user = await _userRepository.GetUserByEmail(model.Email);
+
+			if (user is null)
+				ExceptionExtensions.ThrowBaseException("Usuário não encontrado", HttpStatusCode.NotFound);
+
+			if (!(CryptoExtension.ComparePassword(model.Password, user.Password)))
+				ExceptionExtensions.ThrowBaseException("Informações inválidas", HttpStatusCode.BadRequest);
+
+			return _tokenService.GenerateToken(_mapper.Map<UserGenerateTokenDTO>(user));
 		}
 
-		public Task DeleteUser(int id)
+		public async Task RegisterUser(UserRegisterDTO model)
 		{
-			throw new NotImplementedException();
+			var user = await _userRepository.GetUserByEmail(model.Email);
+
+			if (user is not null)
+				ExceptionExtensions.ThrowBaseException("Email já utlizado", HttpStatusCode.NotFound);
+
+			model.Password = CryptoExtension.CodifyPassword(model.Password);
+			model.Role = model.Role.ToLower();
+
+			_userRepository.Insert(_mapper.Map<User>(model));
+			if (!(await _userRepository.SaveChangesAsync()))
+				ExceptionExtensions.ThrowBaseException("Erro ao adicionar o usuário no banco de dados", HttpStatusCode.BadRequest);
+		}
+
+		public async Task DeleteUser(int id)
+		{
+			var user = await _userRepository.GetUserById(id);
+
+			if (user is null)
+				ExceptionExtensions.ThrowBaseException("Usuário não encontrado", HttpStatusCode.NotFound);
+
+			_userRepository.Delete(user);
+			if (!(await _userRepository.SaveChangesAsync()))
+				ExceptionExtensions.ThrowBaseException("Erro ao deletar usuário no banco de dados", HttpStatusCode.BadRequest);
 		}
 	}
 }

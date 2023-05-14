@@ -6,6 +6,6 @@ namespace src.Services.Interfaces
     {
         Task RegisterUser(UserRegisterDTO model);
 		Task DeleteUser(int id);
-		
+		Task<string> Login(UserLoginDTO model);
     }
 }
