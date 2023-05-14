@@ -4,17 +4,9 @@ namespace src.Extensions
 {
 	public static class ConnectionExtension
     {
-        public static string GetConnectionString(string connectionString)
+        public static string BuildConnectionString(string connectionString)
         {
-			var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL", EnvironmentVariableTarget.User);
-			if (string.IsNullOrEmpty(databaseUrl))
-				Console.WriteLine("NÃO TÁ PEGANDO A STRING DE CONEX");
-            return string.IsNullOrEmpty(databaseUrl) ? connectionString : BuildConnectionString(databaseUrl);
-        }
-
-        private static string BuildConnectionString(string databaseUrl)
-        {
-            var databaseUri = new Uri(databaseUrl);
+            var databaseUri = new Uri(connectionString);
             var userInfo = databaseUri.UserInfo.Split(':');
             var builder = new NpgsqlConnectionStringBuilder
             {

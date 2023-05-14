@@ -75,7 +75,7 @@ var connectionString = builder.Environment.IsProduction() ? builder.Configuratio
 builder.Services.AddDbContext<GoldCSDBContext>(x =>
 {
 	//x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLServer"),
-	x.UseNpgsql(ConnectionExtension.GetConnectionString(connectionString),
+	x.UseNpgsql(ConnectionExtension.BuildConnectionString(connectionString),
 	assembly => assembly.MigrationsAssembly(typeof(GoldCSDBContext).Assembly.FullName));
 });
 
