@@ -4,9 +4,8 @@ namespace src.Extensions
 {
 	public static class ConnectionExtension
     {
-        public static string GetConnectionString(IConfiguration configuration)
+        public static string GetConnectionString(string connectionString)
         {
-            var connectionString = configuration.GetConnectionString("DefaultPostgreSQL");
             var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
             return string.IsNullOrEmpty(databaseUrl) ? connectionString : BuildConnectionString(databaseUrl);
         }
