@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using src.Data;
@@ -11,9 +12,10 @@ using src.Data;
 namespace GoldCSAPI.Migrations
 {
     [DbContext(typeof(GoldCSDBContext))]
-    partial class GoldCSDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230514181226_UpdatePaymeToPayment")]
+    partial class UpdatePaymeToPayment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,7 +108,8 @@ namespace GoldCSAPI.Migrations
                         .HasColumnType("date");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("money");
+                        .HasPrecision(6, 2)
+                        .HasColumnType("numeric(6,2)");
 
                     b.Property<int>("ProductID")
                         .HasColumnType("integer");
@@ -163,7 +166,8 @@ namespace GoldCSAPI.Migrations
                         .HasColumnType("varchar(200)");
 
                     b.Property<decimal>("Total")
-                        .HasColumnType("money");
+                        .HasPrecision(6, 2)
+                        .HasColumnType("numeric(6,2)");
 
                     b.Property<int>("UserID")
                         .HasColumnType("integer");
@@ -188,7 +192,8 @@ namespace GoldCSAPI.Migrations
                         .HasColumnType("integer");
 
                     b.Property<decimal>("FinalPrice")
-                        .HasColumnType("money");
+                        .HasPrecision(5, 2)
+                        .HasColumnType("numeric(5,2)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");

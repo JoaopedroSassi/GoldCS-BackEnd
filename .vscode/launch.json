@@ -10,7 +10,7 @@
 			"args": [],
 			"cwd": "${workspaceFolder}/src",
 			"stopAtEntry": false,
-
+			"console": "externalTerminal",
 			"env": {
 				"ASPNETCORE_ENVIRONMENT": "Development"
 			},
