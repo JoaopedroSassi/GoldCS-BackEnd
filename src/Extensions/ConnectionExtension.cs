@@ -6,7 +6,7 @@ namespace src.Extensions
     {
         public static string GetConnectionString(string connectionString)
         {
-            var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+			var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL", EnvironmentVariableTarget.User);
 			if (string.IsNullOrEmpty(databaseUrl))
 				Console.WriteLine("NÃO TÁ PEGANDO A STRING DE CONEX");
             return string.IsNullOrEmpty(databaseUrl) ? connectionString : BuildConnectionString(databaseUrl);
