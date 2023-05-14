@@ -22,6 +22,15 @@ namespace src.Entities.Models
 			LandlinePhone = landlinePhone;
 		}
 
+		public Client(string cpf, string name, string email, string cellPhone, string landlinePhone)
+		{
+			Cpf = cpf;
+			Name = name;
+			Email = email;
+			CellPhone = cellPhone;
+			LandlinePhone = landlinePhone;
+		}
+
 		public Client()
 		{
 		}

@@ -1,3 +1,5 @@
+using src.Models.DTO.OrderProductDTOS;
+
 namespace src.Models.Entities
 {
 	public class OrderProduct
@@ -21,6 +23,13 @@ namespace src.Models.Entities
 
 		public OrderProduct()
 		{
+		}
+
+		public OrderProduct(OrderProductInsertDTO model)
+		{
+			ProductID = model.ProductID;
+			Quantity = model.Quantity;
+			FinalPrice = model.FinalPrice;
 		}
 	}
 }

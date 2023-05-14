@@ -24,6 +24,17 @@ namespace src.Models.Entities
 			Complement = complement;
 		}
 
+		public Address(string cep, string addressName, string city, string district, string uF, string number, string complement)
+		{
+			Cep = cep;
+			AddressName = addressName;
+			City = city;
+			District = district;
+			UF = uF;
+			Number = number;
+			Complement = complement;
+		}
+
 		public Address()
 		{
 		}
