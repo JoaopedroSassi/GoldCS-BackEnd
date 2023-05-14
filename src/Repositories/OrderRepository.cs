@@ -20,7 +20,7 @@ namespace src.Repositories
 								.Include(x => x.Address)
 								.Include(x => x.Client)
 								.Include(x => x.User)
-								.Include(x => x.Products)
+								.Include(x => x.OrderProducts)
 								.FirstOrDefaultAsync(x => x.OrderID == id);
 		}
 	}
