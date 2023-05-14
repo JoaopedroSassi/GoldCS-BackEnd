@@ -1,3 +1,5 @@
+using src.Entities.Models;
+
 namespace src.Models.DTO.ClientDTOS
 {
 	public class ClientDetailsDTO
@@ -9,6 +11,10 @@ namespace src.Models.DTO.ClientDTOS
 		public string CellPhone { get; set; }
 		public string LandlinePhone { get; set; }
 
+		public ClientDetailsDTO()
+		{
+		}
+
 		public ClientDetailsDTO(int clientID, string cpf, string name, string email, string cellPhone, string landlinePhone)
 		{
 			ClientID = clientID;
@@ -19,8 +25,14 @@ namespace src.Models.DTO.ClientDTOS
 			LandlinePhone = landlinePhone;
 		}
 
-		public ClientDetailsDTO()
+		public ClientDetailsDTO(Client model)
 		{
+			ClientID = model.ClientID;
+			Cpf = model.Cpf;
+			Name = model.Name;
+			Email = model.Email;
+			CellPhone = model.CellPhone;
+			LandlinePhone = model.LandlinePhone;
 		}
     }
 }

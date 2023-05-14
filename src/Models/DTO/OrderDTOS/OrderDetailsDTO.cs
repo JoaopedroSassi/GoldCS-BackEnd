@@ -1,4 +1,5 @@
-using src.Entities.Models;
+using src.Models.DTO.AddressDTOS;
+using src.Models.DTO.ClientDTOS;
 using src.Models.DTO.OrderProductDTOS;
 using src.Models.Entities;
 
@@ -14,11 +15,11 @@ namespace src.Models.DTO.OrderDTOS
 		public int UserID { get; set; }
 		public string UserEmail { get; set; }
 		public string UserName { get; set; }
-		public Address Address { get; set; }
-		public Client Client { get; set; }
+		public AddressDetailsDTO Address { get; set; }
+		public ClientDetailsDTO Client { get; set; }
 		public List<OrderProductDetailsDTO> OrderProducts { get; set; } = new();
 
-		public OrderDetailsDTO(int orderID, DateTime orderDate, string paymentMethod, decimal total, DateTime deliveryForecast, int userID, string userEmail, string userName, Address address, Client client)
+		public OrderDetailsDTO(int orderID, DateTime orderDate, string paymentMethod, decimal total, DateTime deliveryForecast, int userID, string userEmail, string userName, AddressDetailsDTO address, ClientDetailsDTO client)
 		{
 			OrderID = orderID;
 			OrderDate = orderDate;
@@ -46,8 +47,8 @@ namespace src.Models.DTO.OrderDTOS
 			UserID = model.User.UserID;
 			UserEmail = model.User.Email;
 			UserName = model.User.Name;
-			Address = model.Address;
-			Client = model.Client;
+			Address = new AddressDetailsDTO(model.Address);
+			Client = new ClientDetailsDTO(model.Client);
 			for (int i = 0; i < model.OrderProducts.Count; i++)
 				OrderProducts.Add(new OrderProductDetailsDTO(model.OrderProducts[i]));
 		}
