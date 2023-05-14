@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using src.Data;
+using src.Extensions;
 using src.Middlewares;
 using src.Repositories;
 using src.Repositories.Interfaces;
@@ -107,6 +108,8 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
+var scope = app.Services.CreateScope();
+await DataExtension.ManageDataAsync(scope.ServiceProvider);
 
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
