@@ -21,6 +21,7 @@ namespace src.Repositories
 								.Include(x => x.Client)
 								.Include(x => x.User)
 								.Include(x => x.OrderProducts)
+								.ThenInclude(x => x.Product)
 								.FirstOrDefaultAsync(x => x.OrderID == id);
 		}
 	}

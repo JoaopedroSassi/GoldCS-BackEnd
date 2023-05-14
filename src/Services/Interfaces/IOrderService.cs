@@ -4,7 +4,7 @@ namespace src.Services.Interfaces
 {
 	public interface IOrderService
     {
-        Task InsertOrderAsync(OrderInsertDTO model);
+        int InsertOrderAsync(OrderInsertDTO model);
 		Task<OrderDetailsDTO> GetOrderByIdAsync(int id);
     }
 }

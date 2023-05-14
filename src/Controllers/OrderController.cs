@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,26 +8,35 @@ using src.Services.Interfaces;
 
 namespace src.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
+	[ApiController]
+	[Route("api/[controller]")]
 	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class OrderController : ControllerBase
-    {
-        private readonly IOrderService _orderService;
+	public class OrderController : ControllerBase
+	{
+		private readonly IOrderService _orderService;
 
 		public OrderController(IOrderService orderService)
 		{
 			_orderService = orderService;
 		}
 
+		[HttpGet("{id:int}")]
+		public async Task<ActionResult<OrderDetailsDTO>> GetOrderByIdAsync(int id)
+		{
+			if (id <= 0)
+				ExceptionExtensions.ThrowBaseException("ID menor ou igual a 0", HttpStatusCode.NotFound);
+
+			return Ok(await _orderService.GetOrderByIdAsync(id));
+		}
+
 		[HttpPost]
-		public async Task<ActionResult<string>> InsertOrderAsync([FromBody] OrderInsertDTO model)
+		public ActionResult<string> InsertOrder([FromBody] OrderInsertDTO model)
 		{
 			if (!(ModelState.IsValid))
 				ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
 
-			await _orderService.InsertOrderAsync(model);
-			return Ok("Pedido inserido");
+			var orderId = _orderService.InsertOrderAsync(model);
+			return Ok(new { orderId = orderId, res = "Pedido inserido" });
 		}
 	}
 }

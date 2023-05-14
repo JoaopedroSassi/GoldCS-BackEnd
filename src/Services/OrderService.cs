@@ -25,20 +25,24 @@ namespace src.Services
 
 		public async Task<OrderDetailsDTO> GetOrderByIdAsync(int id)
 		{
-			var orderDB = await _orderRepository.GetOrderByIdAsync(id);
-			var orderDetails = _mapper.Map<OrderDetailsDTO>(orderDB);
+			var order = await _orderRepository.GetOrderByIdAsync(id);
 
-			throw new NotImplementedException();
+			if (order is null)
+				ExceptionExtensions.ThrowBaseException("Pedido não encontrado", HttpStatusCode.NotFound);
+
+			return new OrderDetailsDTO(order);
 		}
 
-		public async Task InsertOrderAsync(OrderInsertDTO model)
+		public int InsertOrderAsync(OrderInsertDTO model)
 		{
 			//var orderDb = _mapper.Map<Order>(model);
 			Order orderDb = new Order(model);
 			
 			_orderRepository.Insert(orderDb);
-			if (!(await _orderRepository.SaveChangesAsync()))
+			if (!(_orderRepository.SaveChanges()))
 				ExceptionExtensions.ThrowBaseException("Erro ao adicionar o pedido no banco de dados", HttpStatusCode.BadRequest);
+
+			return orderDb.OrderID;
 		}
 	}
 }
