@@ -14,8 +14,8 @@ namespace src.Map
 			builder.Property(x => x.OrderID).ValueGeneratedOnAdd();
 
 			builder.Property(x => x.OrderDate).HasColumnType("date").IsRequired();
-			builder.Property(x => x.PaymetMethod).HasColumnType("varchar(200)").IsRequired();
-			builder.Property(x => x.Total).HasPrecision(5, 2).IsRequired();
+			builder.Property(x => x.PaymentMethod).HasColumnType("varchar(200)").IsRequired();
+			builder.Property(x => x.Total).HasPrecision(6,2).IsRequired();
 			builder.Property(x => x.DeliveryForecast).HasColumnType("date").IsRequired();
 
 			builder.HasOne(x => x.User).WithMany(x => x.Orders).HasForeignKey(x => x.UserID);
