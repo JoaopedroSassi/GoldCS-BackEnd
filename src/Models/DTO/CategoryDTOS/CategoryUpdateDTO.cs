@@ -1,4 +1,4 @@
-namespace src.Models.DTO.Category
+namespace src.Models.DTO.CategoryDTOS
 {
 	public class CategoryUpdateDTO
     {

@@ -1,4 +1,4 @@
-namespace src.Models.DTO.Client
+namespace src.Models.DTO.ClientDTOS
 {
 	public class ClientDetailsDTO
     {

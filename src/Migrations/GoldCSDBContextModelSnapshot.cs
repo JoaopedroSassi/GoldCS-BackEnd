@@ -139,6 +139,70 @@ namespace GoldCSAPI.Migrations
                     b.ToTable("tb_categories", (string)null);
                 });
 
+            modelBuilder.Entity("src.Models.Entities.Order", b =>
+                {
+                    b.Property<int>("OrderID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("OrderID"));
+
+                    b.Property<int>("AddressID")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ClientID")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("DeliveryForecast")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("PaymetMethod")
+                        .IsRequired()
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<decimal>("Total")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("numeric(5,2)");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("integer");
+
+                    b.HasKey("OrderID");
+
+                    b.HasIndex("AddressID");
+
+                    b.HasIndex("ClientID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("tb_order", (string)null);
+                });
+
+            modelBuilder.Entity("src.Models.Entities.OrderProduct", b =>
+                {
+                    b.Property<int>("ProductID")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("OrderID")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("FinalPrice")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("numeric(5,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ProductID", "OrderID");
+
+                    b.HasIndex("OrderID");
+
+                    b.ToTable("tb_order_product", (string)null);
+                });
+
             modelBuilder.Entity("src.Models.Entities.Product", b =>
                 {
                     b.Property<int>("ProductID")
@@ -208,6 +272,52 @@ namespace GoldCSAPI.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("src.Models.Entities.Order", b =>
+                {
+                    b.HasOne("src.Models.Entities.Address", "Address")
+                        .WithMany("Orders")
+                        .HasForeignKey("AddressID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("src.Entities.Models.Client", "Client")
+                        .WithMany("Orders")
+                        .HasForeignKey("ClientID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("src.Models.Entities.User", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Address");
+
+                    b.Navigation("Client");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("src.Models.Entities.OrderProduct", b =>
+                {
+                    b.HasOne("src.Models.Entities.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("src.Models.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("src.Models.Entities.Product", b =>
                 {
                     b.HasOne("src.Models.Entities.Category", "Category")
@@ -219,6 +329,16 @@ namespace GoldCSAPI.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("src.Entities.Models.Client", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("src.Models.Entities.Address", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
             modelBuilder.Entity("src.Models.Entities.Category", b =>
                 {
                     b.Navigation("Products");
@@ -227,6 +347,11 @@ namespace GoldCSAPI.Migrations
             modelBuilder.Entity("src.Models.Entities.Product", b =>
                 {
                     b.Navigation("Amounts");
+                });
+
+            modelBuilder.Entity("src.Models.Entities.User", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

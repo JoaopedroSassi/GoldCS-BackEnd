@@ -1,4 +1,4 @@
-namespace src.Entities.DTO.Client
+namespace src.Entities.DTO.ClientDTOS
 {
 	public class ClientInsertDTO
     {

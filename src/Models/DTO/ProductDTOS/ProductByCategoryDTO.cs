@@ -1,4 +1,4 @@
-namespace src.Models.DTO.Product
+namespace src.Models.DTO.ProductDTOS
 {
 	public class ProductByCategoryDTO
     {

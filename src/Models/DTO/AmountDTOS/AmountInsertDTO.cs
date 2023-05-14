@@ -1,4 +1,4 @@
-namespace src.Models.DTO.Amount
+namespace src.Models.DTO.AmountDTOS
 {
 	public class AmountInsertDTO
     {

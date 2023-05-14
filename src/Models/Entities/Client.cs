@@ -1,3 +1,5 @@
+using src.Models.Entities;
+
 namespace src.Entities.Models
 {
 	public class Client
@@ -8,6 +10,7 @@ namespace src.Entities.Models
 		public string Email { get; set; }
 		public string CellPhone { get; set; }
 		public string LandlinePhone { get; set; }
+		public List<Order> Orders { get; set; } = new ();
 
 		public Client(int clientID, string cpf, string name, string email, string cellPhone, string landlinePhone)
 		{

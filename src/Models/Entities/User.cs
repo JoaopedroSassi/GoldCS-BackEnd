@@ -8,6 +8,7 @@ namespace src.Models.Entities
 		public string Password { get; set; }
 		public bool Active { get; set; }
 		public string Role { get; set; }
+		public List<Order> Orders { get; set; } = new ();
 
 		public User(int userID, string name, string email, string password, bool active, string role)
 		{

@@ -10,6 +10,7 @@ namespace src.Models.Entities
 		public string UF { get; set; }
 		public string Number { get; set; }
 		public string Complement { get; set; }
+		public List<Order> Orders { get; set; } = new ();
 
 		public Address(int addressID, string cep, string addressName, string city, string district, string uF, string number, string complement)
 		{

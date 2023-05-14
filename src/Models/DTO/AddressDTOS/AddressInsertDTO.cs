@@ -1,4 +1,4 @@
-namespace src.Models.DTO.Address
+namespace src.Models.DTO.AddressDTOS
 {
 	public class AddressInsertDTO
     {

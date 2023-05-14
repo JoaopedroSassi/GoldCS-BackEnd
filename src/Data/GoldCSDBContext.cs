@@ -12,6 +12,8 @@ namespace src.Data
 		public DbSet<Address> Addresses { get; set; }
 		public DbSet<Amount> Amounts { get; set; }
 		public DbSet<User> Users { get; set; }
+		public DbSet<Order> Orders { get; set; }
+		public DbSet<OrderProduct> OrderProducts { get; set; }
 
 		public GoldCSDBContext(DbContextOptions<GoldCSDBContext> options)
 			: base(options)

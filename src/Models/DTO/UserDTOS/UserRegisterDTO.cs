@@ -1,4 +1,4 @@
-namespace src.Models.DTO.User
+namespace src.Models.DTO.UserDTOS
 {
 	public class UserRegisterDTO
     {
