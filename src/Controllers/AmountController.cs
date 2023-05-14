@@ -1,4 +1,6 @@
 using System.Net;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using src.Extensions;
 using src.Models.DTO.Amount;
@@ -8,6 +10,7 @@ namespace src.Controllers
 {
 	[ApiController]
     [Route("api/[controller]")]
+	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class AmountController : ControllerBase
     {
         private readonly IAmountService _amountService;

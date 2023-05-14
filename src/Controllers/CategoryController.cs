@@ -1,5 +1,7 @@
 using System.Net;
 using System.Text.Json;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using src.Extensions;
 using src.Models.DTO.Category;
@@ -11,6 +13,7 @@ namespace src.Controllers
 {
 	[ApiController]
 	[Route("api/[controller]")]
+	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 	public class CategoryController : ControllerBase
 	{
 		private readonly ICategoryService _service;
