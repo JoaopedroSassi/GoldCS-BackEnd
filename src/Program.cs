@@ -74,7 +74,7 @@ builder.Services.AddAuthentication(x =>
 builder.Services.AddDbContext<GoldCSDBContext>(x =>
 {
 	//x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLServer"),
-	x.UseNpgsql(builder.Configuration.GetConnectionString("DefaultPostgreSQL"),
+	x.UseNpgsql(ConnectionExtension.GetConnectionString(builder.Configuration),
 	assembly => assembly.MigrationsAssembly(typeof(GoldCSDBContext).Assembly.FullName));
 });
 
