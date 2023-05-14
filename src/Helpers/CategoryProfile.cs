@@ -1,5 +1,5 @@
 using AutoMapper;
-using src.Models.DTO.Category;
+using src.Models.DTO.CategoryDTOS;
 using src.Models.Entities;
 
 namespace src.Helpers

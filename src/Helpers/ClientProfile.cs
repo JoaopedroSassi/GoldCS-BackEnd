@@ -1,7 +1,7 @@
 using AutoMapper;
-using src.Entities.DTO.Client;
+using src.Entities.DTO.ClientDTOS;
 using src.Entities.Models;
-using src.Models.DTO.Client;
+using src.Models.DTO.ClientDTOS;
 
 namespace src.Helpers
 {

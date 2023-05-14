@@ -1,5 +1,5 @@
 using AutoMapper;
-using src.Models.DTO.Product;
+using src.Models.DTO.ProductDTOS;
 using src.Models.Entities;
 
 namespace src.Helpers
