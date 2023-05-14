@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using src.Data;
@@ -11,9 +12,10 @@ using src.Data;
 namespace GoldCSAPI.Migrations
 {
     [DbContext(typeof(GoldCSDBContext))]
-    partial class GoldCSDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230514161551_OrderWithOrderProducts")]
+    partial class OrderWithOrderProducts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -302,13 +304,13 @@ namespace GoldCSAPI.Migrations
             modelBuilder.Entity("src.Models.Entities.OrderProduct", b =>
                 {
                     b.HasOne("src.Models.Entities.Order", "Order")
-                        .WithMany("OrderProducts")
+                        .WithMany()
                         .HasForeignKey("OrderID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("src.Models.Entities.Product", "Product")
-                        .WithMany("OrderProducts")
+                        .WithMany()
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -352,8 +354,6 @@ namespace GoldCSAPI.Migrations
             modelBuilder.Entity("src.Models.Entities.Product", b =>
                 {
                     b.Navigation("Amounts");
-
-                    b.Navigation("OrderProducts");
                 });
 
             modelBuilder.Entity("src.Models.Entities.User", b =>

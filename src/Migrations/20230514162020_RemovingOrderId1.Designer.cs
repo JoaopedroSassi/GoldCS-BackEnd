@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using src.Data;
@@ -11,9 +12,10 @@ using src.Data;
 namespace GoldCSAPI.Migrations
 {
     [DbContext(typeof(GoldCSDBContext))]
-    partial class GoldCSDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230514162020_RemovingOrderId1")]
+    partial class RemovingOrderId1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -193,12 +195,17 @@ namespace GoldCSAPI.Migrations
                         .HasPrecision(5, 2)
                         .HasColumnType("numeric(5,2)");
 
+                    b.Property<int?>("OrderID1")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
                     b.HasKey("ProductID", "OrderID");
 
                     b.HasIndex("OrderID");
+
+                    b.HasIndex("OrderID1");
 
                     b.ToTable("tb_order_product", (string)null);
                 });
@@ -302,13 +309,17 @@ namespace GoldCSAPI.Migrations
             modelBuilder.Entity("src.Models.Entities.OrderProduct", b =>
                 {
                     b.HasOne("src.Models.Entities.Order", "Order")
-                        .WithMany("OrderProducts")
+                        .WithMany()
                         .HasForeignKey("OrderID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("src.Models.Entities.Product", "Product")
+                    b.HasOne("src.Models.Entities.Order", null)
                         .WithMany("OrderProducts")
+                        .HasForeignKey("OrderID1");
+
+                    b.HasOne("src.Models.Entities.Product", "Product")
+                        .WithMany()
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -352,8 +363,6 @@ namespace GoldCSAPI.Migrations
             modelBuilder.Entity("src.Models.Entities.Product", b =>
                 {
                     b.Navigation("Amounts");
-
-                    b.Navigation("OrderProducts");
                 });
 
             modelBuilder.Entity("src.Models.Entities.User", b =>
