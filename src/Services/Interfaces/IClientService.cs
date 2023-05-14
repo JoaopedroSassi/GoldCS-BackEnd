@@ -1,5 +1,5 @@
-using src.Entities.DTO.Client;
-using src.Models.DTO.Client;
+using src.Entities.DTO.ClientDTOS;
+using src.Models.DTO.ClientDTOS;
 using src.Pagination;
 
 namespace src.Services.Interfaces

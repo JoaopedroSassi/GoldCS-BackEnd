@@ -1,5 +1,5 @@
 using FluentValidation;
-using src.Models.DTO.User;
+using src.Models.DTO.UserDTOS;
 using src.Extensions;
 
 namespace src.Validators

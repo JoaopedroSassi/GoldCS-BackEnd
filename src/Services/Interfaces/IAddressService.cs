@@ -1,4 +1,4 @@
-using src.Models.DTO.Address;
+using src.Models.DTO.AddressDTOS;
 
 namespace src.Services.Interfaces
 {

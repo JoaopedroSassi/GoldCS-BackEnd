@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using src.Extensions;
-using src.Models.DTO.Category;
-using src.Models.DTO.Product;
+using src.Models.DTO.CategoryDTOS;
+using src.Models.DTO.ProductDTOS;
 using src.Pagination;
 using src.Services.Interfaces;
 

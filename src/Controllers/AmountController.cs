@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using src.Extensions;
-using src.Models.DTO.Amount;
+using src.Models.DTO.AmountDTOS;
 using src.Services.Interfaces;
 
 namespace src.Controllers

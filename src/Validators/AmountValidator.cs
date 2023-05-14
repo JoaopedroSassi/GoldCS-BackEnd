@@ -1,5 +1,5 @@
 using FluentValidation;
-using src.Models.DTO.Amount;
+using src.Models.DTO.AmountDTOS;
 
 namespace src.Validators
 {

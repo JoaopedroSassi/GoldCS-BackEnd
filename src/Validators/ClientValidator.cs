@@ -1,5 +1,5 @@
 using FluentValidation;
-using src.Entities.DTO.Client;
+using src.Entities.DTO.ClientDTOS;
 using src.Extensions;
 
 namespace src.Validators

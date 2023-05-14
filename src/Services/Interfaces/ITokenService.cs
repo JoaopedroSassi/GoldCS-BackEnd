@@ -1,4 +1,4 @@
-using src.Models.DTO.User;
+using src.Models.DTO.UserDTOS;
 
 namespace src.Services.Interfaces
 {

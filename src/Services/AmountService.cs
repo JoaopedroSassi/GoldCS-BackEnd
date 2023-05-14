@@ -1,7 +1,7 @@
 using System.Net;
 using AutoMapper;
 using src.Extensions;
-using src.Models.DTO.Amount;
+using src.Models.DTO.AmountDTOS;
 using src.Models.Entities;
 using src.Repositories.Interfaces;
 using src.Services.Interfaces;

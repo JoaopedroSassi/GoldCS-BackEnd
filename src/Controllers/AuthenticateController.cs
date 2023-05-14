@@ -2,7 +2,7 @@ using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using src.Extensions;
-using src.Models.DTO.User;
+using src.Models.DTO.UserDTOS;
 using src.Services.Interfaces;
 
 namespace src.Controllers

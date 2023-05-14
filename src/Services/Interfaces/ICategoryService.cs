@@ -1,5 +1,5 @@
-using src.Models.DTO.Category;
-using src.Models.DTO.Product;
+using src.Models.DTO.CategoryDTOS;
+using src.Models.DTO.ProductDTOS;
 using src.Pagination;
 
 namespace src.Services.Interfaces

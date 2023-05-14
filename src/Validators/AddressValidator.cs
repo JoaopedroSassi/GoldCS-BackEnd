@@ -1,6 +1,6 @@
 using FluentValidation;
-using src.Models.DTO.Address;
 using src.Extensions;
+using src.Models.DTO.AddressDTOS;
 
 namespace src.Validators
 {

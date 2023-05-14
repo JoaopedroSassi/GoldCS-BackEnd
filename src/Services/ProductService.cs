@@ -1,7 +1,7 @@
 using System.Net;
 using AutoMapper;
 using src.Extensions;
-using src.Models.DTO.Product;
+using src.Models.DTO.ProductDTOS;
 using src.Models.Entities;
 using src.Pagination;
 using src.Repositories.Interfaces;
