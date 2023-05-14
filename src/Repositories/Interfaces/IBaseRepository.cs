@@ -7,5 +7,6 @@ namespace src.Repositories.Interfaces
         void Delete<T>(T entity) where T : class;
 		int Count<T>() where T : class;
         Task<bool> SaveChangesAsync();
+		bool SaveChanges();
     }
 }

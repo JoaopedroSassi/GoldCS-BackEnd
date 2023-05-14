@@ -36,5 +36,10 @@ namespace src.Repositories
 		{
 			return await _context.SaveChangesAsync() > 0;
 		}
+
+		public bool SaveChanges()
+		{
+			return _context.SaveChanges() > 0;
+		}
 	}
 }
