@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using src.Data;
@@ -11,9 +12,10 @@ using src.Data;
 namespace GoldCSAPI.Migrations
 {
     [DbContext(typeof(GoldCSDBContext))]
-    partial class GoldCSDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230515033011_RemoveAmount")]
+    partial class RemoveAmount
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,6 +94,33 @@ namespace GoldCSAPI.Migrations
                     b.HasKey("AddressID");
 
                     b.ToTable("tb_address", (string)null);
+                });
+
+            modelBuilder.Entity("src.Models.Entities.Amount", b =>
+                {
+                    b.Property<int>("AmountID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AmountID"));
+
+                    b.Property<DateTime>("AmountDate")
+                        .HasColumnType("date");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("money");
+
+                    b.Property<int>("ProductID")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("AmountID");
+
+                    b.HasIndex("ProductID");
+
+                    b.ToTable("tb_amount", (string)null);
                 });
 
             modelBuilder.Entity("src.Models.Entities.Category", b =>
@@ -237,6 +266,17 @@ namespace GoldCSAPI.Migrations
                     b.ToTable("tb_users", (string)null);
                 });
 
+            modelBuilder.Entity("src.Models.Entities.Amount", b =>
+                {
+                    b.HasOne("src.Models.Entities.Product", "Product")
+                        .WithMany("Amounts")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("src.Models.Entities.Order", b =>
                 {
                     b.HasOne("src.Models.Entities.Address", "Address")
@@ -316,6 +356,8 @@ namespace GoldCSAPI.Migrations
 
             modelBuilder.Entity("src.Models.Entities.Product", b =>
                 {
+                    b.Navigation("Amounts");
+
                     b.Navigation("OrderProducts");
                 });
 
