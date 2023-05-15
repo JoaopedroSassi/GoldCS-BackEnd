@@ -1,0 +1,14 @@
+{
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "PostgreSQL - Docker",
+      "database": "GoldCSDB",
+      "username": "postgres",
+      "password": "@Sql012210"
+    }
+  ]
+}
