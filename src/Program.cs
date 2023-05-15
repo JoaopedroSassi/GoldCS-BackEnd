@@ -71,11 +71,14 @@ builder.Services.AddAuthentication(x =>
 
 var connectionString = builder.Environment.IsProduction() ? builder.Configuration.GetConnectionString("Railway") : builder.Configuration.GetConnectionString("DefaultPostgreSQL");
 
+if (builder.Environment.IsProduction())
+	connectionString = ConnectionExtension.BuildConnectionString(connectionString);
+
 //Database
 builder.Services.AddDbContext<GoldCSDBContext>(x =>
 {
 	//x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLServer"),
-	x.UseNpgsql(ConnectionExtension.BuildConnectionString(connectionString),
+	x.UseNpgsql(connectionString,
 	assembly => assembly.MigrationsAssembly(typeof(GoldCSDBContext).Assembly.FullName));
 });
 
