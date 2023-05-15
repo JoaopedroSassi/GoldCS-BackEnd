@@ -51,6 +51,16 @@ namespace src.Controllers
 			return Ok("Produto inserido");
 		}
 
+		[HttpPost("insertAmount")]
+		public async Task<ActionResult<string>> InsertAmountProductAsync([FromBody] ProductAmountInsertDTO model)
+		{
+			if (!(ModelState.IsValid))
+				ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
+
+			await _service.InsertAmountProductAsync(model);
+			return Ok("Estoque inserido");
+		}
+
 		[HttpPut("{id:int}")]
 		public async Task<ActionResult<ProductDetailsDTO>> UpdateProductAsync(int id, [FromBody] ProductUpdateDTO model)
 		{

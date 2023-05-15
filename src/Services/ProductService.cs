@@ -77,5 +77,21 @@ namespace src.Services
 			if (!(await _repository.SaveChangesAsync()))
 				ExceptionExtensions.ThrowBaseException($"Erro ao adicionar estoque do produto '{product.Name}' no banco de dados", HttpStatusCode.BadRequest);
 		}
+
+		public async Task RemoveAmountProductAsync(ProductAmountRemoveDTO model)
+		{
+			var product = await _repository.GetProductByIdAsync(model.ProductID);
+			if (product is null)
+				ExceptionExtensions.ThrowBaseException("Produto não encontrado", HttpStatusCode.NotFound);
+
+			if (model.Quantity < 0)
+				ExceptionExtensions.ThrowBaseException("Impossível entrar com valores negativos", HttpStatusCode.BadRequest);
+
+			if (model.Quantity > product.Quantity)
+				ExceptionExtensions.ThrowBaseException("Impossível remover mais estoque do que presente", HttpStatusCode.BadRequest);
+
+			product.Quantity -= model.Quantity;
+			_repository.Update(product);
+		}
 	}
 }
