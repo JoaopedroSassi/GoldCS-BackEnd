@@ -19,6 +19,11 @@ namespace src.Repositories
 		{
 			return await _context.Products.Include(x => x.Category).FirstOrDefaultAsync(x => x.ProductID == id); 
 		}
+		
+		public Product GetProductById(int id)
+		{
+			return _context.Products.Include(x => x.Category).FirstOrDefault(x => x.ProductID == id); 
+		}
 
 		public async Task<List<Product>> GetproductsAsync(QueryPaginationParameters paginationParameters)
 		{
