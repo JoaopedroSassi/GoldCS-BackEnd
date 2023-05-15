@@ -35,7 +35,6 @@ namespace src.Services
 
 		public int InsertOrderAsync(OrderInsertDTO model)
 		{
-			//var orderDb = _mapper.Map<Order>(model);
 			Order orderDb = new Order(model);
 			
 			_orderRepository.Insert(orderDb);
