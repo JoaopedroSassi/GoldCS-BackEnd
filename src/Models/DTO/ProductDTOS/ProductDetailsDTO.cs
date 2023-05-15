@@ -5,18 +5,22 @@ namespace src.Models.DTO.ProductDTOS
         public int ProductID { get; set; }
 		public string Name { get; set; }
 		public string Version { get; set; }
+		public int Quantity { get; set; }
+		public decimal Price { get; set; }
 		public string CategoryName { get; set; }
 
-		public ProductDetailsDTO(int productID, string name, string version, string categoryName)
+		public ProductDetailsDTO()
+		{
+		}
+
+		public ProductDetailsDTO(int productID, string name, string version, int quantity, decimal price, string categoryName)
 		{
 			ProductID = productID;
 			Name = name;
 			Version = version;
+			Quantity = quantity;
+			Price = price;
 			CategoryName = categoryName;
-		}
-
-		public ProductDetailsDTO()
-		{
 		}
 	}
 }
