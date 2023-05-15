@@ -36,7 +36,7 @@ namespace src.Controllers
 				ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
 
 			var orderId = _orderService.InsertOrderAsync(model);
-			return Ok(new { orderId = orderId, res = "Pedido inserido" });
+			return Ok(orderId);
 		}
 	}
 }
