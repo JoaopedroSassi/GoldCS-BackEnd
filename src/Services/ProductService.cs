@@ -62,5 +62,20 @@ namespace src.Services
 			if (!(await _repository.SaveChangesAsync()))
 				ExceptionExtensions.ThrowBaseException("Erro ao deletar o produto no banco de dados", HttpStatusCode.BadRequest);
 		}
+
+		public async Task InsertAmountProductAsync(ProductAmountInsertDTO model)
+		{
+			var product = await _repository.GetProductByIdAsync(model.ProductID);
+			if (product is null)
+				ExceptionExtensions.ThrowBaseException("Produto não encontrado", HttpStatusCode.NotFound);
+
+			if (model.Quantity < 0)
+				ExceptionExtensions.ThrowBaseException("Impossível entrar com valores negativos", HttpStatusCode.BadRequest);
+
+			product.Quantity += model.Quantity;
+			_repository.Update(product);
+			if (!(await _repository.SaveChangesAsync()))
+				ExceptionExtensions.ThrowBaseException($"Erro ao adicionar estoque do produto '{product.Name}' no banco de dados", HttpStatusCode.BadRequest);
+		}
 	}
 }

@@ -16,6 +16,13 @@ namespace src.Validators
 				.NotEmpty()
 					.WithMessage("Necessário preencher o campo 'Version'")
 			;
+
+			RuleFor(x => x.Price)
+				.NotEmpty()
+					.WithMessage("Necessário preencher o campo 'Preço'")
+				.GreaterThan(0)
+					.WithMessage("Necessário o campo 'Preço' ser maior que 0")
+			;
 		}
 	}
 }
