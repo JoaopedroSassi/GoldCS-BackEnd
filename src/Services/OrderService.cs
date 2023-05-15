@@ -40,8 +40,8 @@ namespace src.Services
 			for (int i = 0; i < model.OrderProducts.Count; i++)
 				//await _productService.RemoveAmountProductAsync(new ProductAmountRemoveDTO(model.OrderProducts[i]));
 			
-			if (!(await _orderRepository.SaveChangesAsync()))
-				ExceptionExtensions.ThrowBaseException($"Erro ao remover estoque dos produtos no banco de dados", HttpStatusCode.BadRequest);
+			/*if (!(await _orderRepository.SaveChangesAsync()))
+				ExceptionExtensions.ThrowBaseException($"Erro ao remover estoque dos produtos no banco de dados", HttpStatusCode.BadRequest);*/
 			
 			return orderDb.OrderID;
 		}
