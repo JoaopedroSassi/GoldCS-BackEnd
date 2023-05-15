@@ -1,26 +1,22 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
-using AutoMapper;
 using src.Extensions;
 using src.Models.DTO.OrderDTOS;
 using src.Models.Entities;
 using src.Repositories.Interfaces;
 using src.Services.Interfaces;
+using src.Models.DTO.ProductDTOS;
 
 namespace src.Services
 {
-    public class OrderService : IOrderService
+	public class OrderService : IOrderService
     {
         private readonly IOrderRepository _orderRepository;
-		private readonly IMapper _mapper;
+		private readonly IProductService _productService;
 
-		public OrderService(IOrderRepository orderRepository, IMapper mapper)
+		public OrderService(IOrderRepository orderRepository, IProductService productService = null)
 		{
 			_orderRepository = orderRepository;
-			_mapper = mapper;
+			_productService = productService;
 		}
 
 		public async Task<OrderDetailsDTO> GetOrderByIdAsync(int id)
@@ -33,7 +29,7 @@ namespace src.Services
 			return new OrderDetailsDTO(order);
 		}
 
-		public int InsertOrderAsync(OrderInsertDTO model)
+		public async Task<int> InsertOrderAsync(OrderInsertDTO model)
 		{
 			Order orderDb = new Order(model);
 			
@@ -41,6 +37,12 @@ namespace src.Services
 			if (!(_orderRepository.SaveChanges()))
 				ExceptionExtensions.ThrowBaseException("Erro ao adicionar o pedido no banco de dados", HttpStatusCode.BadRequest);
 
+			for (int i = 0; i < model.OrderProducts.Count; i++)
+				await _productService.RemoveAmountProductAsync(new ProductAmountRemoveDTO(model.OrderProducts[i]));
+			
+			if (!(await _orderRepository.SaveChangesAsync()))
+				ExceptionExtensions.ThrowBaseException($"Erro ao remover estoque dos produtos no banco de dados", HttpStatusCode.BadRequest);
+			
 			return orderDb.OrderID;
 		}
 	}
