@@ -38,7 +38,7 @@ namespace src.Services
 				ExceptionExtensions.ThrowBaseException("Erro ao adicionar o pedido no banco de dados", HttpStatusCode.BadRequest);
 
 			for (int i = 0; i < model.OrderProducts.Count; i++)
-				await _productService.RemoveAmountProductAsync(new ProductAmountRemoveDTO(model.OrderProducts[i]));
+				//await _productService.RemoveAmountProductAsync(new ProductAmountRemoveDTO(model.OrderProducts[i]));
 			
 			if (!(await _orderRepository.SaveChangesAsync()))
 				ExceptionExtensions.ThrowBaseException($"Erro ao remover estoque dos produtos no banco de dados", HttpStatusCode.BadRequest);
