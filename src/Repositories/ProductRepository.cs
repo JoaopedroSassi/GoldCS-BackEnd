@@ -29,5 +29,10 @@ namespace src.Repositories
 		{
 			return await _context.Products.AsNoTracking().Include(x => x.Category).OrderBy(x => x.ProductID).Skip((paginationParameters.PageNumber - 1) * paginationParameters.PageSize).Take(paginationParameters.PageSize).ToListAsync();
 		}
+
+		public void UpdateRange(List<Product> models)
+		{
+			_context.Products.UpdateRange(models);		
+		}
 	}
 }

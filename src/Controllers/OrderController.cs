@@ -30,12 +30,12 @@ namespace src.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult<string> InsertOrder([FromBody] OrderInsertDTO model)
+		public async Task<ActionResult<string>> InsertOrder([FromBody] OrderInsertDTO model)
 		{
 			if (!(ModelState.IsValid))
 				ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
 
-			var orderId = _orderService.InsertOrderAsync(model);
+			var orderId = await _orderService.InsertOrderAsync(model);
 			return Ok(orderId);
 		}
 	}

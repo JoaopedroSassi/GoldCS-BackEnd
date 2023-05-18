@@ -78,20 +78,30 @@ namespace src.Services
 				ExceptionExtensions.ThrowBaseException($"Erro ao adicionar estoque do produto '{product.Name}' no banco de dados", HttpStatusCode.BadRequest);
 		}
 
-		public async Task RemoveAmountProductAsync(ProductAmountRemoveDTO model)
+		public async Task RemoveAmountProductsAsync(List<ProductAmountRemoveDTO> model)
 		{
-			var product = await _repository.GetProductByIdAsync(model.ProductID);
-			if (product is null)
+			List<Product> listProducts = new();
+			for (int i = 0; i < model.Count; i++)
+			{
+				var product = await _repository.GetProductByIdAsync(model[i].ProductID);
+
+				if (product is null)
 				ExceptionExtensions.ThrowBaseException("Produto não encontrado", HttpStatusCode.NotFound);
 
-			if (model.Quantity < 0)
-				ExceptionExtensions.ThrowBaseException("Impossível entrar com valores negativos", HttpStatusCode.BadRequest);
+				if (model[i].Quantity < 0)
+					ExceptionExtensions.ThrowBaseException("Impossível entrar com valores negativos", HttpStatusCode.BadRequest);
 
-			if (model.Quantity > product.Quantity)
-				ExceptionExtensions.ThrowBaseException("Impossível remover mais estoque do que presente", HttpStatusCode.BadRequest);
+				if (model[i].Quantity > product.Quantity)
+					ExceptionExtensions.ThrowBaseException("Impossível remover mais estoque do que presente", HttpStatusCode.BadRequest);
 
-			product.Quantity -= model.Quantity;
-			_repository.Update(product);
+				product.Quantity -= model[i].Quantity;
+				listProducts.Add(product);
+			}
+			
+			_repository.UpdateRange(listProducts);
+
+			if (!(await _repository.SaveChangesAsync()))
+				ExceptionExtensions.ThrowBaseException($"Erro ao remover estoque dos produtos no banco de dados", HttpStatusCode.BadRequest);
 		}
 	}
 }

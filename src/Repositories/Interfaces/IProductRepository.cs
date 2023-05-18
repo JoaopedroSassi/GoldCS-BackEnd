@@ -7,5 +7,7 @@ namespace src.Repositories.Interfaces
     {
         Task<Product> GetProductByIdAsync(int id);
 		Task<List<Product>> GetproductsAsync(QueryPaginationParameters paginationParameters);
+		void UpdateRange(List<Product> models);
+		Product GetProductById(int id);
     }
 }
