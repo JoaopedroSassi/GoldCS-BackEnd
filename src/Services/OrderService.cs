@@ -14,12 +14,14 @@ namespace src.Services
         private readonly IOrderRepository _orderRepository;
 		private readonly IProductService _productService;
 		private readonly IClientRepository _clientRepository;
+		private readonly IAddressRepository _addressRepository;
 
-		public OrderService(IOrderRepository orderRepository, IProductService productService, IClientRepository clientRepository)
+		public OrderService(IOrderRepository orderRepository, IProductService productService, IClientRepository clientRepository, IAddressRepository addressRepository)
 		{
 			_orderRepository = orderRepository;
 			_productService = productService;
 			_clientRepository = clientRepository;
+			_addressRepository = addressRepository;
 		}
 
 		public async Task<OrderDetailsDTO> GetOrderByIdAsync(int id)
@@ -41,6 +43,13 @@ namespace src.Services
 			{
 				orderDb.ClientID = client.ClientID;
 				orderDb.Client = null;
+			}
+
+			Address address = await _addressRepository.GetAddressByCep(model.Address.Cep);
+			if (!(address is null))
+			{
+				orderDb.AddressID = address.AddressID;
+				orderDb.Address = null;
 			}
 			
 			_orderRepository.Insert(orderDb);
