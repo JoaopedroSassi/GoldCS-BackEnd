@@ -7,5 +7,6 @@ namespace src.Repositories.Interfaces
     {
         Task<Client> GetClientByIdAsync(int id);
 		Task<List<Client>> GetClientsAsync(QueryPaginationParameters paginationParameters);
+		Task<Client> GetClientByCPFAsync(string cpf);
     }
 }

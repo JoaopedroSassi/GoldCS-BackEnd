@@ -7,7 +7,7 @@ namespace src.Services.Interfaces
     {
         Task InsertProductAsync(ProductInsertDTO model);
         Task InsertAmountProductAsync(ProductAmountInsertDTO model);
-		Task RemoveAmountProductsAsync(List<ProductAmountRemoveDTO> model);
+		Task RemoveAmountProductsAsync(ProductAmountRemoveDTO model);
 		Task DeleteProductAsync(int id);
 		Task UpdateProductAsync(ProductUpdateDTO model);
 		Task<PagedList<ProductDetailsDTO>> GetAllProductsAsync(QueryPaginationParameters paginationParameters);

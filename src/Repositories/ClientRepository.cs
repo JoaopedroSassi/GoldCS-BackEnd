@@ -15,6 +15,11 @@ namespace src.Repositories
             _context = context;
         }
 
+		public async Task<Client> GetClientByCPFAsync(string cpf)
+		{
+			return await _context.Clients.AsNoTracking().Where(x => x.Cpf == cpf).FirstOrDefaultAsync();
+		}
+
 		public async Task<Client> GetClientByIdAsync(int id)
 		{
 			return await _context.Clients.AsNoTracking().Where(x => x.ClientID == id).FirstOrDefaultAsync();
