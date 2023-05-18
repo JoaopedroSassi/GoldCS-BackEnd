@@ -14,6 +14,7 @@ namespace src.Map
             builder.Property(x => x.ClientID).ValueGeneratedOnAdd();
 
 			builder.Property(x => x.Cpf).HasColumnType("varchar(15)").IsRequired();
+			builder.HasIndex(x => x.Cpf).IsUnique();
             builder.Property(x => x.Name).HasColumnType("varchar(150)").IsRequired();
 			builder.Property(x => x.Email).HasColumnType("varchar(150)").IsRequired();
 			builder.Property(x => x.CellPhone).HasColumnType("varchar(15)").IsRequired();
