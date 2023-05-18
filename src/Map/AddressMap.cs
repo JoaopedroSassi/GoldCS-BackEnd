@@ -14,6 +14,8 @@ namespace src.Map
             builder.Property(x => x.AddressID).ValueGeneratedOnAdd();
 
 			builder.Property(x => x.Cep).HasColumnType("varchar(10)").IsRequired();
+			builder.HasIndex(x => x.Cep).IsUnique();
+
 			builder.Property(x => x.AddressName).HasColumnType("varchar(200)").IsRequired();
 			builder.Property(x => x.City).HasColumnType("varchar(100)").IsRequired();
 			builder.Property(x => x.District).HasColumnType("varchar(100)").IsRequired();
