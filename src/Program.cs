@@ -1,6 +1,7 @@
 using System.Text;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -82,6 +83,18 @@ builder.Services.AddDbContext<GoldCSDBContext>(x =>
 	assembly => assembly.MigrationsAssembly(typeof(GoldCSDBContext).Assembly.FullName));
 });
 
+// Cors
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.WithOrigins("https://apirequest.io", "http://localhost:3000")
+				.AllowAnyHeader()
+				.AllowAnyMethod();
+        });
+});
+
 //Dependency injections
 builder.Services.AddScoped<IBaseRepository, BaseRepository>();
 
@@ -122,6 +135,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseCors();
 
 app.MapControllers();
 
