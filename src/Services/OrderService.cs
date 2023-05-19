@@ -35,7 +35,7 @@ namespace src.Services
 		}
 
 		public async Task<int> InsertOrderAsync(OrderInsertDTO model)
-		{
+		{				
 			Order orderDb = new Order(model);
 
 			Client client = await _clientRepository.GetClientByCPFAsync(model.Client.Cpf);
@@ -54,8 +54,11 @@ namespace src.Services
 			
 			_orderRepository.Insert(orderDb);
 			for (int i = 0; i < model.OrderProducts.Count; i++)
+			{
+				await _productService.VerifyPriceProduct(model.OrderProducts[i]);
 				await _productService.RemoveAmountProductsAsync(new ProductAmountRemoveDTO(model.OrderProducts[i]));
-
+			}
+				
 			if (!(_orderRepository.SaveChanges()))
 				ExceptionExtensions.ThrowBaseException("Erro ao adicionar o pedido no banco de dados", HttpStatusCode.BadRequest);
 

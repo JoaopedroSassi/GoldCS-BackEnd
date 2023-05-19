@@ -1,6 +1,7 @@
 using System.Net;
 using AutoMapper;
 using src.Extensions;
+using src.Models.DTO.OrderProductDTOS;
 using src.Models.DTO.ProductDTOS;
 using src.Models.Entities;
 using src.Pagination;
@@ -93,6 +94,14 @@ namespace src.Services
 
 			product.Quantity -= model.Quantity;
 			_repository.Update(product);
+		}
+
+		public async Task VerifyPriceProduct(OrderProductInsertDTO model)
+		{
+			var product = await _repository.GetProductByIdAsync(model.ProductID);
+
+			if (model.FinalPrice < product.Price)
+				ExceptionExtensions.ThrowBaseException($"ERRO - Preço do produto abaixo do mínimo | Produto: {product.Name}", HttpStatusCode.NotFound);
 		}
 	}
 }
