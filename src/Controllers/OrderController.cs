@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using src.Extensions;
 using src.Models.DTO.OrderDTOS;
 using src.Services.Interfaces;
+using src.Utils;
 
 namespace src.Controllers
 {
@@ -26,7 +27,10 @@ namespace src.Controllers
 			if (id <= 0)
 				ExceptionExtensions.ThrowBaseException("ID menor ou igual a 0", HttpStatusCode.NotFound);
 
-			return Ok(await _orderService.GetOrderByIdAsync(id));
+			var orderId = await _orderService.GetOrderByIdAsync(id);
+
+			ResponseUtil respUtil = new ResponseUtil(true, orderId); 
+			return Ok(respUtil);
 		}
 
 		[HttpPost]
@@ -36,7 +40,9 @@ namespace src.Controllers
 				ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
 
 			var orderId = await _orderService.InsertOrderAsync(model);
-			return Ok(orderId);
+
+			ResponseUtil respUtil = new ResponseUtil(true, orderId); 
+			return Ok(respUtil);
 		}
 	}
 }

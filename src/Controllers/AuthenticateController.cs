@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using src.Extensions;
 using src.Models.DTO.UserDTOS;
 using src.Services.Interfaces;
+using src.Utils;
 
 namespace src.Controllers
 {
@@ -26,7 +27,9 @@ namespace src.Controllers
 				ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
 
 			var token = await _userService.Login(model);
-			return Ok(new { token });
+			
+			ResponseUtil respUtil = new ResponseUtil(true, token); 
+			return Ok(respUtil);
 		}
 
 		[Authorize]
@@ -40,7 +43,8 @@ namespace src.Controllers
 				ExceptionExtensions.ThrowBaseException("Somente admins podem registrar outros admins", HttpStatusCode.BadRequest);
 
 			await _userService.RegisterUser(model);
-			return Ok("Usuário inserido com sucesso");
+			ResponseUtil respUtil = new ResponseUtil(true, "Usuário inserido com sucesso"); 
+			return Ok(respUtil);
 		}
 
 		[Authorize(Roles = "admin")]
@@ -51,7 +55,8 @@ namespace src.Controllers
 				ExceptionExtensions.ThrowBaseException("ID menor ou igual a 0", HttpStatusCode.NotFound);
 
 			await _userService.DeleteUser(id);
-			return Ok("Usuário deletado");
+			ResponseUtil respUtil = new ResponseUtil(true, "Usuário deletado"); 
+			return Ok(respUtil);
 		}
 	}
 }

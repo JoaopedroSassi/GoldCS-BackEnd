@@ -8,6 +8,7 @@ using src.Models.DTO.CategoryDTOS;
 using src.Models.DTO.ProductDTOS;
 using src.Pagination;
 using src.Services.Interfaces;
+using src.Utils;
 
 namespace src.Controllers
 {
@@ -30,7 +31,8 @@ namespace src.Controllers
 			
 			Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(new PaginationReturn(categories.TotalCount, categories.PageSize, categories.CurrentPage, categories.TotalPages, categories.hasNext, categories.hasPrevious)));
 
-			return Ok(categories);
+			ResponseUtil respUtil = new ResponseUtil(true, categories); 
+			return Ok(respUtil);
 		}
 
 		[HttpGet("{id:int}")]
@@ -39,13 +41,17 @@ namespace src.Controllers
 			if (id <= 0)
 				ExceptionExtensions.ThrowBaseException("ID menor ou igual a 0", HttpStatusCode.NotFound);
 
-			return Ok(await _service.GetCategoryByIdAsync(id));
+			var category = await _service.GetCategoryByIdAsync(id);
+			ResponseUtil respUtil = new ResponseUtil(true, category); 
+			return Ok(respUtil);
 		}
 
 		[HttpGet("productsByCategory/{categoryId:int}")]
 		public async Task<ActionResult<IEnumerable<ProductByCategoryDTO>>> GetProductsByCategoryAsync(int categoryId)
 		{
-			return Ok(await _service.GetProductsByCategoryAsync(categoryId));
+			var products = await _service.GetProductsByCategoryAsync(categoryId);
+			ResponseUtil respUtil = new ResponseUtil(true, products); 
+			return Ok(respUtil);
 		}
 
 		[HttpPost]
@@ -55,7 +61,8 @@ namespace src.Controllers
 				ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
 
 			await _service.InsertCategoryAsync(model);
-			return Ok("Categoria inserida");
+			ResponseUtil respUtil = new ResponseUtil(true, "Categoria inserida"); 
+			return Ok(respUtil);
 		}
 
 		[HttpPut("{id:int}")]
@@ -68,7 +75,8 @@ namespace src.Controllers
 				ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
 
 			await _service.UpdateCategoryAsync(model);
-			return Ok("Categoria atualizada com sucesso");
+			ResponseUtil respUtil = new ResponseUtil(true, "Categoria atualizada com sucesso"); 
+			return Ok(respUtil);
 		}
 
 		[HttpDelete("{id:int}")]
@@ -78,7 +86,8 @@ namespace src.Controllers
 				ExceptionExtensions.ThrowBaseException("ID menor ou igual a 0", HttpStatusCode.NotFound);
 
 			await _service.DeleteCategoryAsync(id);
-			return Ok("Categoria deletada");
+			ResponseUtil respUtil = new ResponseUtil(true, "Categoria deletada com sucesso"); 
+			return Ok(respUtil);
 		}
 	}
 }

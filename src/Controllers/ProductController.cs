@@ -7,6 +7,7 @@ using src.Extensions;
 using src.Models.DTO.ProductDTOS;
 using src.Pagination;
 using src.Services.Interfaces;
+using src.Utils;
 
 namespace src.Controllers
 {
@@ -29,7 +30,8 @@ namespace src.Controllers
 			
 			Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(new PaginationReturn(products.TotalCount, products.PageSize, products.CurrentPage, products.TotalPages, products.hasNext, products.hasPrevious)));
 
-			return Ok(products);
+			ResponseUtil respUtil = new ResponseUtil(true, products); 
+			return Ok(respUtil);
 		}
 
 		[HttpGet("{id:int}")]
@@ -38,7 +40,9 @@ namespace src.Controllers
 			if (id <= 0)
 				ExceptionExtensions.ThrowBaseException("ID menor ou igual a 0", HttpStatusCode.NotFound);
 
-			return Ok(await _service.GetProductByIdAsync(id));
+			var product = await _service.GetProductByIdAsync(id);
+			ResponseUtil respUtil = new ResponseUtil(true, product); 
+			return Ok(respUtil);
 		}
 
 		[HttpPost]
@@ -48,7 +52,8 @@ namespace src.Controllers
 				ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
 
 			await _service.InsertProductAsync(model);
-			return Ok("Produto inserido");
+			ResponseUtil respUtil = new ResponseUtil(true, "Produto inserido"); 
+			return Ok(respUtil);
 		}
 
 		[HttpPost("insertAmount")]
@@ -58,7 +63,8 @@ namespace src.Controllers
 				ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
 
 			await _service.InsertAmountProductAsync(model);
-			return Ok("Estoque inserido");
+			ResponseUtil respUtil = new ResponseUtil(true, "Estoque inserido"); 
+			return Ok(respUtil);
 		}
 
 		[HttpPut("{id:int}")]
@@ -71,7 +77,8 @@ namespace src.Controllers
 				ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
 
 			await _service.UpdateProductAsync(model);
-			return Ok("Produto atualizado com sucesso");
+			ResponseUtil respUtil = new ResponseUtil(true, "Produto atualizado com sucesso"); 
+			return Ok(respUtil);
 		}
 
 		[HttpDelete("{id:int}")]
@@ -81,7 +88,8 @@ namespace src.Controllers
 				ExceptionExtensions.ThrowBaseException("ID menor ou igual a 0", HttpStatusCode.NotFound);
 
 			await _service.DeleteProductAsync(id);
-			return Ok("Produto deletado");
+			ResponseUtil respUtil = new ResponseUtil(true, "Produto deletado"); 
+			return Ok(respUtil);
 		}
     }
 }
