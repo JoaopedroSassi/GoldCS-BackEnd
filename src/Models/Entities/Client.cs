@@ -1,3 +1,4 @@
+using src.Entities.DTO.ClientDTOS;
 using src.Models.Entities;
 
 namespace src.Entities.Models
@@ -22,13 +23,13 @@ namespace src.Entities.Models
 			LandlinePhone = landlinePhone;
 		}
 
-		public Client(string cpf, string name, string email, string cellPhone, string landlinePhone)
+		public Client(ClientInsertDTO model)
 		{
-			Cpf = cpf;
-			Name = name;
-			Email = email;
-			CellPhone = cellPhone;
-			LandlinePhone = landlinePhone;
+			Cpf = model.Cpf;
+			Name = model.Name;
+			Email = model.Email;
+			CellPhone = model.CellPhone;
+			LandlinePhone = model.LandlinePhone;
 		}
 
 		public Client()

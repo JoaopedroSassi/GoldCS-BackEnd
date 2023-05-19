@@ -45,8 +45,8 @@ namespace src.Models.Entities
 			Total = model.OrderProducts.Sum(x => x.FinalPrice * x.Quantity);
 			DeliveryForecast = model.DeliveryForecast;
 			UserID = model.UserID;
-			Client = new Client(model.Client.Cpf, model.Client.Name, model.Client.Email, model.Client.CellPhone, model.Client.LandlinePhone);
-			Address = new Address(model.Address.Cep, model.Address.AddressName, model.Address.City, model.Address.District, model.Address.UF, model.Address.Number, model.Address.Complement);
+			Client = new Client(model.Client);
+			Address = new Address(model.Address);
 			for (int i = 0; i < model.OrderProducts.Count; i++)
 				OrderProducts.Add(new OrderProduct(model.OrderProducts[i]));
 		}

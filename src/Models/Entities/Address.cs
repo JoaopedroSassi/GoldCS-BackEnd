@@ -1,3 +1,5 @@
+using src.Models.DTO.AddressDTOS;
+
 namespace src.Models.Entities
 {
 	public class Address
@@ -24,15 +26,15 @@ namespace src.Models.Entities
 			Complement = complement;
 		}
 
-		public Address(string cep, string addressName, string city, string district, string uF, string number, string complement)
+		public Address(AddressInsertDTO model)
 		{
-			Cep = cep;
-			AddressName = addressName;
-			City = city;
-			District = district;
-			UF = uF;
-			Number = number;
-			Complement = complement;
+			Cep = model.Cep;
+			AddressName = model.AddressName;
+			City = model.City;
+			District = model.District;
+			UF = model.UF;
+			Number = model.Number;
+			Complement = model.Complement;
 		}
 
 		public Address()
