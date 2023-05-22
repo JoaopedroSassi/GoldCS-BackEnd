@@ -19,7 +19,7 @@ namespace src.Extensions
             var builder = new NpgsqlConnectionStringBuilder
             {
                 Host = databaseUri.Host,
-                Port = databaseUri.Port,
+                //Port = databaseUri.Port,
                 Username = userInfo[0],
                 Password = userInfo[1],
                 Database = databaseUri.LocalPath.TrimStart('/'),
