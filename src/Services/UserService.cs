@@ -12,12 +12,10 @@ namespace src.Services
 	{
 		private readonly IUserRepository _userRepository;
 		private readonly ITokenService _tokenService;
-		private readonly IMapper _mapper;
 
-		public UserService(IUserRepository userRepository, IMapper mapper, ITokenService tokenService)
+		public UserService(IUserRepository userRepository, ITokenService tokenService)
 		{
 			_userRepository = userRepository;
-			_mapper = mapper;
 			_tokenService = tokenService;
 		}
 
@@ -31,7 +29,7 @@ namespace src.Services
 			if (!(CryptoExtension.ComparePassword(model.Password, user.Password)))
 				ExceptionExtensions.ThrowBaseException("Informações inválidas", HttpStatusCode.BadRequest);
 
-			return _tokenService.GenerateToken(_mapper.Map<UserGenerateTokenDTO>(user));
+			return _tokenService.GenerateToken(new UserGenerateTokenDTO(user));
 		}
 
 		public async Task RegisterUser(UserRegisterDTO model)
@@ -44,7 +42,7 @@ namespace src.Services
 			model.Password = CryptoExtension.CodifyPassword(model.Password);
 			model.Role = model.Role.ToLower();
 
-			_userRepository.Insert(_mapper.Map<User>(model));
+			_userRepository.Insert(new User(model));
 			if (!(await _userRepository.SaveChangesAsync()))
 				ExceptionExtensions.ThrowBaseException("Erro ao adicionar o usuário no banco de dados", HttpStatusCode.BadRequest);
 		}

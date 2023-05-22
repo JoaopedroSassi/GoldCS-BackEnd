@@ -1,3 +1,5 @@
+using src.Models.Entities;
+
 namespace src.Models.DTO.UserDTOS
 {
 	public class UserGenerateTokenDTO
@@ -15,6 +17,13 @@ namespace src.Models.DTO.UserDTOS
 
 		public UserGenerateTokenDTO()
 		{
+		}
+
+		public UserGenerateTokenDTO(User user)
+		{
+			UserID = user.UserID;
+			Email = user.Email;
+			Role = user.Role;
 		}
 	}
 }
