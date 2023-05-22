@@ -1,5 +1,4 @@
 using System.Net;
-using AutoMapper;
 using src.Extensions;
 using src.Models.DTO.OrderProductDTOS;
 using src.Models.DTO.ProductDTOS;
@@ -13,17 +12,17 @@ namespace src.Services
 	public class ProductService : IProductService
 	{
 		private readonly IProductRepository _repository;
-		private readonly IMapper _mapper;
 
-		public ProductService(IProductRepository repository, IMapper mapper)
+		public ProductService(IProductRepository repository)
 		{
 			_repository = repository;
-			_mapper = mapper;
 		}
 
 		public async Task<PagedList<ProductDetailsDTO>> GetAllProductsAsync(QueryPaginationParameters paginationParameters)
 		{
-			var products = _mapper.Map<List<ProductDetailsDTO>>(await _repository.GetproductsAsync(paginationParameters));
+			var productsDB = await _repository.GetproductsAsync(paginationParameters);
+			var products = productsDB.Select(x => new ProductDetailsDTO(x)).ToList();
+
 			if (!products.Any())
 				ExceptionExtensions.ThrowBaseException("Sem produtos cadastrados", HttpStatusCode.NotFound);
 
@@ -32,7 +31,9 @@ namespace src.Services
 
 		public async Task<ProductDetailsDTO> GetProductByIdAsync(int id)
 		{
-			var product = _mapper.Map<ProductDetailsDTO>(await _repository.GetProductByIdAsync(id));
+			var productDB = await _repository.GetProductByIdAsync(id);
+
+			var product = new ProductDetailsDTO(productDB);
 			if (product is null)
 				ExceptionExtensions.ThrowBaseException("Produto não encontrado", HttpStatusCode.NotFound);
 
@@ -41,14 +42,23 @@ namespace src.Services
 
 		public async Task InsertProductAsync(ProductInsertDTO model)
 		{
-			_repository.Insert(_mapper.Map<Product>(model));
+			_repository.Insert(new Product(model));
 			if (!(await _repository.SaveChangesAsync()))
 				ExceptionExtensions.ThrowBaseException("Erro ao adicionar a categoria no banco de dados", HttpStatusCode.BadRequest);
 		}
 
 		public async Task UpdateProductAsync(ProductUpdateDTO model)
 		{
-			_repository.Update(_mapper.Map<Product>(model));
+			var product = await _repository.GetProductByIdAsync(model.ProductID);
+			if (product is null)
+				ExceptionExtensions.ThrowBaseException("Produto não encontrado", HttpStatusCode.NotFound);
+
+			product.Name = model.Name != null ? model.Name : product.Name;
+			product.Version = model.Version != null ? model.Version : product.Version;
+			product.CategoryID = model.CategoryID != 0 ? model.CategoryID : product.CategoryID;
+			product.Price = model.Price != 0 ? model.Price : product.Price;
+
+			_repository.Update(product);
 			if (!(await _repository.SaveChangesAsync()))
 				ExceptionExtensions.ThrowBaseException("Erro ao atualizar o produto no banco de dados", HttpStatusCode.BadRequest);
 		}

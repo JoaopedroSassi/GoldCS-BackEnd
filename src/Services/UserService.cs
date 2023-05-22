@@ -1,5 +1,4 @@
 using System.Net;
-using AutoMapper;
 using src.Extensions;
 using src.Models.DTO.UserDTOS;
 using src.Models.Entities;
