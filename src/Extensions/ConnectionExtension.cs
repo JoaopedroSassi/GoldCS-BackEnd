@@ -7,10 +7,21 @@ namespace src.Extensions
 		public static string GetConnectionString(string connectionString)
         {
             var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
-            return string.IsNullOrEmpty(databaseUrl) ? connectionString : BuildConnectionString(databaseUrl);
+			if (Environment.GetEnvironmentVariable("HOST") == "RAILWAY")
+			{
+				return BuildConnectionStringRailway(databaseUrl);
+			}
+			else if (Environment.GetEnvironmentVariable("HOST") == "RENDER")
+			{
+				return BuildConnectionStringRender(databaseUrl);
+			}
+			else
+			{
+				return connectionString;
+			}
         }
 
-        public static string BuildConnectionString(string connectionString)
+        public static string BuildConnectionStringRailway(string connectionString)
         {
             var databaseUri = new Uri(connectionString);
             var userInfo = databaseUri.UserInfo.Split(':');
@@ -27,6 +38,24 @@ namespace src.Extensions
 			System.Console.WriteLine("CONNECTION STRING");
 			System.Console.WriteLine(builder.ToString());
             return builder.ToString();
-        }       
+        }    
+
+		public static string BuildConnectionStringRender(string connectionString)
+        {
+            var databaseUri = new Uri(connectionString);
+            var userInfo = databaseUri.UserInfo.Split(':');
+            var builder = new NpgsqlConnectionStringBuilder
+            {
+                Host = databaseUri.Host,
+                Username = userInfo[0],
+                Password = userInfo[1],
+                Database = databaseUri.LocalPath.TrimStart('/'),
+                SslMode = SslMode.Require,
+                TrustServerCertificate = true
+            };
+			System.Console.WriteLine("CONNECTION STRING");
+			System.Console.WriteLine(builder.ToString());
+            return builder.ToString();
+        }     
     }
 }
