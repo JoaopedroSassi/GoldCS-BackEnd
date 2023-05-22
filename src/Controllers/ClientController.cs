@@ -1,12 +1,9 @@
 using System.Net;
-using System.Text.Json;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using src.Entities.DTO.ClientDTOS;
 using src.Extensions;
 using src.Models.DTO.ClientDTOS;
-using src.Pagination;
 using src.Services.Interfaces;
 using src.Utils;
 

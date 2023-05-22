@@ -1,10 +1,6 @@
 using System.Net;
-using AutoMapper;
-using src.Entities.DTO.ClientDTOS;
-using src.Entities.Models;
 using src.Extensions;
 using src.Models.DTO.ClientDTOS;
-using src.Pagination;
 using src.Repositories.Interfaces;
 using src.Services.Interfaces;
 
