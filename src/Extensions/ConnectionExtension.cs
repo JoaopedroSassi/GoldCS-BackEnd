@@ -17,6 +17,7 @@ namespace src.Extensions
 			}
 			else
 			{
+				System.Console.WriteLine("CONNECTED - LOCAL");
 				return connectionString;
 			}
         }
@@ -35,8 +36,7 @@ namespace src.Extensions
                 SslMode = SslMode.Require,
                 TrustServerCertificate = true
             };
-			System.Console.WriteLine("CONNECTION STRING");
-			System.Console.WriteLine(builder.ToString());
+			System.Console.WriteLine("CONNECTED - RAILWAY");
             return builder.ToString();
         }    
 
@@ -53,8 +53,7 @@ namespace src.Extensions
                 SslMode = SslMode.Require,
                 TrustServerCertificate = true
             };
-			System.Console.WriteLine("CONNECTION STRING");
-			System.Console.WriteLine(builder.ToString());
+			System.Console.WriteLine("CONNECTED - RENDER");
             return builder.ToString();
         }     
     }
