@@ -117,7 +117,7 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 
-builder.Services.AddAutoMapper(typeof(Program));
+//builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 var scope = app.Services.CreateScope();
