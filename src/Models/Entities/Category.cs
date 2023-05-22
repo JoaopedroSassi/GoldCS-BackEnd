@@ -1,3 +1,5 @@
+using src.Models.DTO.CategoryDTOS;
+
 namespace src.Models.Entities
 {
 	public class Category
@@ -15,6 +17,17 @@ namespace src.Models.Entities
 
 		public Category()
 		{
+		}
+
+		public Category(CategoryInsertDTO model)
+		{
+			Name = model.Name;
+		}
+
+		public Category(CategoryUpdateDTO model)
+		{
+			CategoryID = model.CategoryID;
+			Name = model.Name;
 		}
 	}
 }

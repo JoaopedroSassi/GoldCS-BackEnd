@@ -1,3 +1,5 @@
+using src.Models.Entities;
+
 namespace src.Models.DTO.ProductDTOS
 {
 	public class ProductByCategoryDTO
@@ -19,6 +21,15 @@ namespace src.Models.DTO.ProductDTOS
 
 		public ProductByCategoryDTO()
 		{
+		}
+
+		public ProductByCategoryDTO(Product model)
+		{
+			ProductID = model.ProductID;
+			Name = model.Name;
+			Version = model.Version;
+			Price = model.Price;
+			Quantity = model.Quantity;
 		}
 	}
 }

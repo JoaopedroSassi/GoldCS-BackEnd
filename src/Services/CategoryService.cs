@@ -1,5 +1,4 @@
 using System.Net;
-using AutoMapper;
 using src.Extensions;
 using src.Models.DTO.CategoryDTOS;
 using src.Models.DTO.ProductDTOS;
@@ -13,17 +12,17 @@ namespace src.Services
 	public class CategoryService : ICategoryService
 	{
 		private readonly ICategoryRepository _repository;
-		private readonly IMapper _mapper;
 
-		public CategoryService(ICategoryRepository repository, IMapper mapper)
+		public CategoryService(ICategoryRepository repository)
 		{
 			_repository = repository;
-			_mapper = mapper;
 		}
 
 		public async Task<PagedList<CategoryDetailsDTO>> GetAllCategoriesAsync(QueryPaginationParameters paginationParameters)
 		{
-			var categories = _mapper.Map<List<CategoryDetailsDTO>>(await _repository.GetCategoriesAsync(paginationParameters));
+			var categoriesDB = await _repository.GetCategoriesAsync(paginationParameters);
+			var categories = categoriesDB.Select(x => new CategoryDetailsDTO(x)).ToList();
+
 			if (!categories.Any())
 				ExceptionExtensions.ThrowBaseException("Sem categorias cadastradas", HttpStatusCode.NotFound);
 
@@ -32,7 +31,9 @@ namespace src.Services
 
 		public async Task<CategoryDetailsDTO> GetCategoryByIdAsync(int id)
 		{
-			var category = _mapper.Map<CategoryDetailsDTO>(await _repository.GetCategoryByIdAsync(id));
+			var categoryDB = await _repository.GetCategoryByIdAsync(id);
+
+			var category = new CategoryDetailsDTO(categoryDB);
 			if (category is null)
 				ExceptionExtensions.ThrowBaseException("Categoria não encontrada", HttpStatusCode.NotFound);
 
@@ -41,7 +42,9 @@ namespace src.Services
 
 		public async Task<IEnumerable<ProductByCategoryDTO>> GetProductsByCategoryAsync(int categoryId)
 		{
-			var productsByCat = _mapper.Map<List<ProductByCategoryDTO>>(await _repository.GetProductsByCategoryAsync(categoryId));
+			var productsByCatDB = await _repository.GetProductsByCategoryAsync(categoryId);
+			var productsByCat = productsByCatDB.Select(x => new ProductByCategoryDTO(x)).ToList();
+
 			if (!productsByCat.Any())
 				ExceptionExtensions.ThrowBaseException("Sem produtos para essa categoria", HttpStatusCode.NotFound);
 
@@ -50,14 +53,14 @@ namespace src.Services
 
 		public async Task InsertCategoryAsync(CategoryInsertDTO model)
 		{
-			_repository.Insert(_mapper.Map<Category>(model));
+			_repository.Insert(new Category(model));
 			if (!(await _repository.SaveChangesAsync()))
 				ExceptionExtensions.ThrowBaseException("Erro ao adicionar a categoria no banco de dados", HttpStatusCode.BadRequest);
 		}
 
 		public async Task UpdateCategoryAsync(CategoryUpdateDTO model)
 		{
-			_repository.Update(_mapper.Map<Category>(model));
+			_repository.Update(new Category(model));
 			if (!(await _repository.SaveChangesAsync()))
 				ExceptionExtensions.ThrowBaseException("Erro ao atualizar a categoria no banco de dados", HttpStatusCode.BadRequest);
 		}

@@ -1,3 +1,5 @@
+using src.Models.Entities;
+
 namespace src.Models.DTO.CategoryDTOS
 {
 	public class CategoryDetailsDTO
@@ -13,6 +15,12 @@ namespace src.Models.DTO.CategoryDTOS
 
 		public CategoryDetailsDTO()
 		{
+		}
+
+		public CategoryDetailsDTO(Category category)
+		{
+			CategoryID = category.CategoryID;
+			Name = category.Name;
 		}
 	}
 }
