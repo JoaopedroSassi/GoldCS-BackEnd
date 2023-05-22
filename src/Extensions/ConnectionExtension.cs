@@ -7,6 +7,8 @@ namespace src.Extensions
 		public static string GetConnectionString(string connectionString)
         {
             var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+			System.Console.WriteLine("DATABASE_URL");
+			System.Console.WriteLine(databaseUrl);
             return string.IsNullOrEmpty(databaseUrl) ? connectionString : BuildConnectionString(databaseUrl);
         }
 
