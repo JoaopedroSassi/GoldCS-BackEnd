@@ -44,11 +44,5 @@ namespace src.Models.Entities
 			Price = model.Price;
 			CategoryID = model.CategoryID;
 		}
-
-		public Product(ProductAmountInsertDTO model)
-		{
-			ProductID = model.ProductID;
-			Quantity = model.Quantity;
-		}
 	}
 }
