@@ -10,12 +10,13 @@ namespace src.Models.DTO.ProductDTOS
 		public int Quantity { get; set; }
 		public decimal Price { get; set; }
 		public string CategoryName { get; set; }
+		public int CategoryID { get; set; }
 
 		public ProductDetailsDTO()
 		{
 		}
 
-		public ProductDetailsDTO(int productID, string name, string version, int quantity, decimal price, string categoryName)
+		public ProductDetailsDTO(int productID, string name, string version, int quantity, decimal price, string categoryName, int categoryID)
 		{
 			ProductID = productID;
 			Name = name;
@@ -23,6 +24,7 @@ namespace src.Models.DTO.ProductDTOS
 			Quantity = quantity;
 			Price = price;
 			CategoryName = categoryName;
+			CategoryID = categoryID;
 		}
 
 		public ProductDetailsDTO(Product model)
@@ -33,6 +35,7 @@ namespace src.Models.DTO.ProductDTOS
 			Quantity = model.Quantity;
 			Price = model.Price;
 			CategoryName = model.Category.Name;
+			CategoryID = model.CategoryID;
 		}
 	}
 }
