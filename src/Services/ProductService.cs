@@ -49,16 +49,13 @@ namespace src.Services
 
 		public async Task UpdateProductAsync(ProductUpdateDTO model)
 		{
-			var product = await _repository.GetProductByIdAsync(model.ProductID);
-			if (product is null)
+			var oldProduct = await _repository.GetProductByIdAsync(model.ProductID);
+			if (oldProduct is null)
 				ExceptionExtensions.ThrowBaseException("Produto não encontrado", HttpStatusCode.NotFound);
 
-			product.Name = model.Name != null ? model.Name : product.Name;
-			product.Version = model.Version != null ? model.Version : product.Version;
-			product.CategoryID = model.CategoryID != 0 ? model.CategoryID : product.CategoryID;
-			product.Price = model.Price != 0 ? model.Price : product.Price;
+			Product newProduct = new Product(model);
 
-			_repository.Update(product);
+			_repository.Update<Product>(oldProduct, newProduct);
 			if (!(await _repository.SaveChangesAsync()))
 				ExceptionExtensions.ThrowBaseException("Erro ao atualizar o produto no banco de dados", HttpStatusCode.BadRequest);
 		}
@@ -76,17 +73,19 @@ namespace src.Services
 
 		public async Task InsertAmountProductAsync(ProductAmountInsertDTO model)
 		{
-			var product = await _repository.GetProductByIdAsync(model.ProductID);
-			if (product is null)
+			var oldProduct = await _repository.GetProductByIdAsync(model.ProductID);
+			if (oldProduct is null)
 				ExceptionExtensions.ThrowBaseException("Produto não encontrado", HttpStatusCode.NotFound);
 
 			if (model.Quantity < 0)
 				ExceptionExtensions.ThrowBaseException("Impossível entrar com valores negativos", HttpStatusCode.BadRequest);
 
-			product.Quantity += model.Quantity;
-			_repository.Update(product);
+			Product newProduct = new Product(model);
+
+			newProduct.Quantity += model.Quantity;
+			_repository.Update(oldProduct, newProduct);
 			if (!(await _repository.SaveChangesAsync()))
-				ExceptionExtensions.ThrowBaseException($"Erro ao adicionar estoque do produto '{product.Name}' no banco de dados", HttpStatusCode.BadRequest);
+				ExceptionExtensions.ThrowBaseException($"Erro ao adicionar estoque do produto '{oldProduct.Name}' no banco de dados", HttpStatusCode.BadRequest);
 		}
 
 		public async Task RemoveAmountProductsAsync(ProductAmountRemoveDTO model)
@@ -103,7 +102,7 @@ namespace src.Services
 				ExceptionExtensions.ThrowBaseException("Impossível remover mais estoque do que presente", HttpStatusCode.BadRequest);
 
 			product.Quantity -= model.Quantity;
-			_repository.Update(product);
+			//_repository.Update(product);
 		}
 
 		public async Task VerifyPriceProduct(OrderProductInsertDTO model)

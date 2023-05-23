@@ -22,9 +22,9 @@ namespace src.Repositories
 			_context.Remove(entity);
 		}
 
-		public void Update<T>(T entity) where T : class
+		public void Update<T>(T oldEntity, T newEntity) where T : class
 		{
-			_context.Update(entity);
+			_context.Entry(oldEntity).CurrentValues.SetValues(newEntity);
 		}
 
 		public int Count<T>() where T : class

@@ -60,7 +60,7 @@ namespace src.Services
 
 		public async Task UpdateCategoryAsync(CategoryUpdateDTO model)
 		{
-			_repository.Update(new Category(model));
+			//_repository.Update(new Category(model));
 			if (!(await _repository.SaveChangesAsync()))
 				ExceptionExtensions.ThrowBaseException("Erro ao atualizar a categoria no banco de dados", HttpStatusCode.BadRequest);
 		}
