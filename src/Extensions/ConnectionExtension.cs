@@ -7,6 +7,7 @@ namespace src.Extensions
 		public static string GetConnectionString(string connectionString)
         {
             var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+			
 			if (Environment.GetEnvironmentVariable("HOST") == "RAILWAY")
 			{
 				return BuildConnectionStringRailway(databaseUrl);
@@ -17,8 +18,7 @@ namespace src.Extensions
 			}
 			else
 			{
-				System.Console.WriteLine("CONNECTED - LOCAL");
-				return connectionString;
+				return BuildConnectionStringLocal(connectionString);
 			}
         }
 
@@ -55,6 +55,12 @@ namespace src.Extensions
             };
 			System.Console.WriteLine("CONNECTED - RENDER");
             return builder.ToString();
-        }     
+        }
+
+		public static string BuildConnectionStringLocal(string connectionString)
+		{
+			System.Console.WriteLine("CONNECTED - RENDER");
+            return connectionString;
+		}     
     }
 }
