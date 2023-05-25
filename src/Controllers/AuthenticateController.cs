@@ -39,7 +39,7 @@ namespace src.Controllers
 			if (!ModelState.IsValid)
 				ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
 
-			if (model.Role.ToLower() == "admin" && !(User.IsInRole("admin")))
+			if (!(User.IsInRole("admin")))
 				ExceptionExtensions.ThrowBaseException("Somente admins podem registrar outros admins", HttpStatusCode.BadRequest);
 
 			await _userService.RegisterUser(model);
