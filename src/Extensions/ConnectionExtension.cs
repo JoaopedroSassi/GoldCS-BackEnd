@@ -59,7 +59,7 @@ namespace src.Extensions
 
 		public static string BuildConnectionStringLocal(string connectionString)
 		{
-			System.Console.WriteLine("CONNECTED - RENDER");
+			System.Console.WriteLine("CONNECTED - LOCAL");
             return connectionString;
 		}     
     }
