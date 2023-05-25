@@ -73,6 +73,8 @@ var connectionString = ConnectionExtension.GetConnectionString(builder.Configura
 
 /*var connectionString = builder.Environment.IsProduction() ? builder.Configuration.GetConnectionString("Railway") : builder.Configuration.GetConnectionString("DefaultPostgreSQL");
 
+//
+
 if (builder.Environment.IsProduction())
 	connectionString = ConnectionExtension.BuildConnectionString(connectionString);*/
 
