@@ -8,12 +8,10 @@ namespace src.Services
 	public class MailService : IMailService
 	{
 		private readonly IConfiguration _configuration;
-		private readonly IOrderService _orderService;
 
-		public MailService(IConfiguration configuration, IOrderService orderService)
+		public MailService(IConfiguration configuration)
 		{
 			_configuration = configuration;
-			_orderService = orderService;
 		}
 
         public void SendEmail(MailSendDTO model)
