@@ -18,7 +18,7 @@ namespace src.Services
 			_tokenService = tokenService;
 		}
 
-		public async Task<string> Login(UserLoginDTO model)
+		public async Task<TokenWithRefreshTokenDTO> Login(UserLoginDTO model)
 		{
 			var user = await _userRepository.GetUserByEmail(model.Email);
 
@@ -28,7 +28,32 @@ namespace src.Services
 			if (!(CryptoExtension.ComparePassword(model.Password, user.Password)))
 				ExceptionExtensions.ThrowBaseException("Informações inválidas", HttpStatusCode.BadRequest);
 
-			return _tokenService.GenerateToken(new UserGenerateTokenDTO(user));
+			var token = _tokenService.GenerateToken(new UserGenerateTokenDTO(user));
+			var refreshToken = _tokenService.GenerateRefrehsToken();
+			_tokenService.SaveRefreshToken(user.Email, refreshToken);
+
+			return new TokenWithRefreshTokenDTO(token, refreshToken);
+		}
+
+		public async Task<TokenWithRefreshTokenDTO> Refresh(TokenWithRefreshTokenDTO model, int userId)
+		{
+			var user = await _userRepository.GetUserById(userId);
+
+			if (user is null)
+				ExceptionExtensions.ThrowBaseException("Usuário não encontrado", HttpStatusCode.NotFound);
+
+			var principal = _tokenService.GetPrincipalFromExpiredToken(model.Token);
+			var email = user.Email;
+			var savedRefreshToken = _tokenService.GetRefreshToken(email);
+			if (savedRefreshToken != model.RefreshToken)
+				ExceptionExtensions.ThrowBaseException("Tokens conflitantes", HttpStatusCode.BadRequest);
+
+			var newToken = _tokenService.GenerateToken(principal.Claims);
+			var newRefreshToken = _tokenService.GenerateRefrehsToken();
+			_tokenService.DeleteRefreshToken(email, savedRefreshToken);
+			_tokenService.SaveRefreshToken(email, newRefreshToken);
+
+			return new TokenWithRefreshTokenDTO(newToken, newRefreshToken);
 		}
 
 		public async Task RegisterUser(UserRegisterDTO model)

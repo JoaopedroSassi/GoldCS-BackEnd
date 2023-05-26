@@ -27,8 +27,21 @@ namespace src.Controllers
 				ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
 
 			var token = await _userService.Login(model);
-			
-			ResponseUtil respUtil = new ResponseUtil(true, token); 
+
+			ResponseUtil respUtil = new ResponseUtil(true, token);
+			return Ok(respUtil);
+		}
+
+		[Authorize]
+		[HttpPost("Refresh/{userId:int}")]
+		public async Task<ActionResult<string>> Refresh([FromBody] TokenWithRefreshTokenDTO model, int userId)
+		{
+			if (!ModelState.IsValid)
+				ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
+
+			var token = await _userService.Refresh(model, userId);
+
+			ResponseUtil respUtil = new ResponseUtil(true, token);
 			return Ok(respUtil);
 		}
 
@@ -43,7 +56,7 @@ namespace src.Controllers
 				ExceptionExtensions.ThrowBaseException("Somente admins podem registrar outros admins", HttpStatusCode.BadRequest);
 
 			await _userService.RegisterUser(model);
-			ResponseUtil respUtil = new ResponseUtil(true, "Usuário inserido com sucesso"); 
+			ResponseUtil respUtil = new ResponseUtil(true, "Usuário inserido com sucesso");
 			return Ok(respUtil);
 		}
 
@@ -55,7 +68,7 @@ namespace src.Controllers
 				ExceptionExtensions.ThrowBaseException("ID menor ou igual a 0", HttpStatusCode.NotFound);
 
 			await _userService.DeleteUser(id);
-			ResponseUtil respUtil = new ResponseUtil(true, "Usuário deletado"); 
+			ResponseUtil respUtil = new ResponseUtil(true, "Usuário deletado");
 			return Ok(respUtil);
 		}
 	}
