@@ -7,7 +7,7 @@ namespace src.Services.Interfaces
     {
         string GenerateToken(UserGenerateTokenDTO user);
 		string GenerateToken(IEnumerable<Claim> claims);
-		string GenerateRefrehsToken();
+		string GenerateRefreshToken();
 		ClaimsPrincipal GetPrincipalFromExpiredToken(string token);
 		void SaveRefreshToken(string username, string refreshToken);
 		string GetRefreshToken(string username);

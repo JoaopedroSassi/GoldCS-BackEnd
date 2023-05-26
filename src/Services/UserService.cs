@@ -29,7 +29,7 @@ namespace src.Services
 				ExceptionExtensions.ThrowBaseException("Informações inválidas", HttpStatusCode.BadRequest);
 
 			var token = _tokenService.GenerateToken(new UserGenerateTokenDTO(user));
-			var refreshToken = _tokenService.GenerateRefrehsToken();
+			var refreshToken = _tokenService.GenerateRefreshToken();
 			_tokenService.SaveRefreshToken(user.Email, refreshToken);
 
 			return new TokenWithRefreshTokenDTO(token, refreshToken);
@@ -49,7 +49,7 @@ namespace src.Services
 				ExceptionExtensions.ThrowBaseException("Tokens conflitantes", HttpStatusCode.BadRequest);
 
 			var newToken = _tokenService.GenerateToken(principal.Claims);
-			var newRefreshToken = _tokenService.GenerateRefrehsToken();
+			var newRefreshToken = _tokenService.GenerateRefreshToken();
 			_tokenService.DeleteRefreshToken(email, savedRefreshToken);
 			_tokenService.SaveRefreshToken(email, newRefreshToken);
 

@@ -60,7 +60,7 @@ namespace src.Services
 			return tokenHandler.WriteToken(token);
 		}
 
-		public string GenerateRefrehsToken()
+		public string GenerateRefreshToken()
 		{
 			var randomNumber = new byte[32];
 			using var rng = RandomNumberGenerator.Create();
