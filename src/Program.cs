@@ -102,6 +102,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<IBaseRepository, BaseRepository>();
 
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IMailService, MailService>();
 
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<IClientService, ClientService>();
