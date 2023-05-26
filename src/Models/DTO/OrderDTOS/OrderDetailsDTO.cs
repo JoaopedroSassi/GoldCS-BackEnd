@@ -12,22 +12,18 @@ namespace src.Models.DTO.OrderDTOS
 		public string PaymentMethod { get; set; }
 		public decimal Total { get; set; }
 		public DateTime DeliveryForecast { get; set; }
-		public int UserID { get; set; }
-		public string UserEmail { get; set; }
 		public string UserName { get; set; }
 		public AddressDetailsDTO Address { get; set; }
 		public ClientDetailsDTO Client { get; set; }
 		public List<OrderProductDetailsDTO> OrderProducts { get; set; } = new();
 
-		public OrderDetailsDTO(int orderID, DateTime orderDate, string paymentMethod, decimal total, DateTime deliveryForecast, int userID, string userEmail, string userName, AddressDetailsDTO address, ClientDetailsDTO client)
+		public OrderDetailsDTO(int orderID, DateTime orderDate, string paymentMethod, decimal total, DateTime deliveryForecast, string userName, AddressDetailsDTO address, ClientDetailsDTO client)
 		{
 			OrderID = orderID;
 			OrderDate = orderDate;
 			PaymentMethod = paymentMethod;
 			Total = total;
 			DeliveryForecast = deliveryForecast;
-			UserID = userID;
-			UserEmail = userEmail;
 			UserName = userName;
 			Address = address;
 			Client = client;
@@ -44,8 +40,6 @@ namespace src.Models.DTO.OrderDTOS
 			PaymentMethod = model.PaymentMethod;
 			Total = model.Total;
 			DeliveryForecast = model.DeliveryForecast;
-			UserID = model.User.UserID;
-			UserEmail = model.User.Email;
 			UserName = model.User.Name;
 			Address = new AddressDetailsDTO(model.Address);
 			Client = new ClientDetailsDTO(model.Client);
