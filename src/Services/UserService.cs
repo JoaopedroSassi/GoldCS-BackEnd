@@ -18,7 +18,7 @@ namespace src.Services
 			_tokenService = tokenService;
 		}
 
-		public async Task<TokenWithRefreshTokenDTO> Login(UserLoginDTO model)
+		public async Task<LoginReturnDTO> Login(UserLoginDTO model)
 		{
 			var user = await _userRepository.GetUserByEmail(model.Email);
 
@@ -32,10 +32,10 @@ namespace src.Services
 			var refreshToken = _tokenService.GenerateRefreshToken();
 			_tokenService.SaveRefreshToken(user.Email, refreshToken);
 
-			return new TokenWithRefreshTokenDTO(token, refreshToken);
+			return new LoginReturnDTO(token, refreshToken, user.UserID, user.Email, user.Name, user.Role);
 		}
 
-		public async Task<TokenWithRefreshTokenDTO> Refresh(TokenWithRefreshTokenDTO model, int userId)
+		public async Task<LoginReturnDTO> Refresh(TokenWithRefreshTokenDTO model, int userId)
 		{
 			var user = await _userRepository.GetUserById(userId);
 
@@ -53,7 +53,7 @@ namespace src.Services
 			_tokenService.DeleteRefreshToken(email, savedRefreshToken);
 			_tokenService.SaveRefreshToken(email, newRefreshToken);
 
-			return new TokenWithRefreshTokenDTO(newToken, newRefreshToken);
+			return new LoginReturnDTO(newToken, newRefreshToken, user.UserID, user.Email, user.Name, user.Role);
 		}
 
 		public async Task RegisterUser(UserRegisterDTO model)
