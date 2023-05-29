@@ -7,6 +7,6 @@ namespace src.Services.Interfaces
 		Task RegisterUser(UserRegisterDTO model);
 		Task DeleteUser(int id);
 		Task<LoginReturnDTO> Login(UserLoginDTO model);
-		Task<LoginReturnDTO> Refresh(TokenWithRefreshTokenDTO model, int userId);
+		Task<TokenWithRefreshTokenDTO> Refresh(TokenWithRefreshTokenDTO model, int userId);
 	}
 }

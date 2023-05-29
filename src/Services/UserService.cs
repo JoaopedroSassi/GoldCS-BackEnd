@@ -35,7 +35,7 @@ namespace src.Services
 			return new LoginReturnDTO(token, refreshToken, user.UserID, user.Email, user.Name, user.Role);
 		}
 
-		public async Task<LoginReturnDTO> Refresh(TokenWithRefreshTokenDTO model, int userId)
+		public async Task<TokenWithRefreshTokenDTO> Refresh(TokenWithRefreshTokenDTO model, int userId)
 		{
 			var user = await _userRepository.GetUserById(userId);
 
@@ -43,17 +43,16 @@ namespace src.Services
 				ExceptionExtensions.ThrowBaseException("Usuário não encontrado", HttpStatusCode.NotFound);
 
 			var principal = _tokenService.GetPrincipalFromExpiredToken(model.Token);
-			var email = user.Email;
-			var savedRefreshToken = _tokenService.GetRefreshToken(email);
+			var savedRefreshToken = _tokenService.GetRefreshToken(user.Email);
 			if (savedRefreshToken != model.RefreshToken)
 				ExceptionExtensions.ThrowBaseException("Tokens conflitantes", HttpStatusCode.BadRequest);
 
 			var newToken = _tokenService.GenerateToken(principal.Claims);
 			var newRefreshToken = _tokenService.GenerateRefreshToken();
-			_tokenService.DeleteRefreshToken(email, savedRefreshToken);
-			_tokenService.SaveRefreshToken(email, newRefreshToken);
+			_tokenService.DeleteRefreshToken(user.Email, savedRefreshToken);
+			_tokenService.SaveRefreshToken(user.Email, newRefreshToken);
 
-			return new LoginReturnDTO(newToken, newRefreshToken, user.UserID, user.Email, user.Name, user.Role);
+			return new TokenWithRefreshTokenDTO(newToken, newRefreshToken);
 		}
 
 		public async Task RegisterUser(UserRegisterDTO model)
