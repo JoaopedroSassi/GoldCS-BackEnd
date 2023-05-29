@@ -41,6 +41,10 @@ namespace src.Services
 			Client client = await _clientRepository.GetClientByCPFAsync(model.Client.Cpf);
 			if (!(client is null))
 			{
+				Client clientUpdt = new Client(model.Client);
+				clientUpdt.ClientID = client.ClientID;
+				_clientRepository.Update(clientUpdt);
+				
 				orderDb.ClientID = client.ClientID;
 				orderDb.Client = null;
 			}
@@ -48,6 +52,10 @@ namespace src.Services
 			Address address = await _addressRepository.GetAddressByCep(model.Address.Cep);
 			if (!(address is null))
 			{
+				Address addressUpdt = new Address(model.Address);
+				addressUpdt.AddressID = address.AddressID;
+				_addressRepository.Update(addressUpdt);
+
 				orderDb.AddressID = address.AddressID;
 				orderDb.Address = null;
 			}
