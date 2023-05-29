@@ -6,5 +6,6 @@ namespace src.Services.Interfaces
     {
         Task<int> InsertOrderAsync(OrderInsertDTO model);
 		Task<OrderDetailsDTO> GetOrderByIdAsync(int id);
+		Task DeleteOrderAsync(int id);
     }
 }

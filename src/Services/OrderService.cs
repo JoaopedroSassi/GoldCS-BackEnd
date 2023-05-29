@@ -72,5 +72,15 @@ namespace src.Services
 
 			return orderDb.OrderID;
 		}
+
+		public async Task DeleteOrderAsync(int id)
+		{
+			Order order = await _orderRepository.GetOrderByIdAsync(id);
+
+			if (order is null)
+				ExceptionExtensions.ThrowBaseException("Pedido não encontrado", HttpStatusCode.NotFound);
+
+			
+		}
 	}
 }

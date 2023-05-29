@@ -44,5 +44,18 @@ namespace src.Controllers
 			ResponseUtil respUtil = new ResponseUtil(true, orderId); 
 			return Ok(respUtil);
 		}
+
+		[Authorize(Roles = "admin")]
+		[HttpDelete("{id:int}")]
+		public async Task<ActionResult<string>> DeleteOrder([FromRoute] int id)
+		{
+			if (id <= 0)
+				ExceptionExtensions.ThrowBaseException("ID menor ou igual a 0", HttpStatusCode.NotFound);
+
+			await _orderService.DeleteOrderAsync(id);
+
+			ResponseUtil respUtil = new ResponseUtil(true, "Pedido excluído com sucesso"); 
+			return Ok(respUtil);
+		}
 	}
 }
