@@ -1,3 +1,5 @@
+using src.Models.Entities;
+
 namespace src.Models.DTO.ProductDTOS
 {
 	public class ProductAmountInsertDTO
@@ -13,6 +15,12 @@ namespace src.Models.DTO.ProductDTOS
 		{
 			ProductID = productID;
 			Quantity = quantity;
+		}
+		
+		public ProductAmountInsertDTO(OrderProduct model)
+		{
+			ProductID = model.ProductID;
+			Quantity = model.Quantity;
 		}
 	}
 }

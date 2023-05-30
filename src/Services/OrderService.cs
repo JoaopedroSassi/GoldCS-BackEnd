@@ -80,7 +80,12 @@ namespace src.Services
 			if (order is null)
 				ExceptionExtensions.ThrowBaseException("Pedido não encontrado", HttpStatusCode.NotFound);
 
+			for (int i = 0; i < order.OrderProducts.Count; i++)
+				await _productService.InsertAmountProductAsync(new ProductAmountInsertDTO(order.OrderProducts[i]));
 			
+			_orderRepository.Delete(order);
+			if (!(await _orderRepository.SaveChangesAsync()))
+				ExceptionExtensions.ThrowBaseException("Erro ao remover o pedido no banco de dados", HttpStatusCode.BadRequest);
 		}
 	}
 }

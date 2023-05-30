@@ -113,5 +113,11 @@ namespace src.Services
 			if (model.FinalPrice < product.Price)
 				ExceptionExtensions.ThrowBaseException($"ERRO - Preço do produto abaixo do mínimo | Produto: {product.Name}", HttpStatusCode.NotFound);
 		}
+
+		public async Task RestoreAmountProcustAsync(ProductAmountInsertDTO model)
+		{
+			var product = await _repository.GetProductByIdAsync(model.ProductID);
+			
+		}
 	}
 }
