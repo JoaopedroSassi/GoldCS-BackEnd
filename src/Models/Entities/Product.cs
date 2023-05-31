@@ -28,6 +28,16 @@ namespace src.Models.Entities
 			CategoryID = categoryID;
 		}
 
+		public Product(int productID, string name, string version, int quantity, decimal price, int categoryID)
+		{
+			ProductID = productID;
+			Name = name;
+			Version = version;
+			Quantity = quantity;
+			Price = price;
+			CategoryID = categoryID;
+		}
+
 		public Product(ProductInsertDTO model)
 		{
 			Name = model.Name;

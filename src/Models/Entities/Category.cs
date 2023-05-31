@@ -8,11 +8,10 @@ namespace src.Models.Entities
 		public string Name { get; set; }
 		public List<Product> Products { get; set; } = new();
 
-		public Category(int categoryID, string name, List<Product> products)
+		public Category(int categoryID, string name)
 		{
 			CategoryID = categoryID;
 			Name = name;
-			Products = products;
 		}
 
 		public Category()
