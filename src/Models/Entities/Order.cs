@@ -47,8 +47,7 @@ namespace src.Models.Entities
 			UserID = model.UserID;
 			Client = new Client(model.Client);
 			Address = new Address(model.Address);
-			for (int i = 0; i < model.OrderProducts.Count; i++)
-				OrderProducts.Add(new OrderProduct(model.OrderProducts[i]));
+			OrderProducts = model.OrderProducts.Select(x => new OrderProduct(x)).ToList();
 		}
 	}
 }
