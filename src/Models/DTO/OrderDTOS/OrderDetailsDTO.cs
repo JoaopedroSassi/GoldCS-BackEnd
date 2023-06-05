@@ -1,3 +1,4 @@
+using System.Text;
 using src.Models.DTO.AddressDTOS;
 using src.Models.DTO.ClientDTOS;
 using src.Models.DTO.OrderProductDTOS;
@@ -45,6 +46,30 @@ namespace src.Models.DTO.OrderDTOS
 			Client = new ClientDetailsDTO(model.Client);
 			for (int i = 0; i < model.OrderProducts.Count; i++)
 				OrderProducts.Add(new OrderProductDetailsDTO(model.OrderProducts[i]));
+		}
+
+		public override string ToString()
+		{
+			StringBuilder sb = new();
+			sb.AppendLine($"Pedido N°{OrderID}");
+			sb.AppendLine($"Data do pedido: {OrderDate.ToString("dd/MM/yyyy")}");
+			sb.AppendLine($"Método de pagamento: {PaymentMethod}");
+			sb.AppendLine($"Total: {Total}");
+			sb.AppendLine($"Previsão de entrega: {DeliveryForecast.ToString("dd/MM/yyyy")}");
+			sb.AppendLine($"Nome do cliente: {Client.Name}");
+			sb.AppendLine($"CPF do cliente: {Client.Cpf}");
+			sb.AppendLine($"Endereço do cliente: {Address.ToString()}");
+			sb.AppendLine($"---------------------------------");
+			sb.AppendLine($"Produtos do pedido:");
+			for (int i = 0; i < OrderProducts.Count; i++)
+			{
+				sb.AppendLine($"Produto {i + 1}: {OrderProducts[i].ProductName}");
+				sb.AppendLine($"Quantidade: {OrderProducts[i].Quantity}");
+				sb.AppendLine($"Preço unitário: {OrderProducts[i].FinalPrice}");
+				sb.AppendLine("");
+			}
+			
+			return sb.ToString();
 		}
 	}
 }

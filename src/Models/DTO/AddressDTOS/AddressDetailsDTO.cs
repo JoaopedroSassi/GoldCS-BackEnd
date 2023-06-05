@@ -44,5 +44,10 @@ namespace src.Models.DTO.AddressDTOS
 			Number = model.Number;
 			Complement = model.Complement;
 		}
+
+		public override string ToString()
+		{
+			return $"{AddressName}, {Number}, {District}, {City}, {UF}, {Cep}";
+		}
 	}
 }

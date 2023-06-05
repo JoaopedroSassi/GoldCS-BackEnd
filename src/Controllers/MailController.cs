@@ -23,20 +23,20 @@ namespace src.Controllers
 			_orderService = orderService;
 		}
 
-		[HttpPost]
-		public async Task<IActionResult> SendEmail([FromForm] MailSendDTO model)
+		[HttpPost("{orderID:int}")]
+		public async Task<IActionResult> SendEmail(int orderID)
 		{
-			if (model.OrderID <= 0)
+			if (orderID <= 0)
 				ExceptionExtensions.ThrowBaseException("ID do pedido inválido", HttpStatusCode.NotFound);
 
-			var order = await _orderService.GetOrderByIdAsync(model.OrderID);
-			if (order.OrderID != model.OrderID)
+			var order = await _orderService.GetOrderByIdAsync(orderID);
+			/*if (order.OrderID != model.OrderID)
 				ExceptionExtensions.ThrowBaseException("Pedido com ID conflitante", HttpStatusCode.BadRequest);
 			
 			if (order.Client.Email != model.Email)
-				ExceptionExtensions.ThrowBaseException("Email do cliente diferente da requisição", HttpStatusCode.BadRequest);
+				ExceptionExtensions.ThrowBaseException("Email do cliente diferente da requisição", HttpStatusCode.BadRequest);*/
 
-			_mailService.SendEmail(model);
+			_mailService.SendEmail(order);
 			ResponseUtil respUtil = new ResponseUtil(true, "Email enviado com sucesso!"); 
 			return Ok(respUtil);
 		}
