@@ -44,8 +44,7 @@ namespace src.Models.DTO.OrderDTOS
 			UserName = model.User.Name;
 			Address = new AddressDetailsDTO(model.Address);
 			Client = new ClientDetailsDTO(model.Client);
-			for (int i = 0; i < model.OrderProducts.Count; i++)
-				OrderProducts.Add(new OrderProductDetailsDTO(model.OrderProducts[i]));
+			OrderProducts = model.OrderProducts.Select(x => new OrderProductDetailsDTO(x)).ToList();
 		}
 
 		public override string ToString()
