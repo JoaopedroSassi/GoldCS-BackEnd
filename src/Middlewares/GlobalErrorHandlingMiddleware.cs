@@ -27,7 +27,7 @@ namespace src.Middlewares
 
 		private static Task HandleExceptionAsync(HttpContext context, Exception ex)
 		{
-			var statusCode = ex.Data["StatusCode"] != null ? ex.Data["StatusCode"] : HttpStatusCode.BadRequest;
+			var statusCode = ex.Data["StatusCode"] ?? HttpStatusCode.BadRequest;
 			var innerExceptionMessage = ex.InnerException != null ? ex.InnerException.Message : "";
 			context.Response.ContentType = "application/json";
 			context.Response.StatusCode = (int) statusCode;
