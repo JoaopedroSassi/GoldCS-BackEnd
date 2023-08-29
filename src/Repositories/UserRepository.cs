@@ -7,7 +7,7 @@ namespace src.Repositories
 {
 	public class UserRepository : BaseRepository, IUserRepository
     {
-        private readonly GoldCSDBContext _context;
+        private readonly GoldCSDBContext _context; //SUBACO DE COBRA
 
         public UserRepository(GoldCSDBContext context) : base(context)
         {
