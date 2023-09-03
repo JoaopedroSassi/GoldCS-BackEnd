@@ -7,7 +7,7 @@ namespace src.Repositories
 {
 	public class UserRepository : BaseRepository, IUserRepository
     {
-        private readonly GoldCSDBContext _context; //SUBACO DE COBRA
+        private readonly GoldCSDBContext _context;
 
         public UserRepository(GoldCSDBContext context) : base(context)
         {
@@ -22,6 +22,6 @@ namespace src.Repositories
 		public async Task<User> GetUserById(int id)
 		{
 			return await _context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.UserID == id);
-		}
-	}
+		}    
+    }
 }

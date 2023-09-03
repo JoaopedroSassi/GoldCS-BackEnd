@@ -1,4 +1,5 @@
 using System.Net;
+using GoldCSAPI.Models.DTO.UserDTOS;
 using src.Extensions;
 using src.Models.DTO.UserDTOS;
 using src.Models.Entities;
@@ -81,5 +82,34 @@ namespace src.Services
 			if (!(await _userRepository.SaveChangesAsync()))
 				ExceptionExtensions.ThrowBaseException("Erro ao deletar usuário no banco de dados", HttpStatusCode.BadRequest);
 		}
-	}
+
+        public async Task EditUser(UserUpdateDTO model, int id)
+        {
+			var user = await _userRepository.GetUserByEmail(model.Email);
+
+			if (user is null)
+                ExceptionExtensions.ThrowBaseException("Usuário não encontrado", HttpStatusCode.NotFound);
+
+			if (user.UserID != id)
+                ExceptionExtensions.ThrowBaseException("IDs divergentes", HttpStatusCode.NotFound);
+
+			user.Name = model.Name ?? user.Name;
+            user.Email = model.Email ?? user.Email;
+            user.Password = CryptoExtension.CodifyPassword(model.Password) ?? user.Password;
+
+			_userRepository.Update(user);
+            if (!(await _userRepository.SaveChangesAsync()))
+                ExceptionExtensions.ThrowBaseException("Erro ao atualizar usuário no banco de dados", HttpStatusCode.BadRequest);
+        }
+
+        public async Task<UserDetailsDTO> GetUserById(int id)
+        {
+            var user = await _userRepository.GetUserById(id);
+
+			if (user is null)
+                ExceptionExtensions.ThrowBaseException("Usuário nulo", HttpStatusCode.NotFound);
+
+			return new UserDetailsDTO(user);
+        }
+    }
 }

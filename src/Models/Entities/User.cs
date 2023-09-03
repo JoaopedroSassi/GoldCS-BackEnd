@@ -34,5 +34,5 @@ namespace src.Models.Entities
 			Active = model.Active;
 			Role = model.Role;
 		}
-	}
+    }
 }
