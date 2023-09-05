@@ -96,7 +96,7 @@ namespace src.Services
 			if (!(model.Password.IsPasswordValid()))
 				ExceptionExtensions.ThrowBaseException("Senha no formato inválido", HttpStatusCode.BadRequest);
 
-			if (!(model.email.IsEmailValid()))
+			if (!(model.Email.IsEmailValid()))
 				ExceptionExtensions.ThrowBaseException("Email no formato inválido", HttpStatusCode.BadRequest);
 
 			user.Name = model.Name ?? user.Name;
