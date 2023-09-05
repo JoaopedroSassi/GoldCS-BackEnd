@@ -95,6 +95,10 @@ namespace src.Services
 
 			user.Name = model.Name ?? user.Name;
             user.Email = model.Email ?? user.Email;
+
+			if (!(model.Password.IsPasswordValid()))
+				ExceptionExtensions.ThrowBaseException("Senha no formato inválido", HttpStatusCode.BadRequest);
+				
             user.Password = CryptoExtension.CodifyPassword(model.Password) ?? user.Password;
 
 			_userRepository.Update(user);
