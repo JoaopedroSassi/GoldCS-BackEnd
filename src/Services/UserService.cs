@@ -85,7 +85,7 @@ namespace src.Services
 
         public async Task EditUser(UserUpdateDTO model, int id)
         {
-			var user = await _userRepository.GetUserById(model.Email);
+			var user = await _userRepository.GetUserById(id);
 
 			if (user is null)
                 ExceptionExtensions.ThrowBaseException("Usuário não encontrado", HttpStatusCode.NotFound);
