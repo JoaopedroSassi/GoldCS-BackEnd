@@ -93,6 +93,12 @@ namespace src.Services
 			if (user.UserID != id)
                 ExceptionExtensions.ThrowBaseException("IDs divergentes", HttpStatusCode.NotFound);
 
+			if (!(model.Password.IsPasswordValid()))
+				ExceptionExtensions.ThrowBaseException("Senha no formato inválido", HttpStatusCode.BadRequest);
+
+			if (!(model.email.IsEmailValid()))
+				ExceptionExtensions.ThrowBaseException("Email no formato inválido", HttpStatusCode.BadRequest);
+
 			user.Name = model.Name ?? user.Name;
             user.Email = model.Email ?? user.Email;
             user.Password = CryptoExtension.CodifyPassword(model.Password) ?? user.Password;
