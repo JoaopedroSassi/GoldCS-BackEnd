@@ -89,13 +89,13 @@ builder.Services.AddDbContext<GoldCSDBContext>(x =>
 // Cors
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(
-        policy =>
-        {
-            policy.WithOrigins("https://apirequest.io", "http://localhost:3001", "http://localhost:3000", "http://127.0.0.1:5173", "http://localhost:5173", "https://goldcsoftware.netlify.app", "https://goldcsfront.onrender.com")
+	options.AddDefaultPolicy(
+		policy =>
+		{
+			policy.WithOrigins("https://apirequest.io", "http://localhost:3001", "http://localhost:3000", "http://127.0.0.1:5173", "http://localhost:5173", "https://goldcsoftware.netlify.app", "https://goldcsfront.onrender.com", "http://localhost:4173")
 				.AllowAnyHeader()
 				.AllowAnyMethod();
-        });
+		});
 });
 
 //Dependency injections
