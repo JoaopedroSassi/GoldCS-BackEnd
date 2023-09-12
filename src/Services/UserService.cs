@@ -33,7 +33,7 @@ namespace src.Services
 			var refreshToken = _tokenService.GenerateRefreshToken();
 			_tokenService.SaveRefreshToken(user.Email, refreshToken);
 
-			return new LoginReturnDTO(token, refreshToken, user.UserID, user.Email, user.Name, user.Role);
+			return new LoginReturnDTO(token, refreshToken);
 		}
 
 		public async Task<TokenWithRefreshTokenDTO> Refresh(TokenWithRefreshTokenDTO model, int userId)
