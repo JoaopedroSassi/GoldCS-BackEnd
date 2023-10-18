@@ -25,7 +25,6 @@ namespace src.Models.Entities
 
 		public Category(CategoryUpdateDTO model)
 		{
-			CategoryID = model.CategoryID;
 			Name = model.Name;
 		}
 	}

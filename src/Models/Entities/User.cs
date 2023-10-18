@@ -1,3 +1,4 @@
+using GoldCSAPI.Models.DTO.UserDTOS;
 using src.Models.DTO.UserDTOS;
 
 namespace src.Models.Entities
@@ -33,6 +34,13 @@ namespace src.Models.Entities
 			Password = model.Password;
 			Active = model.Active;
 			Role = model.Role;
+		}
+
+		public User(UserUpdateDTO model)
+		{
+			Name = model.Name;
+			Email = model.Email;
+			Password = model.Password;
 		}
     }
 }

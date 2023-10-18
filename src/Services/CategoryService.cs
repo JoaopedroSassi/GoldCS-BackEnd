@@ -58,9 +58,13 @@ namespace src.Services
 				ExceptionExtensions.ThrowBaseException("Erro ao adicionar a categoria no banco de dados", HttpStatusCode.BadRequest);
 		}
 
-		public async Task UpdateCategoryAsync(CategoryUpdateDTO model)
+		public async Task UpdateCategoryAsync(CategoryUpdateDTO model, int id)
 		{
-			_repository.Update(new Category(model));
+			var category = await _repository.GetCategoryByIdAsync(id);
+            if (category is null)
+                ExceptionExtensions.ThrowBaseException("Produto não encontrado", HttpStatusCode.NotFound);
+
+            _repository.Update(new Category(model));
 			if (!(await _repository.SaveChangesAsync()))
 				ExceptionExtensions.ThrowBaseException("Erro ao atualizar a categoria no banco de dados", HttpStatusCode.BadRequest);
 		}

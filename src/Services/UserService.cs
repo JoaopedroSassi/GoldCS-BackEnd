@@ -68,7 +68,7 @@ namespace src.Services
 
 			_userRepository.Insert(new User(model));
 			if (!(await _userRepository.SaveChangesAsync()))
-				ExceptionExtensions.ThrowBaseException("Erro ao adicionar o usuário no banco de dados", HttpStatusCode.BadRequest);
+				ExceptionExtensions.ThrowBaseException("Erro ao adicionar o usuário", HttpStatusCode.BadRequest);
 		}
 
 		public async Task DeleteUser(int id)
@@ -80,7 +80,7 @@ namespace src.Services
 
 			_userRepository.Delete(user);
 			if (!(await _userRepository.SaveChangesAsync()))
-				ExceptionExtensions.ThrowBaseException("Erro ao deletar usuário no banco de dados", HttpStatusCode.BadRequest);
+				ExceptionExtensions.ThrowBaseException("Erro ao deletar usuário", HttpStatusCode.BadRequest);
 		}
 
         public async Task EditUser(UserUpdateDTO model, int id)
@@ -93,19 +93,24 @@ namespace src.Services
 			if (user.UserID != id)
                 ExceptionExtensions.ThrowBaseException("IDs divergentes", HttpStatusCode.NotFound);
 
-			if (!(model.Password.IsPasswordValid()))
-				ExceptionExtensions.ThrowBaseException("Senha no formato inválido", HttpStatusCode.BadRequest);
+			if (model.Password != null)
+			{
+				model.Password = CryptoExtension.CodifyPassword(model.Password);
+                if (!(model.Password.IsPasswordValid()))
+                    ExceptionExtensions.ThrowBaseException("Senha no formato inválido", HttpStatusCode.BadRequest);
+            }	
 
-			if (!(model.Email.IsEmailValid()))
-				ExceptionExtensions.ThrowBaseException("Email no formato inválido", HttpStatusCode.BadRequest);
+			if (model.Email != null)
+				if (!(model.Email.IsEmailValid()))
+					ExceptionExtensions.ThrowBaseException("Email no formato inválido", HttpStatusCode.BadRequest);
 
 			user.Name = model.Name ?? user.Name;
             user.Email = model.Email ?? user.Email;
-            user.Password = CryptoExtension.CodifyPassword(model.Password) ?? user.Password;
+            user.Password = model.Password ?? user.Password;
 
 			_userRepository.Update(user);
             if (!(await _userRepository.SaveChangesAsync()))
-                ExceptionExtensions.ThrowBaseException("Erro ao atualizar usuário no banco de dados", HttpStatusCode.BadRequest);
+                ExceptionExtensions.ThrowBaseException("Erro ao atualizar usuário", HttpStatusCode.BadRequest);
         }
 
         public async Task<UserDetailsDTO> GetUserById(int id)

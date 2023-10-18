@@ -70,13 +70,10 @@ namespace src.Controllers
 		[HttpPut("{id:int}")]
 		public async Task<ActionResult<ProductDetailsDTO>> UpdateProductAsync(int id, [FromBody] ProductUpdateDTO model)
 		{
-			if (model.ProductID != id)
-				ExceptionExtensions.ThrowBaseException("ID do parâmetro diferente do ID do corpo da requisição", HttpStatusCode.BadRequest);
-
 			if (!(ModelState.IsValid))
 				ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
 
-			await _service.UpdateProductAsync(model);
+			await _service.UpdateProductAsync(model, id);
 			ResponseUtil respUtil = new ResponseUtil(true, "Produto atualizado com sucesso"); 
 			return Ok(respUtil);
 		}
