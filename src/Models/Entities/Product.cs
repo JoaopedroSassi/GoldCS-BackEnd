@@ -48,11 +48,10 @@ namespace src.Models.Entities
 
 		public Product(ProductUpdateDTO model)
 		{
-			ProductID = model.ProductID;
 			Name = model.Name;
 			Version = model.Version;
-			Price = model.Price;
-			CategoryID = model.CategoryID;
+			Price = (decimal)model.Price;
+			CategoryID = (int)model.CategoryID;
 		}
 	}
 }

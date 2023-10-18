@@ -3,7 +3,7 @@ using src.Repositories.Interfaces;
 
 namespace src.Repositories
 {
-	public class BaseRepository : IBaseRepository
+    public class BaseRepository : IBaseRepository
 	{
 		private readonly GoldCSDBContext _context;
 
@@ -27,7 +27,7 @@ namespace src.Repositories
 			_context.Update(entity);
 		}
 
-		public int Count<T>() where T : class
+        public int Count<T>() where T : class
 		{
 			return _context.Set<T>().Count();
 		}

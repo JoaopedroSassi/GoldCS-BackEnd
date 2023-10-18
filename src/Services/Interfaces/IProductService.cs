@@ -8,11 +8,10 @@ namespace src.Services.Interfaces
 	{
 		Task InsertProductAsync(ProductInsertDTO model);
 		Task InsertAmountProductAsync(ProductAmountInsertDTO model);
-		Task RestoreAmountProcustAsync(ProductAmountInsertDTO model);
 		Task RemoveAmountProductsAsync(ProductAmountRemoveDTO model);
 		Task VerifyPriceProduct(OrderProductInsertDTO model);
 		Task DeleteProductAsync(int id);
-		Task UpdateProductAsync(ProductUpdateDTO model);
+		Task UpdateProductAsync(ProductUpdateDTO model, int id);
 		Task<PagedList<ProductDetailsDTO>> GetAllProductsAsync(QueryPaginationParameters paginationParameters);
 		Task<ProductDetailsDTO> GetProductByIdAsync(int id);
 	}
