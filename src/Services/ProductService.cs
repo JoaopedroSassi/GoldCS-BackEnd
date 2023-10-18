@@ -1,5 +1,6 @@
 using System.Net;
 using System.Reflection;
+using GoldCSAPI.Extensions;
 using src.Extensions;
 using src.Models.DTO.OrderProductDTOS;
 using src.Models.DTO.ProductDTOS;
@@ -54,10 +55,7 @@ namespace src.Services
             if (product is null)
                 ExceptionExtensions.ThrowBaseException("Produto não encontrado", HttpStatusCode.NotFound);
 
-            product.Name = model.Name ?? product.Name;
-            product.Version = model.Version ?? product.Version;
-            product.CategoryID = model.CategoryID ?? product.CategoryID;
-            product.Price = model.Price ?? product.Price;
+            product = (Product) UpdateEntityExtension.UpdateEntityProperties(product, model);            
 
             _repository.Update(product);
             if (!(await _repository.SaveChangesAsync()))

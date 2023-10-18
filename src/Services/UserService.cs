@@ -1,4 +1,5 @@
 using System.Net;
+using GoldCSAPI.Extensions;
 using GoldCSAPI.Models.DTO.UserDTOS;
 using src.Extensions;
 using src.Models.DTO.UserDTOS;
@@ -104,9 +105,7 @@ namespace src.Services
 				if (!(model.Email.IsEmailValid()))
 					ExceptionExtensions.ThrowBaseException("Email no formato inválido", HttpStatusCode.BadRequest);
 
-			user.Name = model.Name ?? user.Name;
-            user.Email = model.Email ?? user.Email;
-            user.Password = model.Password ?? user.Password;
+            user = (User)UpdateEntityExtension.UpdateEntityProperties(user, new User(model));
 
 			_userRepository.Update(user);
             if (!(await _userRepository.SaveChangesAsync()))
