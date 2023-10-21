@@ -35,12 +35,5 @@ namespace src.Models.Entities
 			Active = model.Active;
 			Role = model.Role;
 		}
-
-		public User(UserUpdateDTO model)
-		{
-			Name = model.Name;
-			Email = model.Email;
-			Password = model.Password;
-		}
     }
 }

@@ -105,7 +105,7 @@ namespace src.Services
 				if (!(model.Email.IsEmailValid()))
 					ExceptionExtensions.ThrowBaseException("Email no formato inválido", HttpStatusCode.BadRequest);
 
-            user = (User)UpdateEntityExtension.UpdateEntityProperties(user, new User(model));
+            user = (User)UpdateEntityExtension.UpdateEntityProperties(user, model);
 
 			_userRepository.Update(user);
             if (!(await _userRepository.SaveChangesAsync()))

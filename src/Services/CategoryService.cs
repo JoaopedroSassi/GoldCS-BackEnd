@@ -65,7 +65,7 @@ namespace src.Services
             if (category is null)
                 ExceptionExtensions.ThrowBaseException("Produto não encontrado", HttpStatusCode.NotFound);
 
-            category = (Category) UpdateEntityExtension.UpdateEntityProperties(category, new Category(model));
+            category = (Category) UpdateEntityExtension.UpdateEntityProperties(category,model);
 
             _repository.Update(category);
 			if (!(await _repository.SaveChangesAsync()))
