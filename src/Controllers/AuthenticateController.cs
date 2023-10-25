@@ -1,9 +1,11 @@
 using System.Net;
+using System.Text.Json;
 using GoldCSAPI.Models.DTO.UserDTOS;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using src.Extensions;
 using src.Models.DTO.UserDTOS;
+using src.Pagination;
 using src.Services.Interfaces;
 using src.Utils;
 
@@ -96,5 +98,18 @@ namespace src.Controllers
             ResponseUtil respUtil = new ResponseUtil(true, "Usuário atualizado");
             return Ok(respUtil);
         }
-	}
+
+
+        [Authorize(Roles = "admin")]
+        [HttpGet("GetAllUsers")]
+        public async Task<ActionResult<IEnumerable<ResponseUtil>>> GetAllUsers([FromQuery] QueryPaginationParameters paginationParameters)
+        {
+            var users = await _userService.GetAllUsersAsync(paginationParameters);
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(new PaginationReturn(users.TotalCount, users.PageSize, users.CurrentPage, users.TotalPages, users.hasNext, users.hasPrevious)));
+
+            ResponseUtil respUtil = new ResponseUtil(true, users);
+            return Ok(respUtil);
+        }
+    }
 }

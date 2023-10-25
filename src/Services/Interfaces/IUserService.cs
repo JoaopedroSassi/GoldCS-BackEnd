@@ -1,5 +1,6 @@
 using GoldCSAPI.Models.DTO.UserDTOS;
 using src.Models.DTO.UserDTOS;
+using src.Pagination;
 
 namespace src.Services.Interfaces
 {
@@ -11,5 +12,6 @@ namespace src.Services.Interfaces
 		Task<TokenWithRefreshTokenDTO> Refresh(TokenWithRefreshTokenDTO model, int userId);
 		Task EditUser(UserUpdateDTO model, int id);
 		Task<UserDetailsDTO> GetUserById(int id);
-	}
+		Task<PagedList<UserDetailsDTO>> GetAllUsersAsync(QueryPaginationParameters paginationParameters);
+    }
 }
