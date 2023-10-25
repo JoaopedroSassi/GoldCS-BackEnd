@@ -2,8 +2,10 @@ using System.Net;
 using GoldCSAPI.Extensions;
 using GoldCSAPI.Models.DTO.UserDTOS;
 using src.Extensions;
+using src.Models.DTO.ProductDTOS;
 using src.Models.DTO.UserDTOS;
 using src.Models.Entities;
+using src.Pagination;
 using src.Repositories.Interfaces;
 using src.Services.Interfaces;
 
@@ -120,6 +122,17 @@ namespace src.Services
                 ExceptionExtensions.ThrowBaseException("Usuário nulo", HttpStatusCode.NotFound);
 
 			return new UserDetailsDTO(user);
+        }
+
+        public async Task<PagedList<UserDetailsDTO>> GetAllUsersAsync(QueryPaginationParameters paginationParameters)
+        {
+            var usersDB = await _userRepository.GetAllUsers(paginationParameters);
+            var users = usersDB.Select(x => new UserDetailsDTO(x)).ToList();
+
+            if (!users.Any())
+                ExceptionExtensions.ThrowBaseException("Sem usuários cadastrados", HttpStatusCode.NotFound);
+
+            return new PagedList<UserDetailsDTO>(users, _userRepository.Count<User>(), paginationParameters.PageNumber, paginationParameters.PageSize);
         }
     }
 }
