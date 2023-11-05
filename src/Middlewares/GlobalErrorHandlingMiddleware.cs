@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text.Json;
 using src.Exceptions;
+using src.Utils;
 
 namespace src.Middlewares
 {
@@ -31,7 +32,7 @@ namespace src.Middlewares
 			var innerExceptionMessage = ex.InnerException != null ? ex.InnerException.Message : "";
 			context.Response.ContentType = "application/json";
 			context.Response.StatusCode = (int) statusCode;
-			return context.Response.WriteAsync(JsonSerializer.Serialize(new BaseException(ex.Message, (HttpStatusCode)statusCode, innerExceptionMessage)));
+			return context.Response.WriteAsync(JsonSerializer.Serialize(new ResponseUtil(false, new BaseException(ex.Message, (HttpStatusCode)statusCode, innerExceptionMessage))));
 		}
 	}
 }

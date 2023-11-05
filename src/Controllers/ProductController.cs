@@ -34,6 +34,23 @@ namespace src.Controllers
 			return Ok(respUtil);
 		}
 
+		[HttpGet("WithoutPagination")]
+		public async Task<ActionResult<IEnumerable<ProductDetailsDTO>>> GetProductsWithoutPaginationAsync()
+		{
+            var pagPar = new QueryPaginationParameters
+            {
+                PageNumber = 1,
+                PageSize = int.MaxValue
+            };
+
+            var products = await _service.GetAllProductsAsync(pagPar);
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(new PaginationReturn(products.TotalCount, products.PageSize, products.CurrentPage, products.TotalPages, products.hasNext, products.hasPrevious)));
+
+            ResponseUtil respUtil = new ResponseUtil(true, products);
+            return Ok(respUtil);
+        }
+
 		[HttpGet("{id:int}")]
 		public async Task<ActionResult<ProductDetailsDTO>> GetProductByIdAsync(int id)
 		{
