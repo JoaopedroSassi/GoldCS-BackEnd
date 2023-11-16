@@ -35,8 +35,11 @@ namespace src.Services
 		}
 
 		public async Task<int> InsertOrderAsync(OrderInsertDTO model)
-		{				
-			Order orderDb = new Order(model);
+		{
+			if (model.DeliveryForecast < DateTime.Now)			
+                ExceptionExtensions.ThrowBaseException("Data de entrega menor que a data atual", HttpStatusCode.BadRequest);
+            
+            Order orderDb = new Order(model);
 
 			Client client = await _clientRepository.GetClientByCPFAsync(model.Client.Cpf);
 			if (!(client is null))
