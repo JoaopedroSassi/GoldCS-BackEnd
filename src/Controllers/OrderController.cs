@@ -1,9 +1,12 @@
 using System.Net;
+using System.Text.Json;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using src.Extensions;
 using src.Models.DTO.OrderDTOS;
+using src.Models.DTO.ProductDTOS;
+using src.Pagination;
 using src.Services.Interfaces;
 using src.Utils;
 
@@ -21,7 +24,16 @@ namespace src.Controllers
 			_orderService = orderService;
 		}
 
-		[HttpGet("{id:int}")]
+		[HttpGet]
+        public async Task<ActionResult<IEnumerable<OrderDetailsDTO>>> GetOrdersAsync([FromQuery] QueryPaginationParameters paginationParameters)
+        {
+            var orders = await _orderService.GetAllOrdersAsync(paginationParameters);
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(new PaginationReturn(orders.TotalCount, orders.PageSize, orders.CurrentPage, orders.TotalPages, orders.hasNext, orders.hasPrevious)));
+            ResponseUtil respUtil = new ResponseUtil(true, orders);
+            return Ok(respUtil);
+        }
+
+        [HttpGet("{id:int}")]
 		public async Task<ActionResult<OrderDetailsDTO>> GetOrderByIdAsync(int id)
 		{
 			if (id <= 0)

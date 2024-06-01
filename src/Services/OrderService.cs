@@ -6,6 +6,7 @@ using src.Repositories.Interfaces;
 using src.Services.Interfaces;
 using src.Models.DTO.ProductDTOS;
 using src.Entities.Models;
+using src.Pagination;
 
 namespace src.Services
 {
@@ -33,6 +34,17 @@ namespace src.Services
 
 			return new OrderDetailsDTO(order);
 		}
+
+		public async Task<PagedList<OrderDetailsDTO>> GetAllOrdersAsync(QueryPaginationParameters paginationParameters)
+		{
+			var fetchOrders = await _orderRepository.GetAllOrdersAsync(paginationParameters);
+			var orders = fetchOrders.Select(x => new OrderDetailsDTO(x)).ToList();
+
+            if (!orders.Any())
+                ExceptionExtensions.ThrowBaseException("Nenhum pedido encontrado", HttpStatusCode.NotFound);
+
+            return new PagedList<OrderDetailsDTO>(orders, _orderRepository.Count<Order>(), paginationParameters.PageNumber, paginationParameters.PageSize);
+        }
 
 		public async Task<int> InsertOrderAsync(OrderInsertDTO model)
 		{
