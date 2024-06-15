@@ -35,7 +35,7 @@ namespace src.Repositories
                 .ThenInclude(x => x.Product)
 				.Skip((paginationParameters.PageNumber - 1) * paginationParameters.PageSize)
 				.Take(paginationParameters.PageSize)
-                .OrderBy(x => x.OrderDate)
+                .OrderByDescending(x => x.OrderDate)
 				.ToListAsync();
         }
 
