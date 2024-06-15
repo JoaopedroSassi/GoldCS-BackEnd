@@ -86,6 +86,8 @@ builder.Services.AddDbContext<GoldCSDBContext>(x =>
 	assembly => assembly.MigrationsAssembly(typeof(GoldCSDBContext).Assembly.FullName));
 });
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 // Cors
 builder.Services.AddCors(options =>
 {
