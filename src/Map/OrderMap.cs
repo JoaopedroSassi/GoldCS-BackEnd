@@ -13,10 +13,10 @@ namespace src.Map
 			builder.HasKey(x => x.OrderID);
 			builder.Property(x => x.OrderID).ValueGeneratedOnAdd();
 
-			builder.Property(x => x.OrderDate).HasColumnType("date").IsRequired();
+			builder.Property(x => x.OrderDate).HasColumnType("timestamp").IsRequired();
 			builder.Property(x => x.PaymentMethod).HasColumnType("varchar(200)").IsRequired();
 			builder.Property(x => x.Total).HasColumnType("money").IsRequired();
-			builder.Property(x => x.DeliveryForecast).HasColumnType("date").IsRequired();
+			builder.Property(x => x.DeliveryForecast).HasColumnType("timestamp").IsRequired();
 
 			builder.HasOne(x => x.User).WithMany(x => x.Orders).HasForeignKey(x => x.UserID);
 			builder.HasOne(x => x.Address).WithMany(x => x.Orders).HasForeignKey(x => x.AddressID);
