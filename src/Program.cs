@@ -94,7 +94,7 @@ builder.Services.AddCors(options =>
 	options.AddDefaultPolicy(
 		policy =>
 		{
-			policy.WithOrigins("https://apirequest.io", "http://127.0.0.1:5173", "http://localhost:5173", "https://goldcsoftware.netlify.app", "https://goldcsfront.onrender.com", "http://localhost:4173", "http://127.0.0.1:4173", "http://localhost:8081")
+				.AllowAnyOrigins()
 				.AllowAnyHeader()
 				.AllowAnyMethod();
 		});
