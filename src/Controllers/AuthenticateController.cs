@@ -1,8 +1,11 @@
 using System.Net;
+using System.Text.Json;
+using GoldCSAPI.Models.DTO.UserDTOS;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using src.Extensions;
 using src.Models.DTO.UserDTOS;
+using src.Pagination;
 using src.Services.Interfaces;
 using src.Utils;
 
@@ -71,5 +74,42 @@ namespace src.Controllers
 			ResponseUtil respUtil = new ResponseUtil(true, "Usuário deletado");
 			return Ok(respUtil);
 		}
-	}
+
+		[Authorize(Roles = "seller, admin")]
+		[HttpGet("{id:int}")]
+		public async Task<ActionResult<ResponseUtil>> GetUserById(int id)
+		{
+			if (id <= 0)
+				ExceptionExtensions.ThrowBaseException("ID menor ou igual a 0", HttpStatusCode.NotFound);
+
+			var user = await _userService.GetUserById(id);
+            ResponseUtil respUtil = new ResponseUtil(true, user);
+            return Ok(respUtil);
+        }
+
+		[Authorize(Roles = "seller, admin")]
+		[HttpPut("Update/{id:int}")]
+		public async Task<ActionResult<ResponseUtil>> UpdadateUser(UserUpdateDTO model, int id)
+		{
+            if (!(ModelState.IsValid))
+                ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
+
+			await _userService.EditUser(model, id);
+            ResponseUtil respUtil = new ResponseUtil(true, "Usuário atualizado");
+            return Ok(respUtil);
+        }
+
+
+        [Authorize(Roles = "admin")]
+        [HttpGet("GetAllUsers")]
+        public async Task<ActionResult<IEnumerable<ResponseUtil>>> GetAllUsers([FromQuery] QueryPaginationParameters paginationParameters)
+        {
+            var users = await _userService.GetAllUsersAsync(paginationParameters);
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(new PaginationReturn(users.TotalCount, users.PageSize, users.CurrentPage, users.TotalPages, users.hasNext, users.hasPrevious)));
+
+            ResponseUtil respUtil = new ResponseUtil(true, users);
+            return Ok(respUtil);
+        }
+    }
 }

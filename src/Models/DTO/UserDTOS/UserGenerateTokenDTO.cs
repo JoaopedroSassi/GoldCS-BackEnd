@@ -5,12 +5,14 @@ namespace src.Models.DTO.UserDTOS
 	public class UserGenerateTokenDTO
     {
         public int UserID { get; set; }
-		public string Email { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
 		public string Role { get; set; }
 
-		public UserGenerateTokenDTO(int userID, string email, string role)
+		public UserGenerateTokenDTO(int userID, string name, string email, string role)
 		{
 			UserID = userID;
+			Name = name;
 			Email = email;
 			Role = role;
 		}
@@ -22,6 +24,7 @@ namespace src.Models.DTO.UserDTOS
 		public UserGenerateTokenDTO(User user)
 		{
 			UserID = user.UserID;
+			Name = user.Name;
 			Email = user.Email;
 			Role = user.Role;
 		}

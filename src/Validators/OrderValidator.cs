@@ -32,7 +32,9 @@ namespace src.Validators
 				.NotEmpty()
 					.WithMessage("Necessário preencher o campo 'CPF'")
 				.Must(x => x.IsCpfValid())
-					.WithMessage("CPF no formato inválido - xxx.xxx.xxx-xx")
+					.WithMessage("CPF no formato inválido - xxxxxxxxxxx")
+				.Length(11)
+					.WithMessage("CPF deve ter 11 caracteres")
 			;
 
 			RuleFor(x => x.Client.Name)
@@ -61,7 +63,9 @@ namespace src.Validators
 				.NotEmpty()
 					.WithMessage("Necessário preencher o campo 'CEP'")
 				.Must(x => x.IsCepValid())
-					.WithMessage("CEP no formato inválido - xxxxx-xxx")
+					.WithMessage("CEP no formato inválido - xxxxxxxx")
+				.Length(8)
+					.WithMessage("CEP deve ter 8 caracteres")
 			;
 
 			RuleFor(x => x.Address.AddressName)

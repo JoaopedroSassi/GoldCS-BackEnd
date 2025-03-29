@@ -29,7 +29,8 @@ namespace src.Services
 				Subject = new ClaimsIdentity(new Claim[]
 				{	
 					new Claim(ClaimTypes.Email, user.Email),
-					new Claim("Id", user.UserID.ToString()),
+					new Claim("userId", user.UserID.ToString()),
+					new Claim("name", user.Name.ToString()),
 					new Claim(ClaimTypes.Role, user.Role)
 				}),
 				Expires = DateTime.UtcNow.AddHours(8),

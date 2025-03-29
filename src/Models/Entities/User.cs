@@ -1,3 +1,4 @@
+using GoldCSAPI.Models.DTO.UserDTOS;
 using src.Models.DTO.UserDTOS;
 
 namespace src.Models.Entities
@@ -34,5 +35,5 @@ namespace src.Models.Entities
 			Active = model.Active;
 			Role = model.Role;
 		}
-	}
+    }
 }

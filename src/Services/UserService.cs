@@ -1,7 +1,11 @@
 using System.Net;
+using GoldCSAPI.Extensions;
+using GoldCSAPI.Models.DTO.UserDTOS;
 using src.Extensions;
+using src.Models.DTO.ProductDTOS;
 using src.Models.DTO.UserDTOS;
 using src.Models.Entities;
+using src.Pagination;
 using src.Repositories.Interfaces;
 using src.Services.Interfaces;
 
@@ -32,7 +36,7 @@ namespace src.Services
 			var refreshToken = _tokenService.GenerateRefreshToken();
 			_tokenService.SaveRefreshToken(user.Email, refreshToken);
 
-			return new LoginReturnDTO(token, refreshToken, user.UserID, user.Email, user.Name, user.Role);
+			return new LoginReturnDTO(token, refreshToken);
 		}
 
 		public async Task<TokenWithRefreshTokenDTO> Refresh(TokenWithRefreshTokenDTO model, int userId)
@@ -67,7 +71,7 @@ namespace src.Services
 
 			_userRepository.Insert(new User(model));
 			if (!(await _userRepository.SaveChangesAsync()))
-				ExceptionExtensions.ThrowBaseException("Erro ao adicionar o usuário no banco de dados", HttpStatusCode.BadRequest);
+				ExceptionExtensions.ThrowBaseException("Erro ao adicionar o usuário", HttpStatusCode.BadRequest);
 		}
 
 		public async Task DeleteUser(int id)
@@ -79,7 +83,56 @@ namespace src.Services
 
 			_userRepository.Delete(user);
 			if (!(await _userRepository.SaveChangesAsync()))
-				ExceptionExtensions.ThrowBaseException("Erro ao deletar usuário no banco de dados", HttpStatusCode.BadRequest);
+				ExceptionExtensions.ThrowBaseException("Erro ao deletar usuário", HttpStatusCode.BadRequest);
 		}
-	}
+
+        public async Task EditUser(UserUpdateDTO model, int id)
+        {
+			var user = await _userRepository.GetUserById(id);
+
+			if (user is null)
+                ExceptionExtensions.ThrowBaseException("Usuário não encontrado", HttpStatusCode.NotFound);
+
+			if (user.UserID != id)
+                ExceptionExtensions.ThrowBaseException("IDs divergentes", HttpStatusCode.NotFound);
+
+			if (model.Password != null)
+			{
+				model.Password = CryptoExtension.CodifyPassword(model.Password);
+                if (!(model.Password.IsPasswordValid()))
+                    ExceptionExtensions.ThrowBaseException("Senha no formato inválido", HttpStatusCode.BadRequest);
+            }	
+
+			if (model.Email != null)
+				if (!(model.Email.IsEmailValid()))
+					ExceptionExtensions.ThrowBaseException("Email no formato inválido", HttpStatusCode.BadRequest);
+
+            user = (User)UpdateEntityExtension.UpdateEntityProperties(user, model);
+
+			_userRepository.Update(user);
+            if (!(await _userRepository.SaveChangesAsync()))
+                ExceptionExtensions.ThrowBaseException("Erro ao atualizar usuário", HttpStatusCode.BadRequest);
+        }
+
+        public async Task<UserDetailsDTO> GetUserById(int id)
+        {
+            var user = await _userRepository.GetUserById(id);
+
+			if (user is null)
+                ExceptionExtensions.ThrowBaseException("Usuário nulo", HttpStatusCode.NotFound);
+
+			return new UserDetailsDTO(user);
+        }
+
+        public async Task<PagedList<UserDetailsDTO>> GetAllUsersAsync(QueryPaginationParameters paginationParameters)
+        {
+            var usersDB = await _userRepository.GetAllUsers(paginationParameters);
+            var users = usersDB.Select(x => new UserDetailsDTO(x)).ToList();
+
+            if (!users.Any())
+                ExceptionExtensions.ThrowBaseException("Sem usuários cadastrados", HttpStatusCode.NotFound);
+
+            return new PagedList<UserDetailsDTO>(users, _userRepository.Count<User>(), paginationParameters.PageNumber, paginationParameters.PageSize);
+        }
+    }
 }

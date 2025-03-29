@@ -86,16 +86,18 @@ builder.Services.AddDbContext<GoldCSDBContext>(x =>
 	assembly => assembly.MigrationsAssembly(typeof(GoldCSDBContext).Assembly.FullName));
 });
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 // Cors
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(
-        policy =>
-        {
-            policy.WithOrigins("https://apirequest.io", "http://localhost:3001", "http://localhost:3000", "http://127.0.0.1:5173")
+	options.AddDefaultPolicy(
+		policy =>
+		{
+			policy.AllowAnyOrigin()
 				.AllowAnyHeader()
 				.AllowAnyMethod();
-        });
+		});
 });
 
 //Dependency injections

@@ -45,14 +45,5 @@ namespace src.Models.Entities
 			Price = model.Price;
 			CategoryID = model.CategoryID;
 		}
-
-		public Product(ProductUpdateDTO model)
-		{
-			ProductID = model.ProductID;
-			Name = model.Name;
-			Version = model.Version;
-			Price = model.Price;
-			CategoryID = model.CategoryID;
-		}
 	}
 }

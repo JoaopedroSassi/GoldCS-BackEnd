@@ -68,13 +68,10 @@ namespace src.Controllers
 		[HttpPut("{id:int}")]
 		public async Task<ActionResult<CategoryDetailsDTO>> UpdateCategoryAsync(int id, [FromBody] CategoryUpdateDTO model)
 		{
-			if (model.CategoryID != id)
-				ExceptionExtensions.ThrowBaseException("ID do parâmetro diferente do ID do corpo da requisição", HttpStatusCode.BadRequest);
-
 			if (!(ModelState.IsValid))
 				ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
 
-			await _service.UpdateCategoryAsync(model);
+			await _service.UpdateCategoryAsync(model, id);
 			ResponseUtil respUtil = new ResponseUtil(true, "Categoria atualizada com sucesso"); 
 			return Ok(respUtil);
 		}

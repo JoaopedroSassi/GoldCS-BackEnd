@@ -1,4 +1,5 @@
 using System.Net;
+using GoldCSAPI.Extensions;
 using src.Extensions;
 using src.Models.DTO.CategoryDTOS;
 using src.Models.DTO.ProductDTOS;
@@ -58,9 +59,15 @@ namespace src.Services
 				ExceptionExtensions.ThrowBaseException("Erro ao adicionar a categoria no banco de dados", HttpStatusCode.BadRequest);
 		}
 
-		public async Task UpdateCategoryAsync(CategoryUpdateDTO model)
+		public async Task UpdateCategoryAsync(CategoryUpdateDTO model, int id)
 		{
-			_repository.Update(new Category(model));
+			var category = await _repository.GetCategoryByIdAsync(id);
+            if (category is null)
+                ExceptionExtensions.ThrowBaseException("Produto não encontrado", HttpStatusCode.NotFound);
+
+            category = (Category) UpdateEntityExtension.UpdateEntityProperties(category,model);
+
+            _repository.Update(category);
 			if (!(await _repository.SaveChangesAsync()))
 				ExceptionExtensions.ThrowBaseException("Erro ao atualizar a categoria no banco de dados", HttpStatusCode.BadRequest);
 		}

@@ -6,12 +6,12 @@ namespace src.Extensions
     {
         public static bool IsCpfValid(this string cpf)
         {
-            return Regex.Match(cpf, @"^\d{3}\.\d{3}\.\d{3}-\d{2}$").Success;
+            return Regex.Match(cpf, @"^\d{3}\d{3}\d{3}\d{2}$").Success;
         }
 
         public static bool IsCepValid(this string cep)
         {
-            return Regex.Match(cep, @"^\d{5}-\d{3}$").Success;
+            return Regex.Match(cep, @"^\d{5}\d{3}$").Success;
         }
 
         public static bool IsPasswordValid(this string pass)

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using src.Data;
 using src.Models.Entities;
+using src.Pagination;
 using src.Repositories.Interfaces;
 
 namespace src.Repositories
@@ -24,5 +25,19 @@ namespace src.Repositories
 								.ThenInclude(x => x.Product)
 								.FirstOrDefaultAsync(x => x.OrderID == id);
 		}
-	}
+		public  Task<List<Order>> GetAllOrdersAsync(QueryPaginationParameters paginationParameters)
+		{
+			return _context.Orders.AsNoTracking()
+                .Include(x => x.Address)
+                .Include(x => x.Client)
+                .Include(x => x.User)
+                .Include(x => x.OrderProducts)
+                .ThenInclude(x => x.Product)
+				.Skip((paginationParameters.PageNumber - 1) * paginationParameters.PageSize)
+				.Take(paginationParameters.PageSize)
+                .OrderByDescending(x => x.OrderDate)
+				.ToListAsync();
+        }
+
+    }
 }
