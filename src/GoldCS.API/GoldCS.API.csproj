@@ -6,7 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
 	<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	<InvariantGlobalization>true</InvariantGlobalization>
-	<UserSecretsId>980a062c-4e18-4576-96ae-86371f9cda76</UserSecretsId>
+    <UserSecretsId>980a062c-4e18-4576-96ae-86371f9cda76</UserSecretsId>
+    <UseCommonOutputDirectory>true</UseCommonOutputDirectory>
+    <BaseOutputPath>C:\dev\GoldCS-BackEnd\src\packages</BaseOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
