@@ -8,6 +8,7 @@ using System.Text;
 using Microsoft.OpenApi.Models;
 using src.Data;
 using Microsoft.EntityFrameworkCore;
+using GoldCS.Infraestructure;
 
 namespace GoldCS.API.Configurations
 {
@@ -106,6 +107,11 @@ namespace GoldCS.API.Configurations
             {
                 options.UseNpgsql(configuration.GetConnectionString("DefaultPostgreSQL"),
                 assembly => assembly.MigrationsAssembly(typeof(GoldCSDBContext).Assembly.FullName));
+            });
+
+            services.AddDbContext<GoldCSContext>(options =>
+            {
+                options.UseNpgsql(configuration.GetConnectionString("DefaultPostgreSQL"));
             });
 
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);

@@ -23,7 +23,7 @@ namespace GoldCS.Infraestructure.Configurations
             
             builder.Property(x => x.Name).HasColumnType("varchar(200)").IsRequired();
             builder.Property(x => x.Email).HasColumnType("varchar(200)").IsRequired();
-            builder.Property(x => x.Password).HasColumnType("nvarchar(MAX)").IsRequired();
+            builder.Property(x => x.Password).HasColumnType("text").IsRequired();
             builder.Property(x => x.Active).HasColumnType("boolean").IsRequired();
             builder.Property(x => x.Role).HasColumnType("int").IsRequired();
 
