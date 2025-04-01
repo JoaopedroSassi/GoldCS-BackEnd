@@ -1,4 +1,4 @@
-﻿namespace GoldCSDomain.Model
+﻿namespace GoldCS.Domain.Models
 {
     public class User
     {

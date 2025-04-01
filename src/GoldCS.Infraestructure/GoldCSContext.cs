@@ -1,5 +1,5 @@
 ﻿
-using GoldCSDomain.Model;
+using GoldCS.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace GoldCS.Infraestructure

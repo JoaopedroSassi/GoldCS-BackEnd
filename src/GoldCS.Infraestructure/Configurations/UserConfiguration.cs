@@ -1,4 +1,4 @@
-﻿using GoldCSDomain.Model;
+﻿using GoldCS.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;

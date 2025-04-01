@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GoldCSDomain.Model.Response
+namespace GoldCS.Domain.Models.Response
 {
-    public class BaseResponse <TResult>
+    public abstract class BaseResponse 
     {
-        public bool success { get; set; }
-        public DateTime dtResponse { get; set; }
-        public string message { get; set; }
-        public TResult result { get; set; }
+        public bool Success { get; set; }
+        public string Message { get; set; }
+
+        public abstract BaseResponse GerarCritica(int codigoCritica);
+        public abstract BaseResponse GerarRespostaSucessoPadrao();
+
     }
 }

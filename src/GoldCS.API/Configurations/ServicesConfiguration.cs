@@ -9,6 +9,8 @@ using Microsoft.OpenApi.Models;
 using src.Data;
 using Microsoft.EntityFrameworkCore;
 using GoldCS.Infraestructure;
+using GoldCS.Domain.Interfaces;
+using GoldCS.Domain.Services;
 
 namespace GoldCS.API.Configurations
 {
@@ -37,6 +39,10 @@ namespace GoldCS.API.Configurations
             services.AddScoped<IOrderService, OrderService>();
 
             services.AddScoped<IAddressRepository, AddressRepository>();
+
+            services.AddScoped<Domain.Repository.Interfaces.IUserRepository, Infraestructure.Repository.UserRepository>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IWebTokenService, WebTokenService>();
 
             return services;
         }
