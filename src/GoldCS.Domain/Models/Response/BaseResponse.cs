@@ -6,13 +6,29 @@ using System.Threading.Tasks;
 
 namespace GoldCS.Domain.Models.Response
 {
-    public abstract class BaseResponse 
+    public class BaseResponse<T> where T : class 
     {
         public bool Success { get; set; }
         public string Message { get; set; }
+        public DateTime ResponseTime { get; } = DateTime.Now;
+        public T Result { get; set; }
 
-        public abstract BaseResponse GerarCritica(int codigoCritica);
-        public abstract BaseResponse GerarRespostaSucessoPadrao();
-
+        public BaseResponse<T> CriarSucesso(T objetoResponse)
+        {
+            return new BaseResponse<T>
+            {
+                Success = true,
+                Result = objetoResponse
+            };
+        }
+        public BaseResponse<T> GerarCritica(int codigoCritica)
+        {
+            return new BaseResponse<T>
+            {
+                Success = false,
+                Message = Criticas.RetornaCritica(codigoCritica),
+                Result = null
+            };
+        }
     }
 }

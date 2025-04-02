@@ -17,7 +17,7 @@ namespace GoldCS.Domain.Services
         { 
             _configuration = configuration;
         }
-        public LoginResponse ReturnResponseLogin(User user)
+        public BaseResponse<LoginResponse> ReturnResponseLogin(User user)
         {
             var expiresIn = Convert.ToInt32(_configuration["Jwt:ExpiresInSeconds"]);
             var accessToken = ObterToken(user, expiresIn);
@@ -49,15 +49,27 @@ namespace GoldCS.Domain.Services
             return tokenHandler.WriteToken(token);
         }
 
-        private LoginResponse GenerateResponse(User user, string accessToken, string refreshToken, int expiresIn)
+        private BaseResponse<LoginResponse> GenerateResponse(User user, string accessToken, string refreshToken, int expiresIn)
         {
-            return new LoginResponse
+            var loggedUser = new LoggedUser
             {
-                Success = true,
-                UserData = user,
+                Email = user.Email,
+                Name = user.Name,
+                Id = user.UserId,
+            };
+
+            var loginResponse = new LoginResponse
+            {
                 access_token = accessToken,
                 refresh_token = refreshToken,
-                expiresIn = expiresIn
+                expiresIn = expiresIn,
+                UserData = loggedUser
+            };
+
+            return new BaseResponse<LoginResponse>
+            {
+                Success = true,
+                Result = loginResponse
             };
         }
     }

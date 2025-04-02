@@ -6,6 +6,6 @@ namespace GoldCS.Domain.Interfaces
 {
     public interface IAuthenticationService
     {
-        public Task<LoginResponse> Authenticate(LoginRequest request);
+        public Task<BaseResponse<LoginResponse>> Authenticate(LoginRequest request);
     }
 }
