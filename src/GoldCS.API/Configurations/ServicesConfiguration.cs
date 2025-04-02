@@ -53,8 +53,8 @@ namespace GoldCS.API.Configurations
 
             services.AddAuthentication(x =>
             {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultAuthenticateScheme = "Bearer";
+                x.DefaultChallengeScheme = "Bearer";
             })
             .AddJwtBearer(x =>
             {
@@ -81,8 +81,8 @@ namespace GoldCS.API.Configurations
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
                     BearerFormat = "JWT",
                     In = ParameterLocation.Header,
                     Description = "JWT Authorization header usando o esquema Bearer." +

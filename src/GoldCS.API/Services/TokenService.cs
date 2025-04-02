@@ -31,7 +31,6 @@ namespace src.Services
 					new Claim(ClaimTypes.Email, user.Email),
 					new Claim("userId", user.UserID.ToString()),
 					new Claim("name", user.Name.ToString()),
-					new Claim(ClaimTypes.Role, user.Role)
 				}),
 				Expires = DateTime.UtcNow.AddHours(8),
 				SigningCredentials = new SigningCredentials(
