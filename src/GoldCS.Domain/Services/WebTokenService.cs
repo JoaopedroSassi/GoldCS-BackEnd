@@ -30,11 +30,12 @@ namespace GoldCS.Domain.Services
         private string ObterToken(User user, int expiresIn)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configuration["Jwt:key"]);
+            var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Issuer = _configuration["Jwt:Issuer"],
+                Audience = _configuration["Jwt:Audience"],
                 Subject = new ClaimsIdentity(
                 [
                     new Claim(ClaimTypes.Email, user.Email),

@@ -49,7 +49,7 @@ namespace GoldCS.API.Configurations
 
         public static IServiceCollection AddJwtConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            var key = Encoding.ASCII.GetBytes(configuration["Jwt:key"]);
+            var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]);
 
             services.AddAuthentication(x =>
             {
@@ -64,8 +64,11 @@ namespace GoldCS.API.Configurations
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidateIssuer = true,
+                    ValidIssuer = configuration["Jwt:Issuer"],
+                    ValidateAudience = true,
+                    ValidAudience = configuration["Jwt:Audience"],
+                    ClockSkew = TimeSpan.Zero
                 };
             });
 
