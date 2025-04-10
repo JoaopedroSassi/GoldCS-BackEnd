@@ -2,7 +2,6 @@
 using src.Repositories;
 using src.Services.Interfaces;
 using src.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
@@ -11,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using GoldCS.Infraestructure;
 using GoldCS.Domain.Interfaces;
 using GoldCS.Domain.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace GoldCS.API.Configurations
 {
@@ -40,8 +40,8 @@ namespace GoldCS.API.Configurations
 
             services.AddScoped<IAddressRepository, AddressRepository>();
 
-            services.AddScoped<Domain.Repository.Interfaces.IUserRepository, Infraestructure.Repository.UserRepository>();
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            //services.AddScoped<Domain.Repository.Interfaces.IUserRepository, Infraestructure.Repository.UserRepository>();
+            //services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IWebTokenService, WebTokenService>();
 
             return services;
@@ -114,14 +114,14 @@ namespace GoldCS.API.Configurations
         {
             services.AddDbContext<GoldCSDBContext>(options =>
             {
-                options.UseNpgsql(configuration.GetConnectionString("DefaultPostgreSQL"),
-                assembly => assembly.MigrationsAssembly(typeof(GoldCSDBContext).Assembly.FullName));
-            });
-
-            services.AddDbContext<GoldCSContext>(options =>
-            {
                 options.UseNpgsql(configuration.GetConnectionString("DefaultPostgreSQL"));
             });
+
+            services.AddDbContext<GoldIdentityDbContext>(options =>
+                options.UseNpgsql(configuration.GetConnectionString("IdentityPostgresSQL")));
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<GoldIdentityDbContext>();
 
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
