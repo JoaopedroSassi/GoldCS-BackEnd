@@ -5,7 +5,6 @@ namespace GoldCS.Domain.Interfaces
 {
     public interface IWebTokenService
     {
-        BaseResponse<LoginResponse> ReturnResponseLogin(User user);
-
+        string ObterToken(User user, int expiresIn);
     }
 }
