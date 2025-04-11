@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using GoldCS.Domain.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace GoldCS.Infraestructure
 {
-    public class GoldIdentityDbContext : IdentityDbContext
+    public class GoldIdentityDbContext : IdentityDbContext<ApplicationUser>
     {
         public GoldIdentityDbContext(DbContextOptions<GoldIdentityDbContext> options) : base(options) { }
 

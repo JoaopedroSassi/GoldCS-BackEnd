@@ -1,6 +1,5 @@
 ﻿using GoldCS.Domain.Interfaces;
 using GoldCS.Domain.Models;
-using GoldCS.Domain.Models.Response;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -18,7 +17,7 @@ namespace GoldCS.Domain.Services
         { 
             _configuration = configuration;
         }
-        public string ObterToken(User user, int expiresIn)
+        public string ObterToken(ApplicationUser user, int expiresIn)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
@@ -30,9 +29,9 @@ namespace GoldCS.Domain.Services
                 Subject = new ClaimsIdentity(
                 [
                     new Claim(ClaimTypes.Email, user.Email),
-                    new Claim("UserId", user.UserId.ToString()),
+                    new Claim("UserId", user.Id),
                     new Claim(ClaimTypes.Role, "admin"),
-                    new Claim(JwtRegisteredClaimNames.UniqueName, user.Name),
+                    new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(DateTime.UtcNow).ToString(), ClaimValueTypes.Integer64),
                     new Claim(JwtRegisteredClaimNames.Nbf, ToUnixEpochDate(DateTime.UtcNow).ToString())

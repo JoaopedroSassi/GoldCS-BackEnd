@@ -12,9 +12,9 @@
 //        {
 //            _context = context;
 //        }
-//        public async Task<User> FindUserByEmail(string email)
+//        public async Task<User> FindUserByEmail(string userName)
 //        {          
-//            return await _context.Users.Where(user => user.Email.Equals(email)).FirstOrDefaultAsync();
+//            return await _context.Users.Where(user => user.Email.Equals(userName)).FirstOrDefaultAsync();
 //        }
 //        public async Task<List<User>> ListUsers()
 //        {

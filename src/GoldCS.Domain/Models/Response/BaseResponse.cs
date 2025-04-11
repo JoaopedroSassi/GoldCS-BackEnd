@@ -10,7 +10,7 @@ namespace GoldCS.Domain.Models.Response
     {
         public bool Success { get; set; }
         public string Message { get; set; }
-        public DateTime ResponseTime { get; } = DateTime.Now;
+        public DateTime DtResponse { get; } = DateTime.Now;
         public T Result { get; set; }
 
         public BaseResponse<T> CriarSucesso(T objetoResponse)
