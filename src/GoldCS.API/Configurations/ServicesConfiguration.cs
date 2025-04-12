@@ -12,6 +12,8 @@ using GoldCS.Domain.Interfaces;
 using GoldCS.Domain.Services;
 using Microsoft.AspNetCore.Identity;
 using GoldCS.Domain.Models;
+using GoldCS.Domain.Repository.Interfaces;
+using GoldCS.Infraestructure.Repository;
 
 namespace GoldCS.API.Configurations
 {
@@ -33,9 +35,6 @@ namespace GoldCS.API.Configurations
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductService, ProductService>();
 
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserService, UserService>();
-
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderService, OrderService>();
 
@@ -43,6 +42,10 @@ namespace GoldCS.API.Configurations
 
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IWebTokenService, WebTokenService>();
+
+            services.AddScoped<Domain.Repository.Interfaces.IUserRepository, Infraestructure.Repository.UserRepository>();
+            services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<ICreateUserService, CreateUserService>();
 
             return services;
         }

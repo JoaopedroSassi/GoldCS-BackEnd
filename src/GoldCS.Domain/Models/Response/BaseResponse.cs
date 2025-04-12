@@ -9,8 +9,8 @@ namespace GoldCS.Domain.Models.Response
     public class BaseResponse<T> where T : class 
     {
         public bool Success { get; set; }
-        public string Message { get; set; }
-        public DateTime DtResponse { get; } = DateTime.Now;
+        public DateTime DtHora { get; } = DateTime.Now;
+        public List<string> Messages { get; set; }
         public T Result { get; set; }
 
         public BaseResponse<T> CriarSucesso(T objetoResponse)
@@ -21,14 +21,31 @@ namespace GoldCS.Domain.Models.Response
                 Result = objetoResponse
             };
         }
-        public BaseResponse<T> GerarCritica(int codigoCritica)
+        public BaseResponse<T> GenerateCritic(int codigoCritica)
         {
             return new BaseResponse<T>
             {
                 Success = false,
-                Message = Criticas.RetornaCritica(codigoCritica),
+                Messages = Criticas.ReturnCritics(codigoCritica),
                 Result = null
             };
         }
     }
+
+    public class BaseResponse
+    {
+        public bool Success { get; set; }
+        public DateTime DtHora { get; } = DateTime.Now;
+        public List<string> Messages { get; set; } = new();
+
+        public BaseResponse CustomCritics(List<string> critics)
+        {
+            return new BaseResponse
+            {
+                Success = false,
+                Messages = critics,
+            };
+        }
+    }
+
 }

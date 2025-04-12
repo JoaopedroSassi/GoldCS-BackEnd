@@ -19,13 +19,12 @@ namespace GoldCS.API.Controllers
             _authenticationService = authenticationService;
         }
 
-        [AllowAnonymous]
         [HttpPost("login")]
         [ProducesResponseType(typeof(BaseResponse<LoginResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BaseResponse<LoginResponse>), StatusCodes.Status412PreconditionFailed)]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            if (!ModelState.IsValid) return StatusCode(412,new BaseResponse<LoginResponse>().GerarCritica(Criticas.ERROINTERNO));
+            if (!ModelState.IsValid) return StatusCode(412,new BaseResponse<LoginResponse>().GenerateCritic(Criticas.ERROINTERNO));
 
             var response = await _authenticationService.Authenticate(request);
 

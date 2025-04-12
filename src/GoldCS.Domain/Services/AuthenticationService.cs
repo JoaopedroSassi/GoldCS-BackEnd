@@ -31,14 +31,14 @@ namespace GoldCS.Domain.Services
 
             if (user == null)
             {
-                return new BaseResponse<LoginResponse>().GerarCritica(Criticas.LOGININVALIDO);
+                return new BaseResponse<LoginResponse>().GenerateCritic(Criticas.LOGININVALIDO);
             }
 
             var isValidPassword = await _userManager.CheckPasswordAsync(user, request.password);
 
             if (!isValidPassword)
             {
-                return new BaseResponse<LoginResponse>().GerarCritica(Criticas.CREDENCIAISINVALIDAS);
+                return new BaseResponse<LoginResponse>().GenerateCritic(Criticas.CREDENCIAISINVALIDAS);
             }
 
             return ReturnResponseLogin(user);
@@ -46,7 +46,7 @@ namespace GoldCS.Domain.Services
 
         public BaseResponse<LoginResponse> ReturnResponseLogin(ApplicationUser user)
         {
-            var expiresIn = _configuration.GetValue<int>("Jwt:ExpiresIn");
+            var expiresIn = _configuration.GetValue<int>("Jwt:ExpiresInSeconds");
             var accessToken = _webTokenService.ObterToken(user, expiresIn);
             var refreshToken = Guid.NewGuid().ToString();
 

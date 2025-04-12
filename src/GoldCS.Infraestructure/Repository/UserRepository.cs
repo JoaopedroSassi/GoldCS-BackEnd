@@ -1,30 +1,26 @@
-﻿//using GoldCS.Domain.Repository.Interfaces;
-//using GoldCS.Domain.Models;
-//using Microsoft.EntityFrameworkCore;
+﻿using GoldCS.Domain.Repository.Interfaces;
+using GoldCS.Domain.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
-//namespace GoldCS.Infraestructure.Repository
-//{
-//    public class UserRepository : IUserRepository
-//    {
-//        private readonly GoldCS _context;
+namespace GoldCS.Infraestructure.Repository
+{
+    public class UserRepository : IUserRepository
+    {
+        private readonly GoldIdentityDbContext _DbIdentity;
+        private readonly UserManager<ApplicationUser> _UserManager;
 
-//        public UserRepository(GoldCSContext context)
-//        {
-//            _context = context;
-//        }
-//        public async Task<User> FindUserByEmail(string userName)
-//        {          
-//            return await _context.Users.Where(user => user.Email.Equals(userName)).FirstOrDefaultAsync();
-//        }
-//        public async Task<List<User>> ListUsers()
-//        {
-//            return await _context.Users.ToListAsync();
-//        }
-
-//        public async Task<User> FindUserById(int id)
-//        {
-//            return await _context.Users.Where(user => user.UserId.Equals(id)).FirstOrDefaultAsync();
-//        }
-
-//    }
-//}
+        public UserRepository(
+                        GoldIdentityDbContext context,
+                        UserManager<ApplicationUser> userManager
+            )
+        {
+            _DbIdentity = context;
+            _UserManager = userManager;
+        }
+        public void Detached(ApplicationUser user)
+        {
+            _DbIdentity.Entry(user).State = EntityState.Detached;
+        }
+    }
+}

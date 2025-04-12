@@ -8,16 +8,19 @@ namespace GoldCS.Domain.Models.Response
         public const int CREDENCIAISINVALIDAS = 2;
         public const int USUARIOINATIVO = 3;
 
-        public static string RetornaCritica(int codigo)
+        public static List<string> ReturnCritics(int codigo)
         {
+            var ret = new List<string>();
             switch (codigo)
             {
-                case LOGININVALIDO: return "Usuário não encontrado";
-                case CREDENCIAISINVALIDAS: return "Usuário ou senha incorretos.";
-                case USUARIOINATIVO: return "Usuário bloqueado.";
+                case LOGININVALIDO: ret.Add("Usuário não encontrado"); break;
+                case CREDENCIAISINVALIDAS: ret.Add("Usuário ou senha incorretos."); break;
+                case USUARIOINATIVO: ret.Add("Usuário bloqueado."); break;
                 
-                default: return "Ocorreu um erro interno. Por favor entrar em contato com o suporte.";
+                default: ret.Add("Ocorreu um erro interno"); break;
             }
+
+            return ret;
         }
 
 
