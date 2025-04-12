@@ -1,6 +1,3 @@
-using GoldCSAPI.Models.DTO.UserDTOS;
-using src.Models.DTO.UserDTOS;
-
 namespace src.Models.Entities
 {
 	public class User
@@ -27,13 +24,5 @@ namespace src.Models.Entities
 		{
 		}
 
-		public User(UserRegisterDTO model)
-		{
-			Name = model.Name;
-			Email = model.Email;
-			Password = model.Password;
-			Active = model.Active;
-			Role = model.Role;
-		}
     }
 }

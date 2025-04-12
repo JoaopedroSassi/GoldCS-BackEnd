@@ -23,7 +23,6 @@ namespace GoldCS.API.Configurations
         {
             services.AddScoped<IBaseRepository, BaseRepository>();
 
-            services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IMailService, MailService>();
 
             services.AddScoped<IClientRepository, ClientRepository>();
@@ -43,7 +42,7 @@ namespace GoldCS.API.Configurations
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IWebTokenService, WebTokenService>();
 
-            services.AddScoped<Domain.Repository.Interfaces.IUserRepository, Infraestructure.Repository.UserRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<ICreateUserService, CreateUserService>();
 
@@ -91,9 +90,7 @@ namespace GoldCS.API.Configurations
                     Scheme = "bearer",
                     BearerFormat = "JWT",
                     In = ParameterLocation.Header,
-                    Description = "JWT Authorization header usando o esquema Bearer." +
-                                  "\r\n\r\nDigite 'Bearer' [espaço] e seu token no campo abaixo." +
-                                  "\r\n\r\nExemplo: \"Bearer 12345abcdef\""
+                    Description = "JWT Authorization header usando o esquema Bearer." 
                 });
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
