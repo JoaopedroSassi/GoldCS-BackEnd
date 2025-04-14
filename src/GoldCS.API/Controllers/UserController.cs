@@ -2,6 +2,7 @@
 using GoldCS.Domain.Models.Request;
 using GoldCS.Domain.Models.Response;
 using GoldCS.Domain.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,7 @@ namespace GoldCS.API.Controllers
 {
     [Route("api/user")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UserController : ControllerBase
     {
         private readonly INotificationService _notificationService;
