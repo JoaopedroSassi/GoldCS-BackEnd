@@ -6,5 +6,6 @@ namespace GoldCS.Domain.Interfaces
     public interface IWebTokenService
     {
         string ObterToken(ApplicationUser user, int expiresIn);
+        string GenerateRefreshToken(ApplicationUser user, int expiresIn);
     }
 }

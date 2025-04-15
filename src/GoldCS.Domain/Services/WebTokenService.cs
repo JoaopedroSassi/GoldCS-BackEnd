@@ -11,11 +11,15 @@ namespace GoldCS.Domain.Services
     public class WebTokenService : IWebTokenService
     {
         private readonly IConfiguration _configuration;
+        private readonly IRefreshTokenRepository _refreshTokenRepository;
         private static long ToUnixEpochDate(DateTime date) => (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
 
-        public WebTokenService(IConfiguration configuration) 
+        public WebTokenService(
+            IConfiguration configuration,
+            IRefreshTokenRepository refreshTokenRepository) 
         { 
             _configuration = configuration;
+            _refreshTokenRepository = refreshTokenRepository;
         }
         public string ObterToken(ApplicationUser user, int expiresIn)
         {
@@ -42,6 +46,18 @@ namespace GoldCS.Domain.Services
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
+        }
+        public string GenerateRefreshToken(ApplicationUser user, int expiresIn)
+        {
+            RefreshToken token = new RefreshToken
+            {
+                UserName = user.UserName,
+                ExpirationDate = DateTime.Now.AddSeconds(expiresIn),
+            };
+            
+            _refreshTokenRepository.SaveRefreshToken(token);
+            
+            return token.Token.ToString();    
         }
 
     }

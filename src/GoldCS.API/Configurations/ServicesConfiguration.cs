@@ -45,6 +45,8 @@ namespace GoldCS.API.Configurations
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<ICreateUserService, CreateUserService>();
+            services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+            services.AddScoped<IRefreshTokenService, RefreshTokenService>();
 
             return services;
         }

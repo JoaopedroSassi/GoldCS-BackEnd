@@ -1,6 +1,7 @@
 ﻿using GoldCS.Domain.Interfaces;
 using GoldCS.Domain.Models.Request;
 using GoldCS.Domain.Models.Response;
+using GoldCS.Domain.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -13,10 +14,17 @@ namespace GoldCS.API.Controllers
     {
 
         private readonly IAuthenticationService _authenticationService;
+        private readonly IRefreshTokenService _refreshTokenService; 
+        private readonly INotificationService _notificationService;
 
-        public AuthController(IAuthenticationService authenticationService)
+
+        public AuthController(IAuthenticationService authenticationService,
+            IRefreshTokenService refreshTokenService,
+            INotificationService notificationService)
         {
             _authenticationService = authenticationService;
+            _refreshTokenService = refreshTokenService;
+            _notificationService = notificationService;
         }
 
         [HttpPost("login")]
@@ -24,13 +32,28 @@ namespace GoldCS.API.Controllers
         [ProducesResponseType(typeof(BaseResponse<LoginResponse>), StatusCodes.Status412PreconditionFailed)]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            if (!ModelState.IsValid) return StatusCode(412,new BaseResponse<LoginResponse>().GenerateCritic(Criticas.ERROINTERNO));
+            var response = await _authenticationService.Process(request);
 
-            var response = await _authenticationService.Authenticate(request);
+            if (_notificationService.HasNotifications()){
+                return StatusCode(412, new BaseResponse().CustomCritics(_notificationService.GetNotifications()));
+            }
 
-            if(!response.Success) return StatusCode(412,response);
+            return Ok(new BaseResponse<LoginResponse>().CriarSucesso(response));
+        }
 
-            return Ok(response);
+        [HttpPost("refresh-token")]
+        [ProducesResponseType(typeof(BaseResponse<LoginResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BaseResponse<LoginResponse>), StatusCodes.Status412PreconditionFailed)]
+        public async Task<IActionResult> RefreshToken([FromBody] string request)
+        {
+            var response = await _refreshTokenService.Process(request);
+
+            if (_notificationService.HasNotifications())
+            {
+                return StatusCode(412, new BaseResponse().CustomCritics(_notificationService.GetNotifications()));
+            }
+
+            return Ok(new BaseResponse<LoginResponse>().CriarSucesso(response));
         }
     }
 }
