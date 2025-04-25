@@ -13,6 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerConfiguration();
 builder.Services.AddJwtConfiguration(builder.Configuration);
 builder.Services.AddDependencyInjectionConfiguration();
+builder.Services.AddHostedServices(); 
 builder.Services.AddDatabaseConfiguration(builder.Configuration);
 builder.Services.AddCorsConfiguration();
 

@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Identity;
 using GoldCS.Domain.Models;
 using GoldCS.Domain.Repository.Interfaces;
 using GoldCS.Infraestructure.Repository;
+using GoldCS.API.HostedServices;
+using GoldCS.API.Services;
 
 namespace GoldCS.API.Configurations
 {
@@ -47,7 +49,15 @@ namespace GoldCS.API.Configurations
             services.AddScoped<ICreateUserService, CreateUserService>();
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
             services.AddScoped<IRefreshTokenService, RefreshTokenService>();
+            services.AddScoped<IRecycleTokenService, RecycleTokenService>();
 
+            return services;
+        }
+
+        public static IServiceCollection AddHostedServices(this IServiceCollection services)
+        {
+            services.AddHostedService<RecycleRefreshTokenHostedService>();
+            
             return services;
         }
 
