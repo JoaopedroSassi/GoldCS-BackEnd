@@ -34,10 +34,12 @@ app.UseMiddleware<GlobalErrorHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 
+app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseCors();
+
+app.UseHttpsRedirection();
 
 app.MapControllers();
 
