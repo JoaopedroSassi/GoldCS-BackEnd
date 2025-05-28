@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoldCSAPI", "GoldCSAPI.csproj", "{C7346CD6-32EC-4D8A-A2DE-F60737F376ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoldCS.API", "GoldCS.API\GoldCS.API.csproj", "{C7346CD6-32EC-4D8A-A2DE-F60737F376ED}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoldCS.Domain", "GoldCS.Domain\GoldCS.Domain.csproj", "{AD32203E-F853-4386-9AFC-1E14B375BB27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoldCS.Infraestructure", "GoldCS.Infraestructure\GoldCS.Infraestructure.csproj", "{276B8E19-5222-4879-AEA5-95ADF9CC744C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{C7346CD6-32EC-4D8A-A2DE-F60737F376ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7346CD6-32EC-4D8A-A2DE-F60737F376ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7346CD6-32EC-4D8A-A2DE-F60737F376ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD32203E-F853-4386-9AFC-1E14B375BB27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD32203E-F853-4386-9AFC-1E14B375BB27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD32203E-F853-4386-9AFC-1E14B375BB27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD32203E-F853-4386-9AFC-1E14B375BB27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{276B8E19-5222-4879-AEA5-95ADF9CC744C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{276B8E19-5222-4879-AEA5-95ADF9CC744C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{276B8E19-5222-4879-AEA5-95ADF9CC744C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{276B8E19-5222-4879-AEA5-95ADF9CC744C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
