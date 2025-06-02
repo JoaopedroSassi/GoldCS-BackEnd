@@ -130,6 +130,9 @@ namespace GoldCS.API.Configurations
                 assembly => assembly.MigrationsAssembly(typeof(GoldCSDBContext).Assembly.FullName));
             });
 
+            services.AddDbContext<GoldResourcesDbContext>(options =>
+                options.UseNpgsql(configuration.GetConnectionString("ResourcesPostgresSQL")));
+
             services.AddDbContext<GoldIdentityDbContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("IdentityPostgresSQL")));
 
