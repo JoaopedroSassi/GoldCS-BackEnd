@@ -1,4 +1,4 @@
-﻿using GoldCS.Infraestructure.Models;
+﻿using GoldCS.Domain.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -9,10 +9,12 @@ using System.Threading.Tasks;
 
 namespace GoldCS.Infraestructure.Configuration
 {
-    public class ClientConfiguration : IEntityTypeConfiguration<ClientEntity>
+    public class ClientConfiguration : IEntityTypeConfiguration<Client>
     {
-        public void Configure(EntityTypeBuilder<ClientEntity> builder)
+        public void Configure(EntityTypeBuilder<Client> builder)
         {
+            builder.ToTable("Clients");
+
             builder.HasKey(c => c.Id);
 
             builder.Property(c => c.Id)

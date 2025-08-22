@@ -1,4 +1,4 @@
-﻿using GoldCS.Domain.Models;
+﻿using GoldCS.Domain.Models.Entities;
 
 namespace GoldCS.Domain.Repository.Interfaces
 {

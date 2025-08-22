@@ -1,5 +1,5 @@
 ﻿using GoldCS.Domain.Interfaces;
-using GoldCS.Domain.Models;
+using GoldCS.Domain.Models.Entities;
 using GoldCS.Domain.Models.Response;
 using Microsoft.AspNetCore.Identity;
 using System;

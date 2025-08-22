@@ -1,4 +1,5 @@
-﻿using GoldCS.Infraestructure.Models;
+﻿using GoldCS.Domain.Models.Entities;
+using GoldCS.Infra.Data.Seeds;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
 
@@ -8,9 +9,12 @@ namespace GoldCS.Infraestructure
     {
         public GoldResourcesDbContext(DbContextOptions<GoldResourcesDbContext> options) : base(options) { }
 
-        public DbSet<ProductEntity> Products { get; set; }
-        public DbSet<CategoryEntity> Categories { get; set; }
-        public DbSet<ClientEntity> Clients { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderProduct> OrderProducts { get; set; }
+        public DbSet<Adress> Adresses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

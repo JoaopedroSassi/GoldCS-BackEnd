@@ -1,13 +1,14 @@
 ﻿using GoldCS.Domain.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using GoldCS.Domain.Models.Entities;
 
 
 namespace GoldCS.Infraestructure.Configuration
 {
-    public class ProductConfiguration : IEntityTypeConfiguration<ProductEntity>
+    public class ProductConfiguration : IEntityTypeConfiguration<Product>
     {
-        public virtual void Configure(EntityTypeBuilder<ProductEntity> entity)
+        public virtual void Configure(EntityTypeBuilder<Product> entity)
         {
             entity.ToTable("Products");
 
@@ -25,8 +26,8 @@ namespace GoldCS.Infraestructure.Configuration
                 .HasMaxLength(200)
                 .IsRequired();
             entity
-                .Property(x => x.Price)
-                .HasColumnType("decimal(12,4)")
+                .Property(x => x.CostPrice)
+                .HasColumnType("decimal(12,2)")
                 .IsRequired();
             entity
                 .Property(x => x.Stock)
@@ -34,11 +35,11 @@ namespace GoldCS.Infraestructure.Configuration
                 .IsRequired();
             entity
                 .Property(x => x.Width)
-                .HasColumnType("decimal(12,4)")
+                .HasColumnType("decimal(12,2)")
                 .IsRequired();
             entity
                 .Property(x => x.Height)
-                .HasColumnType("decimal(12,4)")
+                .HasColumnType("decimal(12,2)")
                 .IsRequired();
             entity
                 .Property(x => x.Stock)
@@ -46,10 +47,11 @@ namespace GoldCS.Infraestructure.Configuration
                 .IsRequired();
 
             entity
-                .HasOne(x => x.CategoryNavigation)
-                .WithMany(y => y.ProductsEntity)
+                .HasOne(x => x.Category)
+                .WithMany(y => y.Products)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasForeignKey(x => x.CategoryId);
+
         }
     }
 }

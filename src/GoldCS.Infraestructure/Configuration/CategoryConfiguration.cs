@@ -1,15 +1,15 @@
 ﻿
-using GoldCS.Infraestructure.Models;
+using GoldCS.Domain.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GoldCS.Infraestructure.Configuration
 {
-    public class CategoryConfiguration : IEntityTypeConfiguration<CategoryEntity>
+    public class CategoryConfiguration : IEntityTypeConfiguration<Category>
     {
-        public void Configure(EntityTypeBuilder<CategoryEntity> entity)
+        public void Configure(EntityTypeBuilder<Category> entity)
         {
-            entity.ToTable("Category");
+            entity.ToTable("Categories");
 
             entity
                 .HasKey(c => c.Id);

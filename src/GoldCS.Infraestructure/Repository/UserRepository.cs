@@ -1,7 +1,7 @@
 ﻿using GoldCS.Domain.Repository.Interfaces;
-using GoldCS.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using GoldCS.Domain.Models.Entities;
 
 namespace GoldCS.Infraestructure.Repository
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
 
-namespace GoldCS.Domain.Models
+namespace GoldCS.Domain.Models.Entities
 {
     public class ApplicationUser : IdentityUser
     {

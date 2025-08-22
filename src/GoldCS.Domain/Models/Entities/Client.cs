@@ -1,6 +1,7 @@
-﻿namespace GoldCS.Infraestructure.Models
+﻿
+namespace GoldCS.Domain.Models.Entities
 {
-    public class ClientEntity
+    public class Client
     {
         public int Id { get; set; }
         public string Name { get; set; }

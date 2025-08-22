@@ -1,5 +1,6 @@
 ﻿using GoldCS.Domain.Interfaces;
 using GoldCS.Domain.Models;
+using GoldCS.Domain.Models.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

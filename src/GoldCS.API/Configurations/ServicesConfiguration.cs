@@ -11,11 +11,11 @@ using GoldCS.Infraestructure;
 using GoldCS.Domain.Interfaces;
 using GoldCS.Domain.Services;
 using Microsoft.AspNetCore.Identity;
-using GoldCS.Domain.Models;
 using GoldCS.Domain.Repository.Interfaces;
 using GoldCS.Infraestructure.Repository;
 using GoldCS.API.HostedServices;
 using GoldCS.API.Services;
+using GoldCS.Domain.Models.Entities;
 
 namespace GoldCS.API.Configurations
 {

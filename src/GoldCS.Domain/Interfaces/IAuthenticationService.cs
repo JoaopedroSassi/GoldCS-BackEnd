@@ -1,4 +1,4 @@
-﻿using GoldCS.Domain.Models;
+﻿using GoldCS.Domain.Models.Entities;
 using GoldCS.Domain.Models.Request;
 using GoldCS.Domain.Models.Response;
 
