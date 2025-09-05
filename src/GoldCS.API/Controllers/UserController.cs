@@ -8,9 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GoldCS.API.Controllers
 {
-    [Route("api/user")]
+    [Route("api/users")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UserController : ControllerBase
     {
         private readonly INotificationService _notificationService;
