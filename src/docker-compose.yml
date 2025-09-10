@@ -1,0 +1,33 @@
+services:
+  goldcsapi:
+    container_name: goldcs.api
+    image: ${DOCKER_REGISTRY-}goldcsapi
+    build:
+      context: .
+      dockerfile: GoldCS.API/Dockerfile
+    depends_on:
+    - goldcsdb
+    networks:
+    - app-network
+    ports:
+    - "5000:80"
+    restart: always
+  
+  goldcsdb:
+    container_name: goldcs.database
+    image: postgres:17.6
+    restart: always
+    networks:
+      - app-network
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+    - "5332:5432" 
+    environment:
+        POSTGRES_PASSWORD: postgres@docker123
+
+networks:
+    app-network:
+        external: true
+volumes:
+  db_data:
