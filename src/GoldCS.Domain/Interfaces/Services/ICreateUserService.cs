@@ -1,7 +1,7 @@
 ﻿using GoldCS.Domain.Models.Request;
 using Microsoft.AspNetCore.Identity;
 
-namespace GoldCS.Domain.Interfaces
+namespace GoldCS.Domain.Interfaces.Services
 {
     public interface ICreateUserService
     {

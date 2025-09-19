@@ -1,4 +1,4 @@
-﻿using GoldCS.Domain.Interfaces;
+﻿using GoldCS.Domain.Interfaces.Services;
 using GoldCS.Domain.Models.Request;
 using GoldCS.Domain.Models.Response;
 using GoldCS.Domain.Services;

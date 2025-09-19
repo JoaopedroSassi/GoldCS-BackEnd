@@ -1,6 +1,6 @@
 ﻿using GoldCS.Domain.Models;
 
-namespace GoldCS.Domain.Interfaces
+namespace GoldCS.Domain.Interfaces.Repository
 {
     public interface IRefreshTokenRepository
     {

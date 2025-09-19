@@ -7,7 +7,6 @@ namespace src.Data
 	public class GoldCSDBContext : DbContext
 	{
 		public DbSet<Client> Clients { get; set; }
-		public DbSet<Category> Categories { get; set; }
 		public DbSet<Product> Products { get; set; }
 		public DbSet<Address> Addresses { get; set; }
 		public DbSet<User> Users { get; set; }
@@ -24,15 +23,6 @@ namespace src.Data
 		{
 			base.OnModelCreating(modelBuilder);
 			modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
-
-			modelBuilder.Entity<Category>().HasData(
-				new Category(1, "Colchão"),
-				new Category(2, "Cama"),
-				new Category(3, "Travesseiro"),
-				new Category(4, "Outros"),
-				new Category(5, "Base / Baú"),
-				new Category(6, "Cabeceira")
-			);
 
 			modelBuilder.Entity<Product>().HasData(
 				new Product(1, "Baú casal Blidado", "1.38 x 1.88", 10, 890, 5),

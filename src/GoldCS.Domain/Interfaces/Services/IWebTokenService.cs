@@ -1,7 +1,7 @@
 ﻿using GoldCS.Domain.Models.Entities;
 using GoldCS.Domain.Models.Response;
 
-namespace GoldCS.Domain.Interfaces
+namespace GoldCS.Domain.Interfaces.Services
 {
     public interface IWebTokenService
     {

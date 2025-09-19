@@ -1,6 +1,6 @@
 ﻿using GoldCS.Domain.Models.Entities;
 
-namespace GoldCS.Domain.Repository.Interfaces
+namespace GoldCS.Domain.Interfaces.Repository
 {
     public interface IUserRepository
     {

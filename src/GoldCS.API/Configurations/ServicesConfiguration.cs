@@ -8,14 +8,14 @@ using Microsoft.OpenApi.Models;
 using src.Data;
 using Microsoft.EntityFrameworkCore;
 using GoldCS.Infraestructure;
-using GoldCS.Domain.Interfaces;
 using GoldCS.Domain.Services;
 using Microsoft.AspNetCore.Identity;
-using GoldCS.Domain.Repository.Interfaces;
 using GoldCS.Infraestructure.Repository;
 using GoldCS.API.HostedServices;
 using GoldCS.API.Services;
 using GoldCS.Domain.Models.Entities;
+using GoldCS.Domain.Interfaces.Services;
+using GoldCS.Domain.Interfaces.Repository;
 
 namespace GoldCS.API.Configurations
 {
@@ -33,8 +33,10 @@ namespace GoldCS.API.Configurations
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
 
-            services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<src.Services.Interfaces.IProductService, src.Services.ProductService>();
+            services.AddScoped<src.Repositories.Interfaces.IProductRepository, src.Repositories.ProductRepository>();
+            services.AddScoped<Domain.Interfaces.Services.IProductService, Domain.Services.ProductService>();
+            services.AddScoped<Domain.Interfaces.Repository.IProductRepository, Infraestructure.Repository.ProductRepository>();
 
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderService, OrderService>();

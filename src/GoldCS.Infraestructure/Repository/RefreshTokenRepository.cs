@@ -1,4 +1,4 @@
-﻿using GoldCS.Domain.Interfaces;
+﻿using GoldCS.Domain.Interfaces.Repository;
 using GoldCS.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
