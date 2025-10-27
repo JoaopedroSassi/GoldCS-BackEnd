@@ -1,109 +1,89 @@
-using System.Net;
-using System.Text.Json;
+using Azure.Core;
+using GoldCS.Domain.Interfaces.Services;
+using GoldCS.Domain.Models.Entities;
+using GoldCS.Domain.Models.Request;
+using GoldCS.Domain.Models.Response;
+using GoldCS.Domain.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using src.Extensions;
-using src.Models.DTO.ProductDTOS;
-using src.Pagination;
-using src.Services.Interfaces;
-using src.Utils;
 
 namespace src.Controllers
 {
-	[ApiController]
-    [Route("api/[controller]")]
-	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [ApiController]
+    [Route("api/product")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ProductController : ControllerBase
     {
-        private readonly IProductService _service;
+        private readonly IProductService _productService;
+        private readonly INotificationService _notificationService;
 
-		public ProductController(IProductService service)
-		{
-			_service = service;
-		}
-
-		[HttpGet]
-		public async Task<ActionResult<IEnumerable<ProductDetailsDTO>>> GetProductsAsync([FromQuery] QueryPaginationParameters paginationParameters)
-		{
-			var products = await _service.GetAllProductsAsync(paginationParameters);
-			
-			Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(new PaginationReturn(products.TotalCount, products.PageSize, products.CurrentPage, products.TotalPages, products.hasNext, products.hasPrevious)));
-
-			ResponseUtil respUtil = new ResponseUtil(true, products); 
-			return Ok(respUtil);
-		}
-
-		[HttpGet("WithoutPagination")]
-		public async Task<ActionResult<IEnumerable<ProductDetailsDTO>>> GetProductsWithoutPaginationAsync()
-		{
-            var pagPar = new QueryPaginationParameters
-            {
-                PageNumber = 1,
-                PageSize = int.MaxValue
-            };
-
-            var products = await _service.GetAllProductsAsync(pagPar);
-
-            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(new PaginationReturn(products.TotalCount, products.PageSize, products.CurrentPage, products.TotalPages, products.hasNext, products.hasPrevious)));
-
-            ResponseUtil respUtil = new ResponseUtil(true, products);
-            return Ok(respUtil);
+        public ProductController(IProductService service,
+                            INotificationService notificationService)
+        {
+            _productService = service;
+            _notificationService = notificationService;
         }
 
-		[HttpGet("{id:int}")]
-		public async Task<ActionResult<ProductDetailsDTO>> GetProductByIdAsync(int id)
-		{
-			if (id <= 0)
-				ExceptionExtensions.ThrowBaseException("ID menor ou igual a 0", HttpStatusCode.NotFound);
+        [HttpGet]
+        public async Task<IActionResult> List()
+        {
+            var products = await _productService.Get();
 
-			var product = await _service.GetProductByIdAsync(id);
-			ResponseUtil respUtil = new ResponseUtil(true, product); 
-			return Ok(respUtil);
-		}
+            if (_notificationService.HasNotifications()) return BadRequest(new BaseResponse().CustomCritics(_notificationService.GetNotifications()));
 
-		[HttpPost]
-		public async Task<ActionResult<string>> InsertProductAsync([FromBody] ProductInsertDTO model)
-		{
-			if (!(ModelState.IsValid))
-				ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
+            return Ok(new BaseResponse<List<Product>>().CriarSucesso(products));
+        }
 
-			await _service.InsertProductAsync(model);
-			ResponseUtil respUtil = new ResponseUtil(true, "Produto inserido"); 
-			return Ok(respUtil);
-		}
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> Obtain(int id)
+        {
+            var ret = await _productService.Get(id);
 
-		[HttpPost("insertAmount")]
-		public async Task<ActionResult<string>> InsertAmountProductAsync([FromBody] ProductAmountInsertDTO model)
-		{
-			if (!(ModelState.IsValid))
-				ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
+            if (_notificationService.HasNotifications()) return BadRequest(new BaseResponse().CustomCritics(_notificationService.GetNotifications()));
 
-			await _service.InsertAmountProductAsync(model);
-			ResponseUtil respUtil = new ResponseUtil(true, "Estoque inserido"); 
-			return Ok(respUtil);
-		}
+            return Ok(new BaseResponse<Product>().CriarSucesso(ret));
+        }
 
-		[HttpPut("{id:int}")]
-		public async Task<ActionResult<ProductDetailsDTO>> UpdateProductAsync(int id, [FromBody] ProductUpdateDTO model)
-		{
-			if (!(ModelState.IsValid))
-				ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
+        [HttpPost]
+        public async Task<IActionResult> Insert([FromBody] ProductRequests.Insert request)
+        {
+            await _productService.Insert(request);
 
-			await _service.UpdateProductAsync(model, id);
-			ResponseUtil respUtil = new ResponseUtil(true, "Produto atualizado com sucesso"); 
-			return Ok(respUtil);
-		}
+            if (_notificationService.HasNotifications()) return BadRequest(new BaseResponse().CustomCritics(_notificationService.GetNotifications()));
 
-		[HttpDelete("{id:int}")]
-		public async Task<ActionResult<string>> DeleteProductAsync(int id)
-		{
-			if (id <= 0)
-				ExceptionExtensions.ThrowBaseException("ID menor ou igual a 0", HttpStatusCode.NotFound);
+            return StatusCode(201);
+        }
 
-			await _service.DeleteProductAsync(id);
-			ResponseUtil respUtil = new ResponseUtil(true, "Produto deletado"); 
-			return Ok(respUtil);
-		}
+        [HttpPut()]
+        public async Task<IActionResult> UpdateProductAsync([FromBody] ProductRequests.Update request)
+        {
+            await _productService.Update(request);
+
+            if (_notificationService.HasNotifications()) return BadRequest(new BaseResponse().CustomCritics(_notificationService.GetNotifications()));
+
+            return StatusCode(204);
+        }
+
+        [HttpDelete()]
+        public async Task<IActionResult> DeleteProductAsync(ProductRequests.Inactivate request)
+        {
+            await _productService.Inactivate(request);
+
+            if (_notificationService.HasNotifications()) return BadRequest(new BaseResponse().CustomCritics(_notificationService.GetNotifications()));
+
+            return StatusCode(204);
+        }
+
+        [HttpPost("insert-amount")]
+        public async Task<IActionResult> InsertAmount(ProductRequests.InsertAmount request)
+        {
+
+            await _productService.InsertAmount(request);
+
+            if (_notificationService.HasNotifications()) return BadRequest(new BaseResponse().CustomCritics(_notificationService.GetNotifications()));
+
+            return StatusCode(204);
+        }
     }
 }

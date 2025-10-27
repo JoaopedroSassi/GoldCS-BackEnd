@@ -6,5 +6,8 @@ namespace GoldCS.Domain.Interfaces.Repository
     {
         Task<List<Category>> Get();
         Task<Category> Get(int id);
+        Task Insert (Category category);
+        Task Update (Category category);
+        Task Inactivate (int id);
     }
 }

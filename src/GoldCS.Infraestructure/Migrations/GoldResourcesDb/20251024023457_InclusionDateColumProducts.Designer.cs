@@ -3,6 +3,7 @@ using System;
 using GoldCS.Infraestructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GoldCS.Infraestructure.Migrations.GoldResourcesDb
 {
     [DbContext(typeof(GoldResourcesDbContext))]
-    partial class GoldResourcesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251024023457_InclusionDateColumProducts")]
+    partial class InclusionDateColumProducts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,17 +78,9 @@ namespace GoldCS.Infraestructure.Migrations.GoldResourcesDb
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true);
-
                     b.Property<string>("Description")
                         .HasMaxLength(255)
                         .HasColumnType("varchar(100)");
-
-                    b.Property<DateTime>("InclusionDate")
-                        .HasColumnType("timestamp");
 
                     b.Property<string>("Name")
                         .HasMaxLength(255)
@@ -99,33 +94,25 @@ namespace GoldCS.Infraestructure.Migrations.GoldResourcesDb
                         new
                         {
                             Id = 1,
-                            Active = true,
                             Description = "Linha completa de colchões de solteiro, casal e queen/king size",
-                            InclusionDate = new DateTime(2025, 10, 24, 19, 44, 53, 651, DateTimeKind.Local).AddTicks(4570),
                             Name = "Colchões"
                         },
                         new
                         {
                             Id = 2,
-                            Active = true,
                             Description = "Travesseiros de espuma, látex, viscoelástico e anatômicos",
-                            InclusionDate = new DateTime(2025, 10, 24, 19, 44, 53, 651, DateTimeKind.Local).AddTicks(4587),
                             Name = "Travesseiros"
                         },
                         new
                         {
                             Id = 3,
-                            Active = true,
                             Description = "Lençóis, fronhas, edredons e protetores de colchão",
-                            InclusionDate = new DateTime(2025, 10, 24, 19, 44, 53, 651, DateTimeKind.Local).AddTicks(4588),
                             Name = "Roupa de Cama"
                         },
                         new
                         {
                             Id = 4,
-                            Active = true,
                             Description = "Cabeceiras, mesas de cabeceira e guarda-roupas",
-                            InclusionDate = new DateTime(2025, 10, 24, 19, 44, 53, 651, DateTimeKind.Local).AddTicks(4589),
                             Name = "Móveis de Quarto"
                         });
                 });
@@ -177,7 +164,7 @@ namespace GoldCS.Infraestructure.Migrations.GoldResourcesDb
                             Email = "joao.silva@example.com",
                             Name = "João Silva",
                             Phone = "1132345678",
-                            RegisterDate = new DateTime(2025, 10, 24, 22, 44, 53, 651, DateTimeKind.Utc).AddTicks(4318)
+                            RegisterDate = new DateTime(2025, 10, 24, 2, 34, 57, 166, DateTimeKind.Utc).AddTicks(1061)
                         },
                         new
                         {
@@ -187,7 +174,7 @@ namespace GoldCS.Infraestructure.Migrations.GoldResourcesDb
                             Email = "maria.oliveira@example.com",
                             Name = "Maria Oliveira",
                             Phone = "2134567890",
-                            RegisterDate = new DateTime(2025, 10, 24, 22, 44, 53, 651, DateTimeKind.Utc).AddTicks(4322)
+                            RegisterDate = new DateTime(2025, 10, 24, 2, 34, 57, 166, DateTimeKind.Utc).AddTicks(1069)
                         });
                 });
 
@@ -321,7 +308,7 @@ namespace GoldCS.Infraestructure.Migrations.GoldResourcesDb
                             CostPrice = 1200.00m,
                             Description = "Colchão de casal ortopédico com molas ensacadas",
                             Height = 25.0m,
-                            InclusionDate = new DateTime(2025, 10, 24, 19, 44, 53, 651, DateTimeKind.Local).AddTicks(4795),
+                            InclusionDate = new DateTime(2025, 10, 23, 23, 34, 57, 166, DateTimeKind.Local).AddTicks(1628),
                             MeasureType = "cm",
                             Name = "Colchão Casal Ortobom",
                             Stock = 15,
@@ -335,7 +322,7 @@ namespace GoldCS.Infraestructure.Migrations.GoldResourcesDb
                             CostPrice = 2200.00m,
                             Description = "Colchão queen size com camada de viscoelástico para maior conforto",
                             Height = 30.0m,
-                            InclusionDate = new DateTime(2025, 10, 24, 19, 44, 53, 651, DateTimeKind.Local).AddTicks(4803),
+                            InclusionDate = new DateTime(2025, 10, 23, 23, 34, 57, 166, DateTimeKind.Local).AddTicks(1656),
                             MeasureType = "cm",
                             Name = "Colchão Queen Viscoelástico",
                             Stock = 10,
@@ -349,7 +336,7 @@ namespace GoldCS.Infraestructure.Migrations.GoldResourcesDb
                             CostPrice = 180.00m,
                             Description = "Travesseiro viscoelástico com memória, tecnologia NASA",
                             Height = 15.0m,
-                            InclusionDate = new DateTime(2025, 10, 24, 19, 44, 53, 651, DateTimeKind.Local).AddTicks(4804),
+                            InclusionDate = new DateTime(2025, 10, 23, 23, 34, 57, 166, DateTimeKind.Local).AddTicks(1658),
                             MeasureType = "cm",
                             Name = "Travesseiro NASA",
                             Stock = 50,
@@ -363,7 +350,7 @@ namespace GoldCS.Infraestructure.Migrations.GoldResourcesDb
                             CostPrice = 350.00m,
                             Description = "Lençol 300 fios algodão egípcio com fronhas inclusas",
                             Height = 0.5m,
-                            InclusionDate = new DateTime(2025, 10, 24, 19, 44, 53, 651, DateTimeKind.Local).AddTicks(4806),
+                            InclusionDate = new DateTime(2025, 10, 23, 23, 34, 57, 166, DateTimeKind.Local).AddTicks(1660),
                             MeasureType = "cm",
                             Name = "Jogo de Lençol Casal 300 fios",
                             Stock = 40,
@@ -377,7 +364,7 @@ namespace GoldCS.Infraestructure.Migrations.GoldResourcesDb
                             CostPrice = 900.00m,
                             Description = "Cabeceira estofada para cama queen, acabamento em linho",
                             Height = 120.0m,
-                            InclusionDate = new DateTime(2025, 10, 24, 19, 44, 53, 651, DateTimeKind.Local).AddTicks(4808),
+                            InclusionDate = new DateTime(2025, 10, 23, 23, 34, 57, 166, DateTimeKind.Local).AddTicks(1661),
                             MeasureType = "cm",
                             Name = "Cabeceira Estofada Queen",
                             Stock = 8,

@@ -1,24 +1,27 @@
+using GoldCS.Domain.Interfaces.Services;
 using GoldCS.Domain.Models.Entities;
+using GoldCS.Domain.Models.Request;
 using GoldCS.Domain.Models.Response;
 using GoldCS.Domain.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
-namespace src.Controllers
+namespace GoldCS.API.Controllers
 {
 	[ApiController]
-	[Route("api/categories")]
+	[Route("api/category")]
 	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 	public class CategoryController : ControllerBase
 	{
-		private readonly GoldCS.Domain.Interfaces.Services.ICategoryService _categoryService;
-		private readonly GoldCS.Domain.Interfaces.Services.IProductService _productService;
+		private readonly ICategoryService _categoryService;
+		private readonly IProductService _productService;
 		private readonly INotificationService _notificationService;
 
         public CategoryController(
-				GoldCS.Domain.Interfaces.Services.ICategoryService categoryService,
-                GoldCS.Domain.Interfaces.Services.IProductService productService,
+				ICategoryService categoryService,
+                IProductService productService,
 				INotificationService notificationService
 			) 
 		{
@@ -54,10 +57,41 @@ namespace src.Controllers
 		{
             var ret = await _productService.GetFromCategory(categoryId);
 
-            if (_notificationService.HasNotifications())
-                return BadRequest(new BaseResponse().CustomCritics(_notificationService.GetNotifications()));
+            if (_notificationService.HasNotifications()) return BadRequest(new BaseResponse().CustomCritics(_notificationService.GetNotifications()));
 
             return Ok(new BaseResponse<List<Product>>().CriarSucesso(ret));
         }
-	}
+        
+		[HttpPost()]
+        public async Task<IActionResult> InsertCategory([FromBody]CategoryRequests.Create request)
+        {
+			await _categoryService.Insert(request);
+
+            if (_notificationService.HasNotifications()) return BadRequest(new BaseResponse().CustomCritics(_notificationService.GetNotifications()));
+
+            return StatusCode((int) HttpStatusCode.Created);
+        }
+        
+		[HttpPut()]
+        public async Task<IActionResult> Update(CategoryRequests.Alter request)
+        {
+            await _categoryService.Update(request);
+
+            if (_notificationService.HasNotifications()) return BadRequest(new BaseResponse().CustomCritics(_notificationService.GetNotifications()));
+
+            return StatusCode((int)HttpStatusCode.NoContent);
+        }
+
+        [HttpDelete()]
+        public async Task<IActionResult> DeleteProductAsync(CategoryRequests.Deactivate request)
+        {
+            await _categoryService.Inactivate(request);
+
+            if (_notificationService.HasNotifications()) return BadRequest(new BaseResponse().CustomCritics(_notificationService.GetNotifications()));
+
+            return StatusCode((int)HttpStatusCode.NoContent);
+        }
+
+
+    }
 }

@@ -45,6 +45,13 @@ namespace GoldCS.Infraestructure.Configuration
                 .Property(x => x.Stock)
                 .HasColumnType("int")
                 .IsRequired();
+            entity
+                .Property(x => x.Active)
+                .HasDefaultValue(true);
+            entity
+                .Property(x => x.InclusionDate)
+                .HasColumnType("timestamp")
+                .IsRequired();
 
             entity
                 .HasOne(x => x.Category)

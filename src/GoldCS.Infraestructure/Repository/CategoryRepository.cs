@@ -22,5 +22,12 @@ namespace GoldCS.Infraestructure.Repository
         {
             return await _context.Categories.ToListAsync();
         }
+
+        public async Task Inactivate(int id)
+        {
+            var category = await _context.Categories.SingleOrDefaultAsync(c => c.Id == id);
+            category.Active = false;
+            await Update(category);
+        }
     }
 }

@@ -22,6 +22,13 @@ namespace GoldCS.Infraestructure.Configuration
             entity
                 .Property(c => c.Description)
                 .HasMaxLength(255);
+            entity
+               .Property(x => x.Active)
+               .HasDefaultValue(true);
+            entity
+                .Property(x => x.InclusionDate)
+                .HasColumnType("timestamp")
+                .IsRequired();
         }
 
 
