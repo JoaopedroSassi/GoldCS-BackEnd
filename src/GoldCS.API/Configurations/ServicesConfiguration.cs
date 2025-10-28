@@ -1,21 +1,21 @@
-﻿using src.Repositories.Interfaces;
-using src.Repositories;
-using src.Services.Interfaces;
-using src.Services;
+﻿using GoldCS.API.HostedServices;
+using GoldCS.API.Services;
+using GoldCS.Domain.Interfaces.Repository;
+using GoldCS.Domain.Interfaces.Services;
+using GoldCS.Domain.Models.Entities;
+using GoldCS.Domain.Services;
+using GoldCS.Infraestructure;
+using GoldCS.Infraestructure.Repository;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Microsoft.OpenApi.Models;
 using src.Data;
-using Microsoft.EntityFrameworkCore;
-using GoldCS.Infraestructure;
-using GoldCS.Domain.Services;
-using Microsoft.AspNetCore.Identity;
-using GoldCS.Infraestructure.Repository;
-using GoldCS.API.HostedServices;
-using GoldCS.API.Services;
-using GoldCS.Domain.Models.Entities;
-using GoldCS.Domain.Interfaces.Services;
-using GoldCS.Domain.Interfaces.Repository;
+using src.Repositories;
+using src.Repositories.Interfaces;
+using src.Services;
+using src.Services.Interfaces;
+using System.Text;
 
 namespace GoldCS.API.Configurations
 {
