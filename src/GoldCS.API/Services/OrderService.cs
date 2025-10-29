@@ -57,7 +57,7 @@ namespace src.Services
 			//	Client clientUpdt = new Client(model.Client);
 			//	clientUpdt.ClientID = client.ClientID;
 			//	_clientRepository.Update(clientUpdt);
-				
+
 			//	orderDb.ClientID = client.ClientID;
 			//	orderDb.Client = null;
 			//}

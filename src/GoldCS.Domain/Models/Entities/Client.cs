@@ -1,5 +1,4 @@
-﻿
-namespace GoldCS.Domain.Models.Entities
+﻿namespace GoldCS.Domain.Models.Entities
 {
     public class Client
     {

@@ -14,7 +14,7 @@ namespace GoldCS.Domain.Util.Configurations
 
             builder.Property(a => a.CEP)
                 .HasMaxLength(20)
-                .IsRequired(false);
+                .IsRequired();
 
             builder.Property(a => a.Logradouro)
                 .HasMaxLength(200);
@@ -23,6 +23,9 @@ namespace GoldCS.Domain.Util.Configurations
                 .HasMaxLength(20);
 
             builder.Property(a => a.Bairro)
+                .HasMaxLength(100);
+            
+            builder.Property(a => a.Cidade)
                 .HasMaxLength(100);
 
             builder.Property(a => a.UF)

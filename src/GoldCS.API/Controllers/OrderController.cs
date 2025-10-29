@@ -1,73 +1,75 @@
-using System.Net;
-using System.Text.Json;
+using GoldCS.Domain.Interfaces.Services;
+using GoldCS.Domain.Models.Request;
+using GoldCS.Domain.Models.Response;
+using GoldCS.Domain.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using src.Extensions;
-using src.Models.DTO.OrderDTOS;
-using src.Models.DTO.ProductDTOS;
-using src.Pagination;
-using src.Services.Interfaces;
-using src.Utils;
+
 
 namespace src.Controllers
 {
 	[ApiController]
-	[Route("api/[controller]")]
+	[Route("api/order")]
 	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 	public class OrderController : ControllerBase
 	{
-		private readonly IOrderService _orderService;
+		private readonly ICreateOrderService _createOrderService;
+        private readonly INotificationService _notificationService;
 
-		public OrderController(IOrderService orderService)
+
+        public OrderController(ICreateOrderService createOrderService,
+			INotificationService notificationService)
 		{
-			_orderService = orderService;
-		}
-
-		[HttpGet]
-        public async Task<ActionResult<IEnumerable<OrderDetailsDTO>>> GetOrdersAsync([FromQuery] QueryPaginationParameters paginationParameters)
-        {
-            var orders = await _orderService.GetAllOrdersAsync(paginationParameters);
-            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(new PaginationReturn(orders.TotalCount, orders.PageSize, orders.CurrentPage, orders.TotalPages, orders.hasNext, orders.hasPrevious)));
-            ResponseUtil respUtil = new ResponseUtil(true, orders);
-            return Ok(respUtil);
-        }
-
-        [HttpGet("{id:int}")]
-		public async Task<ActionResult<OrderDetailsDTO>> GetOrderByIdAsync(int id)
-		{
-			if (id <= 0)
-				ExceptionExtensions.ThrowBaseException("ID menor ou igual a 0", HttpStatusCode.NotFound);
-
-			var orderId = await _orderService.GetOrderByIdAsync(id);
-
-			ResponseUtil respUtil = new ResponseUtil(true, orderId); 
-			return Ok(respUtil);
+			_createOrderService = createOrderService;
+			_notificationService = notificationService;
 		}
 
 		[HttpPost]
-		public async Task<ActionResult<string>> InsertOrder([FromBody] OrderInsertDTO model)
+		public async Task<IActionResult> InsertOrder([FromBody] OrderRequests.CreateOrder request)
 		{
-			if (!(ModelState.IsValid))
-				ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
+			
+			await _createOrderService.Process(request);
 
-			var orderId = await _orderService.InsertOrderAsync(model);
+            if (_notificationService.HasNotifications())
+                return BadRequest(new BaseResponse().CustomCritics(_notificationService.GetNotifications()));
 
-			ResponseUtil respUtil = new ResponseUtil(true, orderId); 
-			return Ok(respUtil);
+            return Created();
 		}
 
-		[Authorize(Roles = "admin")]
-		[HttpDelete("{id:int}")]
-		public async Task<ActionResult<string>> DeleteOrder([FromRoute] int id)
-		{
-			if (id <= 0)
-				ExceptionExtensions.ThrowBaseException("ID menor ou igual a 0", HttpStatusCode.NotFound);
+		//[HttpGet]
+  //      public async Task<ActionResult<IEnumerable<OrderDetailsDTO>>> GetOrdersAsync([FromQuery] QueryPaginationParameters paginationParameters)
+  //      {
+  //          var orders = await _createOrderService.GetAllOrdersAsync(paginationParameters);
+  //          Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(new PaginationReturn(orders.TotalCount, orders.PageSize, orders.CurrentPage, orders.TotalPages, orders.hasNext, orders.hasPrevious)));
+  //          ResponseUtil respUtil = new ResponseUtil(true, orders);
+  //          return Ok(respUtil);
+  //      }
 
-			await _orderService.DeleteOrderAsync(id);
+  //      [HttpGet("{id:int}")]
+		//public async Task<ActionResult<OrderDetailsDTO>> GetOrderByIdAsync(int id)
+		//{
+		//	if (id <= 0)
+		//		ExceptionExtensions.ThrowBaseException("ID menor ou igual a 0", HttpStatusCode.NotFound);
 
-			ResponseUtil respUtil = new ResponseUtil(true, "Pedido excluído com sucesso"); 
-			return Ok(respUtil);
-		}
+		//	var orderId = await _createOrderService.GetOrderByIdAsync(id);
+
+		//	ResponseUtil respUtil = new ResponseUtil(true, orderId); 
+		//	return Ok(respUtil);
+		//}
+
+
+		//[Authorize(Roles = "admin")]
+		//[HttpDelete("{id:int}")]
+		//public async Task<ActionResult<string>> DeleteOrder([FromRoute] int id)
+		//{
+		//	if (id <= 0)
+		//		ExceptionExtensions.ThrowBaseException("ID menor ou igual a 0", HttpStatusCode.NotFound);
+
+		//	await _createOrderService.DeleteOrderAsync(id);
+
+		//	ResponseUtil respUtil = new ResponseUtil(true, "Pedido excluído com sucesso"); 
+		//	return Ok(respUtil);
+		//}
 	}
 }

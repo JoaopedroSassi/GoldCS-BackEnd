@@ -135,10 +135,7 @@ namespace GoldCS.Domain.Services
 
         public async Task Inactivate(ProductRequests.Inactivate request)
         {
-            if (!await ExecuteValidationsAsync(new DeleteProductValidations(), request))
-            {
-                return;
-            }
+            if (!await ExecuteValidationsAsync(new DeleteProductValidations(), request)) return;
             
             await _productRepository.Inactivate(request.ProductId);
         }

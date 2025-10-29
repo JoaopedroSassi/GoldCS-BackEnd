@@ -1,5 +1,6 @@
 ﻿using GoldCS.API.HostedServices;
 using GoldCS.API.Services;
+using GoldCS.Domain.Interfaces;
 using GoldCS.Domain.Interfaces.Repository;
 using GoldCS.Domain.Interfaces.Services;
 using GoldCS.Domain.Models.Entities;
@@ -11,10 +12,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using src.Data;
-using src.Repositories;
-using src.Repositories.Interfaces;
-using src.Services;
-using src.Services.Interfaces;
 using System.Text;
 
 namespace GoldCS.API.Configurations
@@ -23,9 +20,7 @@ namespace GoldCS.API.Configurations
     {
         public static IServiceCollection AddDependencyInjectionConfiguration(this IServiceCollection services)
         {
-            services.AddScoped<IBaseRepository, BaseRepository>();
-
-            services.AddScoped<IMailService, MailService>();
+            //services.AddScoped<IMailService, MailService>();
 
             services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IClientService, ClientService>();
@@ -33,15 +28,13 @@ namespace GoldCS.API.Configurations
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
 
-            services.AddScoped<src.Services.Interfaces.IProductService, src.Services.ProductService>();
-            services.AddScoped<src.Repositories.Interfaces.IProductRepository, src.Repositories.ProductRepository>();
-            services.AddScoped<Domain.Interfaces.Services.IProductService, Domain.Services.ProductService>();
-            services.AddScoped<Domain.Interfaces.Repository.IProductRepository, Infraestructure.Repository.ProductRepository>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IProductRepository, ProductRepository>();
 
             services.AddScoped<IOrderRepository, OrderRepository>();
-            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<ICreateOrderService, CreateOrderService>();
 
-            services.AddScoped<IAddressRepository, AddressRepository>();
+            services.AddScoped<IAdressRepository, AdressRepository>();
 
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IWebTokenService, WebTokenService>();
@@ -52,6 +45,7 @@ namespace GoldCS.API.Configurations
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
             services.AddScoped<IRefreshTokenService, RefreshTokenService>();
             services.AddScoped<IRecycleTokenService, RecycleTokenService>();
+            services.AddScoped<IUnityOfWork, UnityOfWork>();
 
             return services;
         }

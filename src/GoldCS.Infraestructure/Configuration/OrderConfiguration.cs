@@ -31,7 +31,9 @@ namespace GoldCS.Infraestructure.Configuration
             builder.Property(x => x.Subtotal)
                 .IsRequired()
                 .HasColumnType("decimal(12,2)");
-            
+
+            builder.Property(x => x.PaymentMethod)
+                .IsRequired();             
             
             builder.HasMany(o => o.Products)
                 .WithOne(op => op.Order)

@@ -1,26 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GoldCS.Domain.Util
+﻿namespace GoldCS.Domain.Util
 {
 
     public enum OrderStatus
     {
-        Received,
-        Paid,
-        InTransport,
-        Delivered,
-        Archived,
-        Canceled
+        Received = 1,
+        Paid = 2,
+        InTransport = 3,
+        Delivered = 4,
+        Archived = 5,
+        Canceled = 6,
     }
 
     public enum AdressType
     {
-        Comercial, 
-        Residential,
+        Comercial = 1, 
+        Residential = 2,
     }
 
 }
