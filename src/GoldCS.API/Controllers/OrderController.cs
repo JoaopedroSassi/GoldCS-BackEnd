@@ -1,10 +1,12 @@
 using GoldCS.Domain.Interfaces.Services;
+using GoldCS.Domain.Models.Entities;
 using GoldCS.Domain.Models.Request;
 using GoldCS.Domain.Models.Response;
 using GoldCS.Domain.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using src.Models.Entities;
 
 
 namespace src.Controllers
@@ -15,14 +17,17 @@ namespace src.Controllers
 	public class OrderController : ControllerBase
 	{
 		private readonly ICreateOrderService _createOrderService;
+		private readonly IListOrderService _listOrderService;
         private readonly INotificationService _notificationService;
 
 
         public OrderController(ICreateOrderService createOrderService,
-			INotificationService notificationService)
+			INotificationService notificationService,
+			IListOrderService listOrderService)
 		{
 			_createOrderService = createOrderService;
 			_notificationService = notificationService;
+			_listOrderService = listOrderService;
 		}
 
 		[HttpPost]
@@ -37,39 +42,25 @@ namespace src.Controllers
             return Created();
 		}
 
-		//[HttpGet]
-  //      public async Task<ActionResult<IEnumerable<OrderDetailsDTO>>> GetOrdersAsync([FromQuery] QueryPaginationParameters paginationParameters)
-  //      {
-  //          var orders = await _createOrderService.GetAllOrdersAsync(paginationParameters);
-  //          Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(new PaginationReturn(orders.TotalCount, orders.PageSize, orders.CurrentPage, orders.TotalPages, orders.hasNext, orders.hasPrevious)));
-  //          ResponseUtil respUtil = new ResponseUtil(true, orders);
-  //          return Ok(respUtil);
-  //      }
+		[HttpGet]
+		public async Task<IActionResult> ListOrders()
+		{
+			var orders = await _listOrderService.ListOrders();
+            
+			if (_notificationService.HasNotifications()) return BadRequest(new BaseResponse().CustomCritics(_notificationService.GetNotifications()));
+            
+			return Ok(new BaseResponse<List<OrderResponse>>().CriarSucesso(orders));
+		}
 
-  //      [HttpGet("{id:int}")]
-		//public async Task<ActionResult<OrderDetailsDTO>> GetOrderByIdAsync(int id)
-		//{
-		//	if (id <= 0)
-		//		ExceptionExtensions.ThrowBaseException("ID menor ou igual a 0", HttpStatusCode.NotFound);
+		[HttpGet("{id:int}")]
+		public async Task<IActionResult> GetOrderByIdAsync(int id)
+		{
+			var response = await _listOrderService.ViewOrder(id);
 
-		//	var orderId = await _createOrderService.GetOrderByIdAsync(id);
+            if (_notificationService.HasNotifications()) return BadRequest(new BaseResponse().CustomCritics(_notificationService.GetNotifications()));
 
-		//	ResponseUtil respUtil = new ResponseUtil(true, orderId); 
-		//	return Ok(respUtil);
-		//}
+            return Ok(new BaseResponse<OrderResponse>().CriarSucesso(response));
+        }
 
-
-		//[Authorize(Roles = "admin")]
-		//[HttpDelete("{id:int}")]
-		//public async Task<ActionResult<string>> DeleteOrder([FromRoute] int id)
-		//{
-		//	if (id <= 0)
-		//		ExceptionExtensions.ThrowBaseException("ID menor ou igual a 0", HttpStatusCode.NotFound);
-
-		//	await _createOrderService.DeleteOrderAsync(id);
-
-		//	ResponseUtil respUtil = new ResponseUtil(true, "Pedido excluído com sucesso"); 
-		//	return Ok(respUtil);
-		//}
 	}
 }

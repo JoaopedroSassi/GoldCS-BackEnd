@@ -33,6 +33,7 @@ namespace GoldCS.API.Configurations
 
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<ICreateOrderService, CreateOrderService>();
+            services.AddScoped<IListOrderService, ListOrderService>();
 
             services.AddScoped<IAdressRepository, AdressRepository>();
 

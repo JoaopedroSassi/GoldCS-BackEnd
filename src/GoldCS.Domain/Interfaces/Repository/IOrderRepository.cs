@@ -6,5 +6,7 @@ namespace GoldCS.Domain.Interfaces.Repository
     {
         Task Insert(Order order);
         Task Update(Order order);
+        Task<List<Order>> GetAll();
+        Task<Order> GetOrder(int id);
     }
 }
