@@ -10,14 +10,12 @@ namespace GoldCS.API.Controllers
 {
     [Route("api/users")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : MainController
     {
-        private readonly INotificationService _notificationService;
         private readonly ICreateUserService _createUserService;
 
-        public UserController(INotificationService notificationService, ICreateUserService createUserService) 
+        public UserController(INotificationService notificationService, ICreateUserService createUserService) : base(notificationService)  
         { 
-            _notificationService = notificationService;
             _createUserService = createUserService;
         }
         
@@ -25,13 +23,7 @@ namespace GoldCS.API.Controllers
         public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
         {
             await _createUserService.Process(request);
-
-            if (_notificationService.HasNotifications())
-            {
-                return StatusCode(412, new BaseResponse().CustomCritics(_notificationService.GetNotifications()));
-            }
-
-            return Ok();
+            return CustomResponse();
         }
     }
 }
