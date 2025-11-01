@@ -17,17 +17,17 @@ namespace src.Repositories
 
 		public async Task<Product> GetProductByIdAsync(int id)
 		{
-			return await _context.Products.Include(x => x.Category).FirstOrDefaultAsync(x => x.ProductID == id); 
+			return await _context.Products.FirstOrDefaultAsync(x => x.ProductID == id); 
 		}
 		
 		public Product GetProductById(int id)
 		{
-			return _context.Products.Include(x => x.Category).FirstOrDefault(x => x.ProductID == id); 
+			return _context.Products.FirstOrDefault(x => x.ProductID == id); 
 		}
 
 		public async Task<List<Product>> GetproductsAsync(QueryPaginationParameters paginationParameters)
 		{
-			return await _context.Products.AsNoTracking().Include(x => x.Category).OrderBy(x => x.ProductID).Skip((paginationParameters.PageNumber - 1) * paginationParameters.PageSize).Take(paginationParameters.PageSize).ToListAsync();
+			return await _context.Products.AsNoTracking().OrderBy(x => x.ProductID).Skip((paginationParameters.PageNumber - 1) * paginationParameters.PageSize).Take(paginationParameters.PageSize).ToListAsync();
 		}
 
 		public void UpdateRange(List<Product> models)

@@ -17,7 +17,7 @@ namespace GoldCSAPI.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.15")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -98,55 +98,6 @@ namespace GoldCSAPI.Migrations
                         .IsUnique();
 
                     b.ToTable("tb_address", (string)null);
-                });
-
-            modelBuilder.Entity("src.Models.Entities.Category", b =>
-                {
-                    b.Property<int>("CategoryID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CategoryID"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("varchar(150)");
-
-                    b.HasKey("CategoryID");
-
-                    b.ToTable("tb_categories", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            CategoryID = 1,
-                            Name = "Colchão"
-                        },
-                        new
-                        {
-                            CategoryID = 2,
-                            Name = "Cama"
-                        },
-                        new
-                        {
-                            CategoryID = 3,
-                            Name = "Travesseiro"
-                        },
-                        new
-                        {
-                            CategoryID = 4,
-                            Name = "Outros"
-                        },
-                        new
-                        {
-                            CategoryID = 5,
-                            Name = "Base / Baú"
-                        },
-                        new
-                        {
-                            CategoryID = 6,
-                            Name = "Cabeceira"
-                        });
                 });
 
             modelBuilder.Entity("src.Models.Entities.Order", b =>
@@ -237,8 +188,6 @@ namespace GoldCSAPI.Migrations
                         .HasColumnType("varchar(200)");
 
                     b.HasKey("ProductID");
-
-                    b.HasIndex("CategoryID");
 
                     b.ToTable("tb_products", (string)null);
 
@@ -433,17 +382,6 @@ namespace GoldCSAPI.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("src.Models.Entities.Product", b =>
-                {
-                    b.HasOne("src.Models.Entities.Category", "Category")
-                        .WithMany("Products")
-                        .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-                });
-
             modelBuilder.Entity("src.Entities.Models.Client", b =>
                 {
                     b.Navigation("Orders");
@@ -452,11 +390,6 @@ namespace GoldCSAPI.Migrations
             modelBuilder.Entity("src.Models.Entities.Address", b =>
                 {
                     b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("src.Models.Entities.Category", b =>
-                {
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("src.Models.Entities.Order", b =>

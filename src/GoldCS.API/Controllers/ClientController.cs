@@ -1,35 +1,60 @@
-using System.Net;
+using GoldCS.Domain.Interfaces.Services;
+using GoldCS.Domain.Models.Entities;
+using GoldCS.Domain.Models.Request;
+using GoldCS.Domain.Models.Response;
+using GoldCS.Domain.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using src.Extensions;
-using src.Models.DTO.ClientDTOS;
-using src.Services.Interfaces;
-using src.Utils;
+using System.Net;
 
-namespace src.Controllers
+
+namespace GoldCS.API.Controllers
 {
 	[ApiController]
-	[Route("api/[controller]")]
+	[Route("api/client")]
 	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-	public class ClientController : ControllerBase
+	public class ClientController : MainController
 	{
-		private readonly IClientService _service;
+		private readonly IClientService _clientService;
 
-		public ClientController(IClientService service)
+        public ClientController(IClientService service, INotificationService notificationService) : base(notificationService)
 		{
-			_service = service;
+			_clientService = service;
 		}
 
-		[HttpGet("{cpf}")]
-		public async Task<ActionResult<ClientDetailsDTO>> GetClientByCpf(string cpf)
+		[HttpGet("cpf")]
+		public async Task<IActionResult> GetClientByCpf([FromBody] ClientRequests.GetByCpf request)
 		{
-			if (!(StringExtensions.IsCpfValid(cpf)))
-				ExceptionExtensions.ThrowBaseException("CPF no formato inválido", HttpStatusCode.NotFound);
+            var ret = await _clientService.GetClientByCpf(request);
+            return CustomResponse(ret);
+        }
+		
+		[HttpGet()]
+		public async Task<IActionResult> GetAll()
+		{
+            var ret = await _clientService.GetClients();
+            return CustomResponse(ret);
+        }
 
-			var client = await _service.GetClientByCpfAsync(cpf);
-			ResponseUtil respUtil = new ResponseUtil(true, client); 
-			return Ok(respUtil);
-		}
-	}
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetById([FromRoute] int id)
+        {
+            var ret = await _clientService.GetClientById(id);
+            return CustomResponse(ret);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RegisterClient([FromBody] ClientRequests.RegisterClient request)
+        {
+            await _clientService.RegisterClient(request);
+            return CustomResponse(); 
+        }
+        [HttpPut]
+        public async Task<IActionResult> UpdateClient([FromBody] ClientRequests.UpdateClient request)
+        {
+            await _clientService.UpdateClient(request);
+            return CustomResponse();
+        }
+    }
 }

@@ -34,7 +34,6 @@ namespace src.Models.DTO.ProductDTOS
 			Version = model.Version;
 			Quantity = model.Quantity;
 			Price = model.Price;
-			CategoryName = model.Category.Name;
 			CategoryID = model.CategoryID;
 		}
 	}

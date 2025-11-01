@@ -14,14 +14,12 @@ namespace src.Services
     {
         private readonly IOrderRepository _orderRepository;
 		private readonly IProductService _productService;
-		private readonly IClientRepository _clientRepository;
 		private readonly IAddressRepository _addressRepository;
 
-		public OrderService(IOrderRepository orderRepository, IProductService productService, IClientRepository clientRepository, IAddressRepository addressRepository)
+		public OrderService(IOrderRepository orderRepository, IProductService productService, IAddressRepository addressRepository)
 		{
 			_orderRepository = orderRepository;
 			_productService = productService;
-			_clientRepository = clientRepository;
 			_addressRepository = addressRepository;
 		}
 
@@ -53,16 +51,16 @@ namespace src.Services
             
             Order orderDb = new Order(model);
 
-			Client client = await _clientRepository.GetClientByCPFAsync(model.Client.Cpf);
-			if (!(client is null))
-			{
-				Client clientUpdt = new Client(model.Client);
-				clientUpdt.ClientID = client.ClientID;
-				_clientRepository.Update(clientUpdt);
-				
-				orderDb.ClientID = client.ClientID;
-				orderDb.Client = null;
-			}
+			//Client client = await _clientRepository.GetClientByCPFAsync(model.Client.Cpf);
+			//if (!(client is null))
+			//{
+			//	Client clientUpdt = new Client(model.Client);
+			//	clientUpdt.ClientID = client.ClientID;
+			//	_clientRepository.Update(clientUpdt);
+
+			//	orderDb.ClientID = client.ClientID;
+			//	orderDb.Client = null;
+			//}
 
 			Address address = await _addressRepository.GetAddressByCep(model.Address.Cep);
 			if (!(address is null))

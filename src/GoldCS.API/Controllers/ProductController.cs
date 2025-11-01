@@ -1,109 +1,69 @@
-using System.Net;
-using System.Text.Json;
+using Azure.Core;
+using GoldCS.API.Controllers;
+using GoldCS.Domain.Interfaces.Services;
+using GoldCS.Domain.Models.Entities;
+using GoldCS.Domain.Models.Request;
+using GoldCS.Domain.Models.Response;
+using GoldCS.Domain.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using src.Extensions;
-using src.Models.DTO.ProductDTOS;
-using src.Pagination;
-using src.Services.Interfaces;
-using src.Utils;
 
 namespace src.Controllers
 {
-	[ApiController]
-    [Route("api/[controller]")]
-	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class ProductController : ControllerBase
+    [ApiController]
+    [Route("api/product")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public class ProductController : MainController
     {
-        private readonly IProductService _service;
+        private readonly IProductService _productService;
 
-		public ProductController(IProductService service)
-		{
-			_service = service;
-		}
-
-		[HttpGet]
-		public async Task<ActionResult<IEnumerable<ProductDetailsDTO>>> GetProductsAsync([FromQuery] QueryPaginationParameters paginationParameters)
-		{
-			var products = await _service.GetAllProductsAsync(paginationParameters);
-			
-			Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(new PaginationReturn(products.TotalCount, products.PageSize, products.CurrentPage, products.TotalPages, products.hasNext, products.hasPrevious)));
-
-			ResponseUtil respUtil = new ResponseUtil(true, products); 
-			return Ok(respUtil);
-		}
-
-		[HttpGet("WithoutPagination")]
-		public async Task<ActionResult<IEnumerable<ProductDetailsDTO>>> GetProductsWithoutPaginationAsync()
-		{
-            var pagPar = new QueryPaginationParameters
-            {
-                PageNumber = 1,
-                PageSize = int.MaxValue
-            };
-
-            var products = await _service.GetAllProductsAsync(pagPar);
-
-            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(new PaginationReturn(products.TotalCount, products.PageSize, products.CurrentPage, products.TotalPages, products.hasNext, products.hasPrevious)));
-
-            ResponseUtil respUtil = new ResponseUtil(true, products);
-            return Ok(respUtil);
+        public ProductController(IProductService service,
+                            INotificationService notificationService) : base(notificationService)
+        {
+            _productService = service;
         }
 
-		[HttpGet("{id:int}")]
-		public async Task<ActionResult<ProductDetailsDTO>> GetProductByIdAsync(int id)
-		{
-			if (id <= 0)
-				ExceptionExtensions.ThrowBaseException("ID menor ou igual a 0", HttpStatusCode.NotFound);
+        [HttpGet]
+        public async Task<IActionResult> List()
+        {
+            var products = await _productService.Get();
+            return CustomResponse(products);
+        }
 
-			var product = await _service.GetProductByIdAsync(id);
-			ResponseUtil respUtil = new ResponseUtil(true, product); 
-			return Ok(respUtil);
-		}
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> Obtain(int id)
+        {
+            var ret = await _productService.Get(id);
+            return CustomResponse(ret);
+        }
 
-		[HttpPost]
-		public async Task<ActionResult<string>> InsertProductAsync([FromBody] ProductInsertDTO model)
-		{
-			if (!(ModelState.IsValid))
-				ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
+        [HttpPost]
+        public async Task<IActionResult> Insert([FromBody] ProductRequests.Insert request)
+        {
+            await _productService.Insert(request);
+            return CustomResponse();
+        }
 
-			await _service.InsertProductAsync(model);
-			ResponseUtil respUtil = new ResponseUtil(true, "Produto inserido"); 
-			return Ok(respUtil);
-		}
+        [HttpPut()]
+        public async Task<IActionResult> Update([FromBody] ProductRequests.Update request)
+        {
+            await _productService.Update(request);
+            return CustomResponse();
+        }
 
-		[HttpPost("insertAmount")]
-		public async Task<ActionResult<string>> InsertAmountProductAsync([FromBody] ProductAmountInsertDTO model)
-		{
-			if (!(ModelState.IsValid))
-				ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
+        [HttpDelete()]
+        public async Task<IActionResult> Delete(ProductRequests.Inactivate request)
+        {
+            await _productService.Inactivate(request);
+            return CustomResponse();
+        }
 
-			await _service.InsertAmountProductAsync(model);
-			ResponseUtil respUtil = new ResponseUtil(true, "Estoque inserido"); 
-			return Ok(respUtil);
-		}
-
-		[HttpPut("{id:int}")]
-		public async Task<ActionResult<ProductDetailsDTO>> UpdateProductAsync(int id, [FromBody] ProductUpdateDTO model)
-		{
-			if (!(ModelState.IsValid))
-				ExceptionExtensions.ThrowBaseException("Formato inválido", HttpStatusCode.BadRequest);
-
-			await _service.UpdateProductAsync(model, id);
-			ResponseUtil respUtil = new ResponseUtil(true, "Produto atualizado com sucesso"); 
-			return Ok(respUtil);
-		}
-
-		[HttpDelete("{id:int}")]
-		public async Task<ActionResult<string>> DeleteProductAsync(int id)
-		{
-			if (id <= 0)
-				ExceptionExtensions.ThrowBaseException("ID menor ou igual a 0", HttpStatusCode.NotFound);
-
-			await _service.DeleteProductAsync(id);
-			ResponseUtil respUtil = new ResponseUtil(true, "Produto deletado"); 
-			return Ok(respUtil);
-		}
+        [HttpPost("insert-amount")]
+        public async Task<IActionResult> InsertAmount(ProductRequests.InsertAmount request)
+        {
+            await _productService.InsertAmount(request);
+            return CustomResponse();
+        }
     }
 }

@@ -1,10 +1,9 @@
-﻿using GoldCS.Domain.Interfaces;
-using GoldCS.Domain.Models.Response;
-using GoldCS.Domain.Repository.Interfaces;
-using GoldCS.Domain.Models;
+﻿using GoldCS.Domain.Models.Response;
 using GoldCS.Domain.Models.Request;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
+using GoldCS.Domain.Models.Entities;
+using GoldCS.Domain.Interfaces.Services;
 
 namespace GoldCS.Domain.Services
 {

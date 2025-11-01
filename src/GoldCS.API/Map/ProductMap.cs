@@ -18,8 +18,6 @@ namespace src.Map
 			builder.Property(x => x.Version).HasColumnType("varchar(200)").IsRequired();
 			builder.Property(x => x.Quantity).HasColumnType("int").IsRequired();
 			builder.Property(x => x.Price).HasColumnType("money").IsRequired();
-
-			builder.HasOne(x => x.Category).WithMany(x => x.Products).HasForeignKey(x => x.CategoryID);
         }
 	}
 }

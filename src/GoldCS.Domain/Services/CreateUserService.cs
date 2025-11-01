@@ -1,7 +1,7 @@
-﻿using GoldCS.Domain.Interfaces;
-using GoldCS.Domain.Models;
+﻿using GoldCS.Domain.Interfaces.Repository;
+using GoldCS.Domain.Interfaces.Services;
+using GoldCS.Domain.Models.Entities;
 using GoldCS.Domain.Models.Request;
-using GoldCS.Domain.Repository.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
 namespace GoldCS.Domain.Services
