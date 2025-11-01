@@ -1,9 +1,10 @@
 ﻿using GoldCS.Domain.Models.Request;
+using GoldCS.Domain.Models.Response;
 
 namespace GoldCS.Domain.Interfaces.Services
 {
     public interface ICreateOrderService
     {
-        Task Process(OrderRequests.CreateOrder request); 
+        Task<CreateOrderResponse> Process(OrderRequests.CreateOrder request); 
     }
 }

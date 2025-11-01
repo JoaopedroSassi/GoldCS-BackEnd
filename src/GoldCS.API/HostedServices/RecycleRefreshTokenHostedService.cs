@@ -17,7 +17,7 @@ namespace GoldCS.API.HostedServices
         }
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _timer = new Timer(RecycleTokensMoreThanOnePerUser, null, TimeSpan.Zero, TimeSpan.FromSeconds(30));
+            _timer = new Timer(RecycleTokensMoreThanOnePerUser, null, TimeSpan.Zero, TimeSpan.FromHours(1));
 
             return Task.CompletedTask;
         }

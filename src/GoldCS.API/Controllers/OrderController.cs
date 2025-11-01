@@ -1,7 +1,6 @@
 using GoldCS.API.Controllers;
 using GoldCS.Domain.Interfaces.Services;
 using GoldCS.Domain.Models.Request;
-using GoldCS.Domain.Models.Response;
 using GoldCS.Domain.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -31,8 +30,8 @@ namespace src.Controllers
 		[HttpPost]
         public async Task<IActionResult> InsertOrder([FromBody] OrderRequests.CreateOrder request)
 		{			
-			await _createOrderService.Process(request);
-			return CustomResponse();
+			var response = await _createOrderService.Process(request);
+			return CustomResponse(response);
 		}
 
 		[HttpGet]

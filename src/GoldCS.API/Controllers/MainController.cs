@@ -1,5 +1,4 @@
-﻿using Azure;
-using GoldCS.Domain.Models.Response;
+﻿using GoldCS.Domain.Models.Response;
 using GoldCS.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,11 +22,11 @@ namespace GoldCS.API.Controllers
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
-        public IActionResult CustomResponse(object result)
+        public IActionResult CustomResponse<T>(T result) where T : class
         {
             if (_notificationService.HasNotifications()) return BadRequest(new BaseResponse().CustomCritics(_notificationService.GetNotifications()));
 
-            return Ok(new BaseResponse<object>().CriarSucesso(result));
+            return Ok(new BaseResponse<T>().CriarSucesso(result));
         }
     }
 }

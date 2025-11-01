@@ -2,6 +2,7 @@
 using GoldCS.Domain.Interfaces.Services;
 using GoldCS.Domain.Models.Entities;
 using GoldCS.Domain.Models.Request;
+using GoldCS.Domain.Models.Response;
 
 namespace GoldCS.Domain.Services
 {
@@ -15,7 +16,7 @@ namespace GoldCS.Domain.Services
             _productRepository = productRepository;
         }
 
-        public async Task<List<Product>> Get()
+        public async Task<List<ProductResponse>> Get()
         {
             var ret = await _productRepository.Get();
 
@@ -25,10 +26,23 @@ namespace GoldCS.Domain.Services
                 return null;
             }
 
-            return ret;
+            return ret.Select(product => new ProductResponse
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                InclusionDate = product.InclusionDate,
+                Active = product.Active,
+                CategoryId = product.CategoryId,
+                CostPrice = product.CostPrice,
+                Height = product.Height,
+                MeasureType = product.MeasureType,
+                Stock = product.Stock,
+                Width = product.Width
+            }).ToList();
         }
 
-        public async Task<Product> Get(int id)
+        public async Task<ProductResponse> Get(int id)
         {
             var ret = await _productRepository.Get(id);
 
@@ -38,10 +52,23 @@ namespace GoldCS.Domain.Services
                 return null;
             }
 
-            return ret;
+            return new ProductResponse
+            {
+                Id = ret.Id,
+                Name = ret.Name,
+                Description = ret.Description,
+                InclusionDate = ret.InclusionDate,
+                Active = ret.Active,
+                CategoryId = ret.CategoryId,
+                CostPrice = ret.CostPrice,
+                Height = ret.Height,
+                Width = ret.Width,
+                MeasureType = ret.MeasureType,
+                Stock = ret.Stock
+            };
         }
 
-        public async Task<List<Product>> GetFromCategory(int categoryId)
+        public async Task<List<ProductResponse>> GetFromCategory(int categoryId)
         {
             var ret = await _productRepository.GetFromCategory(categoryId);
 
@@ -51,7 +78,20 @@ namespace GoldCS.Domain.Services
                 return null;
             }
 
-            return ret;
+            return ret.Select(product => new ProductResponse
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                InclusionDate = product.InclusionDate,
+                Active = product.Active,
+                CategoryId = product.CategoryId,
+                CostPrice = product.CostPrice,
+                Height = product.Height,
+                MeasureType = product.MeasureType,
+                Width = product.Width,
+                Stock = product.Stock
+            }).ToList();
         }
 
         public async Task Insert(ProductRequests.Insert request)

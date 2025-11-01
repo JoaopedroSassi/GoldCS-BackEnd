@@ -2,6 +2,7 @@
 using GoldCS.Domain.Interfaces.Services;
 using GoldCS.Domain.Models.Entities;
 using GoldCS.Domain.Models.Request;
+using GoldCS.Domain.Models.Response;
 
 
 namespace GoldCS.Domain.Services
@@ -16,7 +17,7 @@ namespace GoldCS.Domain.Services
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<Category> Get(int id)
+        public async Task<CategoryResponse> Get(int id)
         {
             var ret = await _categoryRepository.Get(id);
             
@@ -26,12 +27,28 @@ namespace GoldCS.Domain.Services
                 return null;
             }
 
-            return ret;
+            return new CategoryResponse 
+            { 
+                Id = ret.Id,
+                Name = ret.Name,
+                Description = ret.Description,
+                Active = ret.Active,
+                InclusionDate = ret.InclusionDate,
+            };
         }
 
-        public async Task<List<Category>> Get()
+        public async Task<List<CategoryResponse>> Get()
         {
-            return await _categoryRepository.Get();
+            var ret =  await _categoryRepository.Get();
+
+            return ret.Select(category => new CategoryResponse
+            {
+                Id = category.Id,
+                Name = category.Name,
+                Description = category.Description,
+                Active = category.Active,
+                InclusionDate = category.InclusionDate
+            }).ToList();
         }
 
         public async Task Insert(CategoryRequests.Create request)

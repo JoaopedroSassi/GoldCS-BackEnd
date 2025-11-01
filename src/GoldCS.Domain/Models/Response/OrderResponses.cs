@@ -38,4 +38,10 @@ namespace GoldCS.Domain.Models.Response
         public decimal TotalValue { get; set; }
 
     }
+    public class CreateOrderResponse
+    {
+        public int Id { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public string Status { get; set; }
+    }
 }

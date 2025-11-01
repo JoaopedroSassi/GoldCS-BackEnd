@@ -3,10 +3,11 @@ using GoldCS.Domain.Interfaces.Repository;
 using GoldCS.Domain.Interfaces.Services;
 using GoldCS.Domain.Models.Entities;
 using GoldCS.Domain.Models.Request;
+using GoldCS.Domain.Models.Response;
 
 namespace GoldCS.Domain.Services
 {
-    public class CreateOrderService : BaseValidationService, ICreateOrderService
+    public class CreateOrderService : BaseValidationService<CreateOrderResponse, OrderRequests.CreateOrder>, ICreateOrderService
     {
         private readonly IProductRepository _productRepository;
         private readonly IClientRepository _clientRepository;
@@ -35,11 +36,11 @@ namespace GoldCS.Domain.Services
             _unityOfWork = unityOfWork;
         }
 
-        public async Task Process(OrderRequests.CreateOrder request)
+        public override async Task<CreateOrderResponse> Process(OrderRequests.CreateOrder request)
         {
             _request = request;            
             
-            if (await ExecuteValidationsAsync(new CreateOrderValidations(), request) is false) return;
+            if (await ExecuteValidationsAsync(new CreateOrderValidations(), request) is false) return null;
 
             
             Order = new Order(_request);
@@ -47,7 +48,7 @@ namespace GoldCS.Domain.Services
             await ValidateClient();
             await ValidateProducts();
             await Transact();
-
+            return CreateResponse();
             
         }
 
@@ -166,7 +167,6 @@ namespace GoldCS.Domain.Services
             await UpdateClientFromOrder();
             await SensibilizeProductStock();         
             await _orderRepository.Insert(Order);
-
             await _unityOfWork.Commit();
         }
 
@@ -178,6 +178,16 @@ namespace GoldCS.Domain.Services
                 productEntity.Stock -= product.Quantity; 
                 await _productRepository.Update(productEntity);
             }
+        }
+
+        private CreateOrderResponse CreateResponse()
+        {
+            return new CreateOrderResponse()
+            {
+                CreatedAt= Order.CreatedAt,
+                Status = Order.Status.ToString(),
+                Id = Order.Id,
+            };
         }
 
         private bool ValidatePrices(OrderRequests.OrderProducts requestProduct, Product existingProduct)
