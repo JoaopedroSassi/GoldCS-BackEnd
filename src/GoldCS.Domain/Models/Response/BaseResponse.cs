@@ -46,6 +46,14 @@ namespace GoldCS.Domain.Models.Response
                 Messages = critics,
             };
         }
+        public BaseResponse GenerateCritic(int codigoCritica)
+        {
+            return new BaseResponse
+            {
+                Success = false,
+                Messages = Criticas.ReturnCritics(codigoCritica)
+            };
+        }
     }
 
 }

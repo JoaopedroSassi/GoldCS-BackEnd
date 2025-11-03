@@ -1,7 +1,7 @@
 using FluentValidation.AspNetCore;
 using GoldCS.API.Configurations;
+using GoldCS.API.Middlewares;
 using src.Extensions;
-using src.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,7 +30,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 	app.UseSwaggerUI();
 }
 
-app.UseMiddleware<GlobalErrorHandlingMiddleware>();
+app.UseMiddleware<ErrorMiddleware>();
 
 app.UseHttpsRedirection();
 

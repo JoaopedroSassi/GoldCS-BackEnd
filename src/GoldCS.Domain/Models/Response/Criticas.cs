@@ -17,7 +17,7 @@ namespace GoldCS.Domain.Models.Response
                 case CREDENCIAISINVALIDAS: ret.Add("Usuário ou senha incorretos."); break;
                 case USUARIOINATIVO: ret.Add("Usuário bloqueado."); break;
                 
-                default: ret.Add("Ocorreu um erro interno"); break;
+                default: ret.Add("Ocorreu um erro inesperado no sistema."); break;
             }
 
             return ret;
