@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GoldCS.Domain.Models
+namespace GoldCS.Domain.Models.Entities
 {
     public class RefreshToken
     {

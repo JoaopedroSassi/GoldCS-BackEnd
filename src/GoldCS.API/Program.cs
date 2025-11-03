@@ -1,7 +1,7 @@
 using FluentValidation.AspNetCore;
 using GoldCS.API.Configurations;
+using GoldCS.API.Extensions;
 using GoldCS.API.Middlewares;
-using src.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

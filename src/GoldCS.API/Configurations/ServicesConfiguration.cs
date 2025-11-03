@@ -1,5 +1,4 @@
 ﻿using GoldCS.API.HostedServices;
-using GoldCS.API.Services;
 using GoldCS.Domain.Interfaces;
 using GoldCS.Domain.Interfaces.Repository;
 using GoldCS.Domain.Interfaces.Services;
@@ -11,7 +10,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using src.Data;
 using System.Text;
 
 namespace GoldCS.API.Configurations
@@ -20,8 +18,6 @@ namespace GoldCS.API.Configurations
     {
         public static IServiceCollection AddDependencyInjectionConfiguration(this IServiceCollection services)
         {
-            //services.AddScoped<IMailService, MailService>();
-
             services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IClientService, ClientService>();
 
@@ -121,12 +117,6 @@ namespace GoldCS.API.Configurations
         
         public static void AddDatabaseConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<GoldCSDBContext>(options =>
-            {
-                options.UseNpgsql(configuration.GetConnectionString("DefaultPostgreSQL"),
-                assembly => assembly.MigrationsAssembly(typeof(GoldCSDBContext).Assembly.FullName));
-            });
-
             services.AddDbContext<GoldResourcesDbContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("ResourcesPostgresSQL")));
 

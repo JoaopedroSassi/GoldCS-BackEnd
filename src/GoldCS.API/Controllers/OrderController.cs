@@ -1,4 +1,3 @@
-using GoldCS.API.Controllers;
 using GoldCS.Domain.Interfaces.Services;
 using GoldCS.Domain.Models.Request;
 using GoldCS.Domain.Services;
@@ -7,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace src.Controllers
+namespace GoldCS.API.Controllers
 {
 	[ApiController]
 	[Route("api/order")]

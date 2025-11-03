@@ -1,15 +1,11 @@
-using Azure.Core;
-using GoldCS.API.Controllers;
 using GoldCS.Domain.Interfaces.Services;
-using GoldCS.Domain.Models.Entities;
 using GoldCS.Domain.Models.Request;
-using GoldCS.Domain.Models.Response;
 using GoldCS.Domain.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace src.Controllers
+namespace GoldCS.API.Controllers
 {
     [ApiController]
     [Route("api/product")]

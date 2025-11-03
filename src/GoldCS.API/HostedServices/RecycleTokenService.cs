@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 
 
-namespace GoldCS.API.Services
+namespace GoldCS.API.HostedServices
 {
     public interface IRecycleTokenService
     {

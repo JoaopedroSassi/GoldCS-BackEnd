@@ -1,7 +1,4 @@
-﻿
-using GoldCS.API.Services;
-
-namespace GoldCS.API.HostedServices
+﻿namespace GoldCS.API.HostedServices
 {
     public class RecycleRefreshTokenHostedService : IHostedService, IDisposable
     {

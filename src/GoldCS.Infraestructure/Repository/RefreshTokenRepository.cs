@@ -1,5 +1,5 @@
 ﻿using GoldCS.Domain.Interfaces.Repository;
-using GoldCS.Domain.Models;
+using GoldCS.Domain.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
