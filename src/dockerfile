@@ -1,0 +1,23 @@
+ARG DOTNET_VERSION=8.0
+
+FROM mcr.microsoft.com/dotnet/sdk:$DOTNET_VERSION AS build
+
+WORKDIR /src
+
+COPY ["GoldCS.API/GoldCS.API.csproj", "GoldCS.API/"]
+COPY ["GoldCS.Domain/GoldCS.Domain.csproj", "GoldCS.Domain/"]
+COPY ["GoldCS.Infraestructure/GoldCS.Infraestructure.csproj", "GoldCS.Infraestructure/"]
+RUN dotnet restore "./GoldCS.API/GoldCS.API.csproj"
+
+COPY . .
+
+WORKDIR /src/GoldCS.API
+RUN dotnet build "./GoldCS.API.csproj" -c Release -o "/src/build"
+
+RUN dotnet publish "./GoldCS.API.csproj" -c Release -o "/src/publish" -r linux-musl-x64
+
+FROM mcr.microsoft.com/dotnet/aspnet:$DOTNET_VERSION AS run
+WORKDIR /app
+COPY --from=build /src/publish .
+
+ENTRYPOINT [ "dotnet", "GoldCS.API.dll" ]
